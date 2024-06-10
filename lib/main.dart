@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodio/pages/login.dart';
 import 'package:foodio/provider/bottom_nav_provider.dart';
-import 'package:foodio/widgets/bottom_nav.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BottomNavBar(),
+      home: LoginScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodio/pages/details.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 import 'package:foodio/widgets/category_selector.dart';
@@ -62,41 +64,48 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        padding: EdgeInsets.all(14),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              "assets/GreekSalad.png",
-                              height: 150,
-                              width: 150,
-                              fit: BoxFit.cover,
-                            ),
-                            Text(
-                              "Greek Salad",
-                              style: FontStyles.SemiBoldTextStyle(),
-                            ),
-                            SizedBox(
-                              height: 4.8,
-                            ),
-                            Text(
-                              "A tasty Greek Salad",
-                              style: FontStyles.lightTextStyle(),
-                            ),
-                            SizedBox(
-                              height: 4.8,
-                            ),
-                            Text(
-                              "\$25",
-                              style: FontStyles.SemiBoldTextStyle(),
-                            ),
-                          ],
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailsScreen(),
+                        )),
+                    child: Container(
+                      margin: EdgeInsets.all(5),
+                      child: Material(
+                        elevation: 5.0,
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          padding: EdgeInsets.all(14),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                "assets/GreekSalad.png",
+                                height: 150,
+                                width: 150,
+                                fit: BoxFit.cover,
+                              ),
+                              Text(
+                                "Greek Salad",
+                                style: FontStyles.SemiBoldTextStyle(),
+                              ),
+                              SizedBox(
+                                height: 4.8,
+                              ),
+                              Text(
+                                "A tasty Greek Salad",
+                                style: FontStyles.lightTextStyle(),
+                              ),
+                              SizedBox(
+                                height: 4.8,
+                              ),
+                              Text(
+                                "\$25",
+                                style: FontStyles.SemiBoldTextStyle(),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
