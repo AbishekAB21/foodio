@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:foodio/pages/sign_up.dart';
 import 'package:foodio/utils/app_colors.dart';
 
 class SignUp extends StatelessWidget {
@@ -7,11 +8,17 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SignUpPage(),
+            ));
+      },
       child: Text(
         "Sign Up",
-        style:
-            TextStyle(fontFamily: "Poppins", color: appcolor.LoginGradientColor2),
+        style: TextStyle(
+            fontFamily: "Poppins", color: appcolor.LoginGradientColor2),
       ),
     );
   }

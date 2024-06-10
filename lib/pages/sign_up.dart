@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:foodio/pages/login.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
-import 'package:foodio/widgets/google_sign_in_widget.dart';
-import 'package:foodio/widgets/sign_up_widget.dart';
 import 'package:foodio/widgets/text_fields.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 height: MediaQuery.of(context).size.height / 2,
                 width: MediaQuery.of(context).size.width,
-                margin:
-                    EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 3),
                 decoration: BoxDecoration(
                     color: appcolor.primaryColor,
                     borderRadius: BorderRadius.only(
@@ -65,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Container(
                         padding: EdgeInsets.only(left: 20.0, right: 20.0),
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height / 2,
+                        height: MediaQuery.of(context).size.height / 1.9,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: appcolor.primaryColor),
@@ -75,8 +74,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 30,
                             ),
                             Text(
-                              "Login",
+                              "Sign Up",
                               style: FontStyles.headlineTextStyle(),
+                            ),
+                            LoginTextFields(
+                                isNotVisible: false,
+                                hintText: "Name",
+                                prefixIcon: Icon(Icons.list_alt_rounded)),
+                            SizedBox(
+                              height: 30,
                             ),
                             LoginTextFields(
                                 isNotVisible: false,
@@ -92,13 +98,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(
                               height: 20,
                             ),
-                            Container(
-                              alignment: Alignment.topRight,
-                              child: Text(
-                                "Forgot Password ?",
-                                style: FontStyles.SmallTextFont(),
-                              ),
-                            ),
                             SizedBox(
                               height: 40,
                             ),
@@ -112,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Center(
                                     child: Text(
-                                  "Log In",
+                                  "Sign Up",
                                   style: FontStyles.WhiteTextStyle(),
                                 )),
                               ),
@@ -124,16 +123,26 @@ class _LoginScreenState extends State<LoginScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Don't have an account ? ",
+                                  "Already have an account ? ",
                                   style: FontStyles.SmallTextFont(),
                                 ),
-                                SignUp(),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => LoginScreen(),
+                                        ));
+                                  },
+                                  child: Text(
+                                    "Log In",
+                                    style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        color: appcolor.LoginGradientColor2),
+                                  ),
+                                ),
                               ],
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            GoogleSignIn(),
                           ],
                         ),
                       ),
@@ -146,5 +155,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+    ;
   }
 }
