@@ -1,51 +1,23 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:foodio/provider/auth_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
-import 'package:foodio/widgets/bottom_nav.dart';
-import 'package:foodio/widgets/google_sign_in_widget.dart';
-import 'package:foodio/widgets/reusable_snackbar.dart';
-import 'package:foodio/widgets/sign_up_widget.dart';
 import 'package:foodio/widgets/text_fields.dart';
+import 'package:foodio/widgets/bottom_nav.dart';
+import 'package:foodio/pages/sign_up.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends StatelessWidget {
+  LoginScreen({super.key});
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  String email = "", password = "";
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  logInMethod() async {
-    try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BottomNavBar(),
-        ),
-      );
-      ReusableSnackBar().showSnackbar(
-          context, "Logged In succesfully", appcolor.SnackBarSuccessColor);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        ReusableSnackBar().showSnackbar(
-            context, "User not found", appcolor.SnackBarErrorColor);
-      } else if (e.code == 'wrong-password') {
-        ReusableSnackBar().showSnackbar(
-            context, "Incorrect Password", appcolor.SnackBarErrorColor);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -55,13 +27,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
                       appcolor.LoginGradientColor1,
-                      appcolor.LoginGradientColor2
-                    ])),
+                      appcolor.LoginGradientColor2,
+                    ],
+                  ),
+                ),
               ),
               Container(
                 height: MediaQuery.of(context).size.height / 2,
@@ -69,10 +43,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height / 3),
                 decoration: BoxDecoration(
-                    color: appcolor.primaryColor,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40))),
+                  color: appcolor.primaryColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                ),
                 child: Text(""),
               ),
               Container(
@@ -80,16 +56,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     Center(
-                        child: Image.asset(
-                      "assets/logo.png",
-                      color: appcolor.primaryColor,
-                      width: MediaQuery.of(context).size.width / 4,
-                      fit: BoxFit.cover,
-                    )),
-                    Text("Foodio", style: FontStyles.LogoTextStyle()),
-                    SizedBox(
-                      height: 20,
+                      child: Image.asset(
+                        "assets/logo.png",
+                        color: appcolor.primaryColor,
+                        width: MediaQuery.of(context).size.width / 4,
+                        fit: BoxFit.cover,
+                      ),
                     ),
+                    Text("Foodio", style: FontStyles.LogoTextStyle()),
+                    SizedBox(height: 20),
                     Material(
                       elevation: 5.0,
                       borderRadius: BorderRadius.circular(20),
@@ -98,23 +73,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height / 2,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: appcolor.primaryColor),
+                          borderRadius: BorderRadius.circular(20),
+                          color: appcolor.primaryColor,
+                        ),
                         child: Form(
                           key: _formKey,
                           child: Column(
                             children: [
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Text(
-                                "Login",
-                                style: FontStyles.headlineTextStyle(),
-                              ),
+                              SizedBox(height: 30),
+                              Text("Login",
+                                  style: FontStyles.headlineTextStyle()),
                               LoginTextFields(
                                 controller: emailController,
                                 isNotVisible: false,
-                                hintText: "E- mail",
+                                hintText: "E-mail",
                                 prefixIcon: Icon(Icons.email_rounded),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -123,9 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: 30,
-                              ),
+                              SizedBox(height: 30),
                               LoginTextFields(
                                 controller: passwordController,
                                 isNotVisible: true,
@@ -138,28 +108,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
+                              SizedBox(height: 20),
                               Container(
                                 alignment: Alignment.topRight,
                                 child: Text(
-                                  "Forgot Password ?",
+                                  "Forgot Password?",
                                   style: FontStyles.SmallTextFont(),
                                 ),
                               ),
-                              SizedBox(
-                                height: 40,
-                              ),
+                              SizedBox(height: 40),
                               GestureDetector(
                                 onTap: () {
                                   if (_formKey.currentState!.validate()) {
-                                    setState(() {
-                                      email = emailController.text;
-                                      password = passwordController.text;
-                                    });
+                                    authProvider.logIn(
+                                      emailController.text,
+                                      passwordController.text,
+                                      context,
+                                    );
                                   }
-                                  logInMethod();
                                 },
                                 child: Material(
                                   elevation: 0.5,
@@ -167,42 +133,52 @@ class _LoginScreenState extends State<LoginScreen> {
                                     width: 150,
                                     height: 40,
                                     decoration: BoxDecoration(
-                                        color: appcolor.LoginGradientColor2,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                      color: appcolor.LoginGradientColor2,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     child: Center(
-                                        child: Text(
-                                      "Log In",
-                                      style: FontStyles.WhiteTextStyle(),
-                                    )),
+                                      child: Text(
+                                        "Log In",
+                                        style: FontStyles.WhiteTextStyle(),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
+                              SizedBox(height: 20),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Don't have an account ? ",
+                                    "Don't have an account? ",
                                     style: FontStyles.SmallTextFont(),
                                   ),
-                                  SignUp(),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SignUpPage()),
+                                      );
+                                    },
+                                    child: Text(
+                                      "Sign Up",
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        color: appcolor.LoginGradientColor2,
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              GoogleSignIn(),
                             ],
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

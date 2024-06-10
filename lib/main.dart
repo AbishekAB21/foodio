@@ -3,15 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:foodio/functions/authentication.dart';
 import 'package:foodio/pages/login.dart';
 import 'package:foodio/pages/onboard.dart';
+import 'package:foodio/provider/auth_provider.dart';
 import 'package:foodio/provider/bottom_nav_provider.dart';
 import 'package:provider/provider.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(ChangeNotifierProvider(
-    create: (context) => BottomNavBarProvider(),
-    child: const MyApp()));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => BottomNavBarProvider()),
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
