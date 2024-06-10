@@ -10,6 +10,8 @@ abstract class AppColor{
   final Color backgroundColor;
   final Color LoginGradientColor1;
   final Color LoginGradientColor2;
+  final Color SnackBarSuccessColor;
+  final Color SnackBarErrorColor;
 
   AppColor({
     required this.primaryColor,
@@ -17,6 +19,8 @@ abstract class AppColor{
     required this.backgroundColor,
     required this.LoginGradientColor1,
     required this.LoginGradientColor2,
+    required this.SnackBarSuccessColor,
+    required this.SnackBarErrorColor,
     });
 }
 
@@ -28,5 +32,7 @@ class AppDefaultColor extends AppColor{
     backgroundColor: Colors.grey.shade200,
     LoginGradientColor1: Color(0xFFff5c30),
     LoginGradientColor2: Color(0xFFe74b1a),
+    SnackBarSuccessColor: Colors.green.shade600,
+    SnackBarErrorColor: Colors.red.shade700
   );
 }

@@ -38,6 +38,11 @@ class FontStyles {
         color: Colors.white, fontSize: 16.0, fontFamily: "Poppins");
   }
 
+  static TextStyle SnackBarText() {
+    return TextStyle(
+        color: Colors.white, fontSize: 14.0, fontFamily: "Poppins");
+  }
+
   static TextStyle LogoTextStyle() {
     return TextStyle(
         fontSize: 30,

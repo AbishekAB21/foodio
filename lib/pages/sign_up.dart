@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:foodio/pages/login.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
+import 'package:foodio/widgets/bottom_nav.dart';
+import 'package:foodio/widgets/reusable_snackbar.dart';
 import 'package:foodio/widgets/text_fields.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -12,6 +16,58 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  String email = "";
+  String password = "";
+  String name = "";
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  final _formkey = GlobalKey<FormState>();
+
+  signUpMethod() async {
+    if (password != null) {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BottomNavBar(),
+            ));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            "Account created successfully!",
+            style: FontStyles.SnackBarText(),
+          ),
+          backgroundColor: appcolor.SnackBarSuccessColor,
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 3),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        ));
+      } on FirebaseAuthException catch (e) {
+        if (e.code == "weak-password") {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              "Password is too weak",
+              style: FontStyles.SnackBarText(),
+            ),
+            backgroundColor: appcolor.SnackBarErrorColor,
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 3),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          ));
+        } else if (e.code == "email-already-in-use") {
+          ReusableSnackBar().showSnackbar(
+              context,
+              "Account already exists- Try logging in",
+              appcolor.SnackBarErrorColor);
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,82 +124,122 @@ class _SignUpPageState extends State<SignUpPage> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: appcolor.primaryColor),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              "Sign Up",
-                              style: FontStyles.headlineTextStyle(),
-                            ),
-                            LoginTextFields(
+                        child: Form(
+                          key: _formkey,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                "Sign Up",
+                                style: FontStyles.headlineTextStyle(),
+                              ),
+                              LoginTextFields(
+                                controller: nameController,
                                 isNotVisible: false,
                                 hintText: "Name",
-                                prefixIcon: Icon(Icons.list_alt_rounded)),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            LoginTextFields(
+                                prefixIcon: Icon(Icons.list_alt_rounded),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter your name";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              LoginTextFields(
+                                controller: emailController,
                                 isNotVisible: false,
                                 hintText: "E- mail",
-                                prefixIcon: Icon(Icons.email_rounded)),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            LoginTextFields(
+                                prefixIcon: Icon(Icons.email_rounded),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter your e-mail";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              LoginTextFields(
+                                controller: passwordController,
                                 isNotVisible: true,
                                 hintText: "Password",
-                                prefixIcon: Icon(Icons.password_rounded)),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            SizedBox(
-                              height: 40,
-                            ),
-                            Material(
-                              elevation: 0.5,
-                              child: Container(
-                                width: 150,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    color: appcolor.LoginGradientColor2,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Center(
-                                    child: Text(
-                                  "Sign Up",
-                                  style: FontStyles.WhiteTextStyle(),
-                                )),
+                                prefixIcon: Icon(Icons.password_rounded),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter your password";
+                                  }
+                                  return null;
+                                },
                               ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Already have an account ? ",
-                                  style: FontStyles.SmallTextFont(),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => LoginScreen(),
-                                        ));
-                                  },
-                                  child: Text(
-                                    "Log In",
-                                    style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        color: appcolor.LoginGradientColor2),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              SizedBox(
+                                height: 40,
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  if (_formkey.currentState!.validate()) {
+                                    setState(() {
+                                      email = emailController.text;
+                                      password = passwordController.text;
+                                      name = nameController.text;
+                                    });
+                                  }
+                                  signUpMethod();
+                                },
+                                child: Material(
+                                  elevation: 0.5,
+                                  child: Container(
+                                    width: 150,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        color: appcolor.LoginGradientColor2,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                        child: Text(
+                                      "Sign Up",
+                                      style: FontStyles.WhiteTextStyle(),
+                                    )),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Already have an account ? ",
+                                    style: FontStyles.SmallTextFont(),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => LoginScreen(),
+                                          ));
+                                    },
+                                    child: Text(
+                                      "Log In",
+                                      style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          color: appcolor.LoginGradientColor2),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     )
