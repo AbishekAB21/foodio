@@ -60,8 +60,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(contents.length, (index) {
-
-               buildDotIndicator(context, index);
+                return buildDotIndicator(context, index);
               }),
             ),
           )
@@ -75,9 +74,8 @@ class _OnboardScreenState extends State<OnboardScreen> {
     _controller.dispose();
     super.dispose();
   }
-  
-  Container buildDotIndicator(BuildContext context, int index) {
 
+  Container buildDotIndicator(BuildContext context, int index) {
     return Container();
   }
 }
