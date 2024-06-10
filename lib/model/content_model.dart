@@ -12,7 +12,7 @@ List<OnboardingContent> contents = [
       image: "assets/onboardingScreen1.png",
       title: "International Goodness",
       description:
-          "Treat yourself to great delicacies\n from around the world!"),
+          "Treat yourself to great delicacies from around the world!"),
   OnboardingContent(
       image: "assets/onboardimgScreen2.png",
       title: "Seamless Payment",
@@ -21,5 +21,5 @@ List<OnboardingContent> contents = [
       image: "assets/onboardingScreen3.png",
       title: "Lightning Quick Deliveries",
       description:
-          "Get your favorite meals delivered fast and fresh to your doorstep\n with our convenient fast food delivery service!")
+          "Your favorite meals delivered fast and fresh to your doorstep!")
 ];
