@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
+import 'package:foodio/widgets/bottom_nav.dart';
 import 'package:foodio/widgets/google_sign_in_widget.dart';
+import 'package:foodio/widgets/reusable_snackbar.dart';
 import 'package:foodio/widgets/sign_up_widget.dart';
 import 'package:foodio/widgets/text_fields.dart';
 
@@ -13,9 +16,34 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  
+  final _formKey = GlobalKey<FormState>();
+  String email = "", password = "";
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  logInMethod() async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BottomNavBar(),
+        ),
+      );
+      ReusableSnackBar().showSnackbar(
+          context, "Logged In succesfully", appcolor.SnackBarSuccessColor);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        ReusableSnackBar().showSnackbar(
+            context, "User not found", appcolor.SnackBarErrorColor);
+      } else if (e.code == 'wrong-password') {
+        ReusableSnackBar().showSnackbar(
+            context, "Incorrect Password", appcolor.SnackBarErrorColor);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,8 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 height: MediaQuery.of(context).size.height / 2,
                 width: MediaQuery.of(context).size.width,
-                margin:
-                    EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 3),
                 decoration: BoxDecoration(
                     color: appcolor.primaryColor,
                     borderRadius: BorderRadius.only(
@@ -72,74 +100,103 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: appcolor.primaryColor),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              "Login",
-                              style: FontStyles.headlineTextStyle(),
-                            ),
-                            LoginTextFields(
-                              controller: emailController,
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                "Login",
+                                style: FontStyles.headlineTextStyle(),
+                              ),
+                              LoginTextFields(
+                                controller: emailController,
                                 isNotVisible: false,
                                 hintText: "E- mail",
-                                prefixIcon: Icon(Icons.email_rounded)),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            LoginTextFields(
-                              controller: passwordController,
+                                prefixIcon: Icon(Icons.email_rounded),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter your e-mail";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              LoginTextFields(
+                                controller: passwordController,
                                 isNotVisible: true,
                                 hintText: "Password",
-                                prefixIcon: Icon(Icons.password_rounded)),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Container(
-                              alignment: Alignment.topRight,
-                              child: Text(
-                                "Forgot Password ?",
-                                style: FontStyles.SmallTextFont(),
+                                prefixIcon: Icon(Icons.password_rounded),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter your password";
+                                  }
+                                  return null;
+                                },
                               ),
-                            ),
-                            SizedBox(
-                              height: 40,
-                            ),
-                            Material(
-                              elevation: 0.5,
-                              child: Container(
-                                width: 150,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    color: appcolor.LoginGradientColor2,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Center(
-                                    child: Text(
-                                  "Log In",
-                                  style: FontStyles.WhiteTextStyle(),
-                                )),
+                              SizedBox(
+                                height: 20,
                               ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Don't have an account ? ",
+                              Container(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  "Forgot Password ?",
                                   style: FontStyles.SmallTextFont(),
                                 ),
-                                SignUp(),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            GoogleSignIn(),
-                          ],
+                              ),
+                              SizedBox(
+                                height: 40,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    setState(() {
+                                      email = emailController.text;
+                                      password = passwordController.text;
+                                    });
+                                  }
+                                  logInMethod();
+                                },
+                                child: Material(
+                                  elevation: 0.5,
+                                  child: Container(
+                                    width: 150,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        color: appcolor.LoginGradientColor2,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                        child: Text(
+                                      "Log In",
+                                      style: FontStyles.WhiteTextStyle(),
+                                    )),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Don't have an account ? ",
+                                    style: FontStyles.SmallTextFont(),
+                                  ),
+                                  SignUp(),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              GoogleSignIn(),
+                            ],
+                          ),
                         ),
                       ),
                     )

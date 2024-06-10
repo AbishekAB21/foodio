@@ -39,7 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icons.shopping_cart_rounded,
                     color: appcolor.primaryColor,
                   ),
-                )
+                ),
+                
               ],
             ),
             SizedBox(
