@@ -129,6 +129,7 @@ class SignUpPage extends StatelessWidget {
                                     await authProvider.signUp(
                                       emailController.text,
                                       passwordController.text,
+                                      nameController.text,
                                       context,
                                     );
                                   }

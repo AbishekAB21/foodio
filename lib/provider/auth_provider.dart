@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foodio/services/database.dart';
+import 'package:foodio/services/shared_pref.dart';
 import 'package:foodio/widgets/bottom_nav.dart';
 import 'package:foodio/widgets/reusable_snackbar.dart';
 import 'package:foodio/utils/app_colors.dart';
+import 'package:random_string/random_string.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -26,24 +29,40 @@ class AuthenticationProvider with ChangeNotifier {
         ReusableSnackBar().showSnackbar(
             context, "Incorrect Password", appcolor.SnackBarErrorColor);
       } else {
-        ReusableSnackBar().showSnackbar(
-            context, "${e.code}", appcolor.SnackBarErrorColor);
+        ReusableSnackBar()
+            .showSnackbar(context, "${e.code}", appcolor.SnackBarErrorColor);
       }
     }
   }
 
   Future<void> signUp(
-      String email, String password, BuildContext context) async {
+      String email, String password, String name, BuildContext context) async {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      ReusableSnackBar().showSnackbar(context, "Account created successfully!",
+          appcolor.SnackBarSuccessColor);
+
+      // Saving details to firestore
+      String Id = randomAlphaNumeric(10);
+      Map<String, dynamic> addUserInfo = {
+        "Name": name,
+        "Email": email,
+        "Id": Id,
+      };
+      await DatabaseMethods().adduserDetails(addUserInfo, Id);
+      
+      // Saving User details locally
+      await SharedPrefHelper().saveUserName(name);
+      await SharedPrefHelper().saveUserEmail(email);
+      await SharedPrefHelper().saveUserId(Id);
+
+      // Navigating to HomeScreen
       Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => BottomNavBar(),
           ));
-      ReusableSnackBar().showSnackbar(context, "Account created successfully!",
-          appcolor.SnackBarSuccessColor);
     } on FirebaseAuthException catch (e) {
       if (e.code == "weak-password") {
         ReusableSnackBar().showSnackbar(
