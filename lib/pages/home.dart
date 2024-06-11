@@ -222,16 +222,16 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         GestureDetector(
             onTap: () {},
-            child: CategorySelector(imageUrl: "assets/ice-cream.png")),
+            child: CategorySelector(imageUrl: "assets/icecream2.png")),
         GestureDetector(
             onTap: () {},
-            child: CategorySelector(imageUrl: "assets/pizza.png")),
+            child: CategorySelector(imageUrl: "assets/pizza2.png")),
         GestureDetector(
             onTap: () {},
-            child: CategorySelector(imageUrl: "assets/burger.png")),
+            child: CategorySelector(imageUrl: "assets/burger2.png")),
         GestureDetector(
             onTap: () {},
-            child: CategorySelector(imageUrl: "assets/salads.png")),
+            child: CategorySelector(imageUrl: "assets/vegan.png")),
       ],
     );
   }
