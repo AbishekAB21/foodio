@@ -23,6 +23,6 @@ class AuthenticationPage extends StatelessWidget {
           }
         },
       ),
-    );;
+    );
   }
 }

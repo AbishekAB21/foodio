@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodio/pages/details.dart';
 import 'package:foodio/utils/app_colors.dart';
