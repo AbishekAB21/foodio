@@ -6,6 +6,7 @@ class LoginTextFields extends StatelessWidget {
   final Icon prefixIcon;
   final bool isNotVisible;
   final controller;
+  final Color? TextColor;
   final String? Function(String?)? validator;
   const LoginTextFields(
       {super.key,
@@ -13,12 +14,15 @@ class LoginTextFields extends StatelessWidget {
       required this.prefixIcon,
       required this.isNotVisible,
       required this.controller,
-      this.validator
-      });
+      this.TextColor,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyle(
+          color: (TextColor == null) ? Colors.black : TextColor,
+          fontFamily: "Poppins"),
       controller: controller,
       obscureText: isNotVisible,
       decoration: InputDecoration(

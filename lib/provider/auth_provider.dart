@@ -4,7 +4,7 @@ import 'package:foodio/widgets/bottom_nav.dart';
 import 'package:foodio/widgets/reusable_snackbar.dart';
 import 'package:foodio/utils/app_colors.dart';
 
-class AuthProvider with ChangeNotifier {
+class AuthenticationProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> logIn(
@@ -25,8 +25,8 @@ class AuthProvider with ChangeNotifier {
       } else if (e.code == 'wrong-password') {
         ReusableSnackBar().showSnackbar(
             context, "Incorrect Password", appcolor.SnackBarErrorColor);
-      }else{
-         ReusableSnackBar().showSnackbar(
+      } else {
+        ReusableSnackBar().showSnackbar(
             context, "${e.code}", appcolor.SnackBarErrorColor);
       }
     }
@@ -40,9 +40,9 @@ class AuthProvider with ChangeNotifier {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BottomAppBar(),
+            builder: (context) => BottomNavBar(),
           ));
-      ReusableSnackBar().showSnackbar(context, "Account created succesfully!",
+      ReusableSnackBar().showSnackbar(context, "Account created successfully!",
           appcolor.SnackBarSuccessColor);
     } on FirebaseAuthException catch (e) {
       if (e.code == "weak-password") {
@@ -53,6 +53,22 @@ class AuthProvider with ChangeNotifier {
             context,
             "Account already exists - Try logging in",
             appcolor.SnackBarErrorColor);
+      }
+    }
+  }
+
+  Future<void> resetPassword(String email, BuildContext context) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      ReusableSnackBar().showSnackbar(context,
+          "Password reset mail has been sent", appcolor.LoginGradientColor1);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-email') {
+        ReusableSnackBar().showSnackbar(
+            context, "User not found", appcolor.SnackBarErrorColor);
+      } else {
+        ReusableSnackBar()
+            .showSnackbar(context, "${e.code}", appcolor.SnackBarErrorColor);
       }
     }
   }

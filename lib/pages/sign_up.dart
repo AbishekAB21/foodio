@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 import 'package:foodio/widgets/text_fields.dart';
-import 'package:foodio/widgets/bottom_nav.dart';
 import 'package:foodio/pages/login.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -17,7 +16,7 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
+    final authProvider = Provider.of<AuthenticationProvider>(context);
 
     return Scaffold(
       body: SingleChildScrollView(

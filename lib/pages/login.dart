@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:foodio/pages/forgot_password.dart';
 import 'package:foodio/provider/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 import 'package:foodio/widgets/text_fields.dart';
-import 'package:foodio/widgets/bottom_nav.dart';
 import 'package:foodio/pages/sign_up.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
+    final authProvider = Provider.of<AuthenticationProvider>(context);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -109,11 +109,21 @@ class LoginScreen extends StatelessWidget {
                                 },
                               ),
                               SizedBox(height: 20),
-                              Container(
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  "Forgot Password?",
-                                  style: FontStyles.SmallTextFont(),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ForgotPasswordScreen(),
+                                      ));
+                                },
+                                child: Container(
+                                  alignment: Alignment.topRight,
+                                  child: Text(
+                                    "Forgot Password?",
+                                    style: FontStyles.SmallTextFont(),
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 40),
