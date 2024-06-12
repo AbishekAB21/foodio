@@ -17,6 +17,7 @@ abstract class AppColor{
   final Color SnackBarErrorColor;
   final Color borderColor1;
   final Color WalletScreenColor1;
+  final Color DropdownColor1;
 
   AppColor({
     required this.primaryColor,
@@ -31,6 +32,7 @@ abstract class AppColor{
     required this.SnackBarErrorColor,
     required this.borderColor1,
     required this.WalletScreenColor1,
+    required this.DropdownColor1,
     });
 }
 
@@ -48,6 +50,7 @@ class AppDefaultColor extends AppColor{
     SnackBarSuccessColor: Colors.green.shade600,
     SnackBarErrorColor: Colors.red.shade700,
     borderColor1: Colors.grey,
-    WalletScreenColor1: Color(0xFF008080)
+    WalletScreenColor1: Color(0xFF008080),
+    DropdownColor1: Color(0xFFececf8),
   );
 }
