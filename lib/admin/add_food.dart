@@ -63,24 +63,27 @@ class _AddFoodState extends State<AddFood> {
                 height: 20.0,
               ),
               selectedImage == null
-                  ? Center(
-                      child: Material(
-                        elevation: 4.0,
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          width: 150,
-                          height: 150,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: appcolor.secondaryColor, width: 1.5),
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Icon(
-                            Icons.camera_alt_rounded,
-                            color: appcolor.AdminLoginGradientColor,
+                  ? GestureDetector(
+                    onTap: () => getImage(),
+                    child: Center(
+                        child: Material(
+                          elevation: 4.0,
+                          borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: appcolor.secondaryColor, width: 1.5),
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Icon(
+                              Icons.camera_alt_rounded,
+                              color: appcolor.AdminLoginGradientColor,
+                            ),
                           ),
                         ),
                       ),
-                    )
+                  )
                   : Center(
                       child: Material(
                         elevation: 4.0,
@@ -92,9 +95,12 @@ class _AddFoodState extends State<AddFood> {
                               border: Border.all(
                                   color: appcolor.secondaryColor, width: 1.5),
                               borderRadius: BorderRadius.circular(20)),
-                          child: Image.file(
-                            selectedImage!,
-                            fit: BoxFit.cover,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.file(
+                              selectedImage!,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
