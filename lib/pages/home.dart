@@ -43,7 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DetailsScreen(),
+                            builder: (context) => DetailsScreen(
+                              name: ds["Name"],
+                              description: ds["Description"],
+                              image: ds["Image"],
+                              price: ds["Price"],
+                            ),
                           )),
                       child: Container(
                         margin: EdgeInsets.all(5),
@@ -112,7 +117,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DetailsScreen(),
+                            builder: (context) => DetailsScreen(
+                              name: ds["Name"],
+                              description: ds["Description"],
+                              image: ds["Image"],
+                              price: ds["Price"],
+                            ), 
                           )),
                       child: Container(
                         margin: EdgeInsets.only(right: 20.0, bottom: 20.0),
@@ -250,11 +260,10 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () async {
               fooditemsStream =
                   await DatabaseMethods().getFoodItem("Ice-cream");
-              
             },
             child: CategorySelector(imageUrl: "assets/icecream2.png")),
-        GestureDetector( 
-            onTap: () async { 
+        GestureDetector(
+            onTap: () async {
               fooditemsStream = await DatabaseMethods().getFoodItem("Pizza");
             },
             child: CategorySelector(imageUrl: "assets/pizza2.png")),

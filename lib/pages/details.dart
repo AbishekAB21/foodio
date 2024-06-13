@@ -3,7 +3,13 @@ import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 
 class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+  String image, name, description, price;
+  DetailsScreen(
+      {super.key,
+      required this.name,
+      required this.image,
+      required this.description,
+      required this.price});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -27,11 +33,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   Icons.arrow_back_ios_new_rounded,
                   color: appcolor.secondaryColor,
                 )),
-            Image.asset(
-              "assets/GreekSalad.png",
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 2.5,
-              fit: BoxFit.fill,
+            SizedBox(
+              height: 10,
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                widget.image,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 2.5,
+                fit: BoxFit.fill,
+              ),
             ),
             SizedBox(
               height: 15.0,
@@ -39,7 +51,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             Row(
               children: [
                 Text(
-                  "Greek Salad",
+                  widget.name,
                   style: FontStyles.SemiBoldTextStyle(),
                 ),
                 Spacer(),
@@ -91,18 +103,33 @@ class _DetailsScreenState extends State<DetailsScreen> {
               height: 20.0,
             ),
             Text(
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled",
+              widget.description,
               maxLines: 3,
               style: FontStyles.lightTextStyle(),
             ),
-            SizedBox(height: 30.0,),
+            SizedBox(
+              height: 30.0,
+            ),
             Row(
               children: [
-                Text("Delivery Time", style: FontStyles.SemiBoldTextStyle(),),
-                SizedBox(width: 25.0,),
-                Icon(Icons.alarm_rounded, color: appcolor.secondaryColor,),
-                SizedBox(width: 5.0,),
-                Text("30 mins", style: FontStyles.SemiBoldTextStyle(),),
+                Text(
+                  "Delivery Time",
+                  style: FontStyles.SemiBoldTextStyle(),
+                ),
+                SizedBox(
+                  width: 25.0,
+                ),
+                Icon(
+                  Icons.alarm_rounded,
+                  color: appcolor.secondaryColor,
+                ),
+                SizedBox(
+                  width: 5.0,
+                ),
+                Text(
+                  "30 mins",
+                  style: FontStyles.SemiBoldTextStyle(),
+                ),
               ],
             ),
             Spacer(),
@@ -114,8 +141,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Total Price", style: FontStyles.SemiBoldTextStyle(),),
-                      Text("\$25", style: FontStyles.headlineTextStyle(),)
+                      Text(
+                        "Total Price",
+                        style: FontStyles.SemiBoldTextStyle(),
+                      ),
+                      Text(
+                        "\$" + widget.price,
+                        style: FontStyles.headlineTextStyle(),
+                      )
                     ],
                   ),
                   Container(
@@ -123,16 +156,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       width: 150,
                       height: 50,
                       padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration( 
-                        borderRadius: BorderRadius.circular(8),
-                        color: appcolor.secondaryColor),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: appcolor.secondaryColor),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                        Text("Add To Cart", style: FontStyles.WhiteTextStyle()),
-                        SizedBox(width: 10,),
-                        Icon(Icons.shopping_cart, color: appcolor.primaryColor,)
-                      ],),
+                          Text("Add To Cart",
+                              style: FontStyles.WhiteTextStyle()),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Icon(
+                            Icons.shopping_cart,
+                            color: appcolor.primaryColor,
+                          )
+                        ],
+                      ),
                     ),
                   )
                 ],
