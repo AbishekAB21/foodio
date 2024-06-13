@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodio/pages/details.dart';
+import 'package:foodio/services/database.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 import 'package:foodio/widgets/category_selector.dart';
@@ -12,6 +14,176 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Stream? fooditemsStream;
+
+  ontheLoad() async {
+    fooditemsStream = await DatabaseMethods().getFoodItem("Pizza");
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    ontheLoad();
+    super.initState();
+  }
+
+  Widget allItmes() {
+    return StreamBuilder(
+        stream: fooditemsStream,
+        builder: (context, AsyncSnapshot snapshot) {
+          return snapshot.hasData
+              ? ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: snapshot.data.docs.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot ds = snapshot.data.docs[index];
+                    return GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailsScreen(),
+                          )),
+                      child: Container(
+                        margin: EdgeInsets.all(5),
+                        child: Material(
+                          elevation: 5.0,
+                          borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            padding: EdgeInsets.all(14),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.network(
+                                    ds["Image"],
+                                    height: 150,
+                                    width: 150,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Text(
+                                  ds["Name"],
+                                  style: FontStyles.SemiBoldTextStyle(),
+                                ),
+                                SizedBox(
+                                  height: 4.8,
+                                ),
+                                Text(
+                                  ds["Description"],
+                                  style: FontStyles.lightTextStyle(),
+                                ),
+                                SizedBox(
+                                  height: 4.8,
+                                ),
+                                Text(
+                                  "\$" + ds["Price"],
+                                  style: FontStyles.SemiBoldTextStyle(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                )
+              : CircularProgressIndicator(
+                  color: appcolor.LoginGradientColor2,
+                );
+        });
+  }
+
+  Widget allItmesVerticaly() {
+    return StreamBuilder(
+        stream: fooditemsStream,
+        builder: (context, AsyncSnapshot snapshot) {
+          return snapshot.hasData
+              ? ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: snapshot.data.docs.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot ds = snapshot.data.docs[index];
+                    return GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailsScreen(),
+                          )),
+                      child: Container(
+                        margin: EdgeInsets.only(right: 20.0, bottom: 20.0),
+                        child: Material(
+                          elevation: 5.0,
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.network(
+                                    ds["Image"],
+                                    height: 120,
+                                    width: 120,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20.0,
+                                ),
+                                Column(
+                                  children: [
+                                    Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2,
+                                        child: Text(
+                                          ds["Name"],
+                                          style: FontStyles.SemiBoldTextStyle(),
+                                        )),
+                                    SizedBox(
+                                      height: 5.0,
+                                    ),
+                                    Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2,
+                                        child: Text(
+                                          ds["Description"],
+                                          style: FontStyles.lightTextStyle(),
+                                        )),
+                                    SizedBox(
+                                      height: 5.0,
+                                    ),
+                                    Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2,
+                                        child: Text(
+                                          "\$" + ds["Price"],
+                                          style: FontStyles.SemiBoldTextStyle(),
+                                        )),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                )
+              : CircularProgressIndicator(
+                  color: appcolor.LoginGradientColor2,
+                );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +211,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: appcolor.primaryColor,
                   ),
                 ),
-                
               ],
             ),
             SizedBox(
@@ -60,177 +231,42 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 20.0,
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailsScreen(),
-                        )),
-                    child: Container(
-                      margin: EdgeInsets.all(5),
-                      child: Material(
-                        elevation: 5.0,
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          padding: EdgeInsets.all(14),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                "assets/GreekSalad.png",
-                                height: 150,
-                                width: 150,
-                                fit: BoxFit.cover,
-                              ),
-                              Text(
-                                "Greek Salad",
-                                style: FontStyles.SemiBoldTextStyle(),
-                              ),
-                              SizedBox(
-                                height: 4.8,
-                              ),
-                              Text(
-                                "A tasty Greek Salad",
-                                style: FontStyles.lightTextStyle(),
-                              ),
-                              SizedBox(
-                                height: 4.8,
-                              ),
-                              Text(
-                                "\$25",
-                                style: FontStyles.SemiBoldTextStyle(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15.0,
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        padding: EdgeInsets.all(14),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              "assets/GreekSalad.png",
-                              height: 150,
-                              width: 150,
-                              fit: BoxFit.cover,
-                            ),
-                            Text(
-                              "Ceaser's Salad",
-                              style: FontStyles.SemiBoldTextStyle(),
-                            ),
-                            SizedBox(
-                              height: 4.8,
-                            ),
-                            Text(
-                              "A tasty Ceaser Salad",
-                              style: FontStyles.lightTextStyle(),
-                            ),
-                            SizedBox(
-                              height: 4.8,
-                            ),
-                            Text(
-                              "\$35",
-                              style: FontStyles.SemiBoldTextStyle(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+            Container(height: 270, child: allItmes()),
             SizedBox(
-              height: 30.0,
+              height: 10.0,
             ),
-            Container(
-              margin: EdgeInsets.only(right: 20.0),
-              child: Material(
-                elevation: 5.0,
-                borderRadius: BorderRadius.circular(20.0),
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        "assets/GreekSalad.png",
-                        height: 120,
-                        width: 120,
-                        fit: BoxFit.cover,
-                      ),
-                      SizedBox(
-                        width: 20.0,
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              child: Text(
-                                "Roasted Chicken Salad",
-                                style: FontStyles.SemiBoldTextStyle(),
-                              )),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              child: Text(
-                                "Chicken and Veggies",
-                                style: FontStyles.lightTextStyle(),
-                              )),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              child: Text(
-                                "\$28",
-                                style: FontStyles.SemiBoldTextStyle(),
-                              )),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            )
+            allItmesVerticaly(),
           ],
         ),
       ),
     );
   }
 
-  Row _buildCategoryButtons() {
+  Widget _buildCategoryButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         GestureDetector(
-            onTap: () {},
+            onTap: () async {
+              fooditemsStream =
+                  await DatabaseMethods().getFoodItem("Ice-cream");
+              
+            },
             child: CategorySelector(imageUrl: "assets/icecream2.png")),
-        GestureDetector(
-            onTap: () {},
+        GestureDetector( 
+            onTap: () async { 
+              fooditemsStream = await DatabaseMethods().getFoodItem("Pizza");
+            },
             child: CategorySelector(imageUrl: "assets/pizza2.png")),
         GestureDetector(
-            onTap: () {},
+            onTap: () async {
+              fooditemsStream = await DatabaseMethods().getFoodItem("Burger");
+            },
             child: CategorySelector(imageUrl: "assets/burger2.png")),
         GestureDetector(
-            onTap: () {},
+            onTap: () async {
+              fooditemsStream = await DatabaseMethods().getFoodItem("Salad");
+            },
             child: CategorySelector(imageUrl: "assets/vegan.png")),
       ],
     );
