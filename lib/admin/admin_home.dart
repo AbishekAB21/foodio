@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:foodio/admin/add_food.dart';
-import 'package:foodio/utils/app_colors.dart';
+import 'package:foodio/admin/edit_menu_screen.dart';
+import 'package:foodio/admin/widgets/admin_home_tile.dart';
 import 'package:foodio/utils/font_styles.dart';
 
 class AdminHomeScreen extends StatefulWidget {
@@ -28,47 +28,32 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             SizedBox(
               height: 50.0,
             ),
+          // Add Food 
             GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddFood(),
-                    ));
-              },
-              child: Material(
-                  elevation: 10.0,
-                  borderRadius: BorderRadius.circular(10),
-                  child: Center(
-                    child: Container(
-                      padding: EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: appcolor.secondaryColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(6.0),
-                            child: Image.asset(
-                              "assets/GreekSalad.png",
-                              height: 100,
-                              width: 100,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 30.0,
-                          ),
-                          Text(
-                            "Add Food Item",
-                            style: FontStyles.WhiteTextStyle(),
-                          )
-                        ],
-                      ),
-                    ),
-                  )),
-            )
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddFood(),
+                      ));
+                },
+                child: AdminHomeTiles(
+                  title: "Add Food Item",
+                  imageUrl: "assets/GreekSalad.png",
+                )),
+            SizedBox(height: 10,),
+             GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CurrentMenu(),
+                      ));
+                },
+                child: AdminHomeTiles(
+                  title: "Edit Current Menu",
+                  imageUrl: "assets/onboardingScreen1.png",
+                )),
           ],
         ),
       ),
