@@ -16,7 +16,13 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  int count = 1;
+  int count = 1, total =0;
+
+  @override
+  void initState() {
+    total = int.parse(widget.price);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,6 +65,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   onTap: () {
                     if (count > 1) {
                       --count;
+                      total = total- int.parse(widget.price);
                     }
                     setState(() {});
                   },
@@ -85,6 +92,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 GestureDetector(
                   onTap: () {
                     ++count;
+                    total = total+ int.parse(widget.price);
                     setState(() {});
                   },
                   child: Container(
@@ -146,7 +154,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         style: FontStyles.SemiBoldTextStyle(),
                       ),
                       Text(
-                        "\$" + widget.price,
+                        "\$" + total.toString(),
                         style: FontStyles.headlineTextStyle(),
                       )
                     ],
