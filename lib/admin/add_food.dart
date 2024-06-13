@@ -1,10 +1,15 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:foodio/admin/widgets/products_text_fields.dart';
+import 'package:foodio/services/database.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
+import 'package:foodio/widgets/reusable_snackbar.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:random_string/random_string.dart';
 
 class AddFood extends StatefulWidget {
   const AddFood({super.key});
@@ -27,6 +32,38 @@ class _AddFoodState extends State<AddFood> {
 
     selectedImage = File(image!.path);
     setState(() {});
+  }
+
+  uploadItem() async {
+    if (selectedImage != null &&
+        nameController.text != "" &&
+        priceController.text != "" &&
+        descriptionController.text != "") {
+      String addId = randomAlphaNumeric(10);
+
+      Reference firebaseStorageRef =
+          FirebaseStorage.instance.ref().child("blogImages").child(addId);
+      final UploadTask task = firebaseStorageRef.putFile(selectedImage!);
+
+      var downloadUrl = await (await task).ref.getDownloadURL();
+
+      Map<String, dynamic> productList = {
+        "Image": downloadUrl,
+        "Name": nameController.text,
+        "Price": priceController.text,
+        "Description": descriptionController.text
+      };
+
+      await DatabaseMethods().addFoodItem(productList, value!).then((value) {
+        ReusableSnackBar().showSnackbar(
+            context,
+            "Product has been added successfully",
+            appcolor.SnackBarSuccessColor);
+        nameController.clear();
+        priceController.clear();
+        descriptionController.clear();
+      });
+    }
   }
 
   @override
@@ -64,8 +101,8 @@ class _AddFoodState extends State<AddFood> {
               ),
               selectedImage == null
                   ? GestureDetector(
-                    onTap: () => getImage(),
-                    child: Center(
+                      onTap: () => getImage(),
+                      child: Center(
                         child: Material(
                           elevation: 4.0,
                           borderRadius: BorderRadius.circular(20),
@@ -83,7 +120,7 @@ class _AddFoodState extends State<AddFood> {
                           ),
                         ),
                       ),
-                  )
+                    )
                   : Center(
                       child: Material(
                         elevation: 4.0,
@@ -196,17 +233,22 @@ class _AddFoodState extends State<AddFood> {
               SizedBox(
                 height: 30,
               ),
-              Container(
-                height: 60,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: appcolor.secondaryColor,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Center(
-                    child: Text(
-                  "Add Product",
-                  style: FontStyles.WhiteTextStyle(),
-                )),
+              GestureDetector(
+                onTap: (){
+                  uploadItem();
+                },
+                child: Container(
+                  height: 60,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: appcolor.secondaryColor,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Center(
+                      child: Text(
+                    "Add Product",
+                    style: FontStyles.WhiteTextStyle(),
+                  )),
+                ),
               )
             ],
           ),

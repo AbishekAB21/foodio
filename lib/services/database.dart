@@ -7,4 +7,11 @@ class DatabaseMethods {
         .doc(id)
         .set(userInfoMap);
   }
+
+
+  Future addFoodItem(Map<String, dynamic> itemInfoMap, String name) async {
+    return await FirebaseFirestore.instance
+        .collection(name)
+        .add(itemInfoMap);
+  }
 }

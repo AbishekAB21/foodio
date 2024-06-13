@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:foodio/admin/add_food.dart';
 import 'package:foodio/provider/auth_provider.dart';
 import 'package:foodio/provider/bottom_nav_provider.dart';
+import 'package:foodio/widgets/bottom_nav.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: AddFood(),
+      home: BottomNavBar(),
       debugShowCheckedModeBanner: false,
     );
   }
