@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodio/admin/add_food.dart';
-import 'package:foodio/admin/edit_menu_screen.dart';
+import 'package:foodio/admin/delete_products_screen.dart';
+import 'package:foodio/admin/edit_products_screen.dart';
 import 'package:foodio/admin/widgets/admin_home_tile.dart';
 import 'package:foodio/utils/font_styles.dart';
 
@@ -60,7 +61,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CurrentMenu(),
+                        builder: (context) => EditScreen(),
                       ));
                 },
                 child: AdminHomeTiles(
