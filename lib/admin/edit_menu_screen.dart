@@ -17,7 +17,7 @@ class CurrentMenu extends StatefulWidget {
 class _CurrentMenuState extends State<CurrentMenu> {
   final TextEditingController categoryController = TextEditingController();
   Stream? fooditemsStream;
-  
+
   ontheLoad() async {
     fooditemsStream = await DatabaseMethods().getFoodItem("Pizza");
     setState(() {});
@@ -25,7 +25,7 @@ class _CurrentMenuState extends State<CurrentMenu> {
 
   @override
   void initState() {
-    ontheLoad();
+    ontheLoad(); 
     super.initState();
   }
 
@@ -105,12 +105,13 @@ class _CurrentMenuState extends State<CurrentMenu> {
 
   Widget allItmesVerticaly() {
     return StreamBuilder(
-        stream: fooditemsStream,
+        stream: fooditemsStream, 
         builder: (context, AsyncSnapshot snapshot) {
           return snapshot.hasData
-              ? ListView.builder(
+              ? ListView.builder( 
                   padding: EdgeInsets.zero,
                   itemCount: snapshot.data.docs.length,
+                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
@@ -228,28 +229,30 @@ class _CurrentMenuState extends State<CurrentMenu> {
         toolbarHeight: 30,
       ),
       backgroundColor: appcolor.backgroundColor,
-      body: Container(
-        margin: EdgeInsets.only(top: 50, left: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "The Current Menu",
-              style: FontStyles.headlineTextStyle(),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            _buildCategoryButtons(),
-            SizedBox(
-              height: 20.0,
-            ),
-            //Container(height: 270, child: allItmes()),
-            SizedBox(
-              height: 10.0,
-            ),
-            allItmesVerticaly(),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(top: 50, left: 20), 
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "The Current Menu",
+                style: FontStyles.headlineTextStyle(), 
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              _buildCategoryButtons(),
+              SizedBox(
+                height: 20.0,
+              ),
+              //Container(height: 270, child: allItmes()),
+              SizedBox(
+                height: 10.0,
+              ),
+              allItmesVerticaly(),
+            ],
+          ),
         ),
       ),
     );

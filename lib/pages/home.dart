@@ -109,6 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ? ListView.builder(
                   padding: EdgeInsets.zero,
                   itemCount: snapshot.data.docs.length,
+                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
@@ -191,62 +192,64 @@ class _HomeScreenState extends State<HomeScreen> {
               : CircularProgressIndicator(
                   color: appcolor.LoginGradientColor2,
                 );
-        });
+        }); 
   }
-
-  @override
+ 
+  @override 
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: appcolor.backgroundColor,
-      body: Container(
-        margin: EdgeInsets.only(top: 50, left: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Hello User,",
-                  style: FontStyles.boldTextStyle(),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 20),
-                  padding: EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                      color: appcolor.secondaryColor,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Icon(
-                    Icons.shopping_cart_rounded,
-                    color: appcolor.primaryColor,
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(top: 50, left: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Hello User,",
+                    style: FontStyles.boldTextStyle(),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "The Delicacies We Offer",
-              style: FontStyles.headlineTextStyle(),
-            ),
-            Text(
-              "Supress your cravings",
-              style: FontStyles.lightTextStyle(),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            _buildCategoryButtons(),
-            SizedBox(
-              height: 20.0,
-            ),
-            Container(height: 270, child: allItmes()),
-            SizedBox(
-              height: 10.0,
-            ),
-            allItmesVerticaly(),
-          ],
+                  Container(
+                    margin: EdgeInsets.only(right: 20),
+                    padding: EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                        color: appcolor.secondaryColor,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Icon(
+                      Icons.shopping_cart_rounded,
+                      color: appcolor.primaryColor,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                "The Delicacies We Offer",
+                style: FontStyles.headlineTextStyle(),
+              ),
+              Text(
+                "Supress your cravings",
+                style: FontStyles.lightTextStyle(),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              _buildCategoryButtons(),
+              SizedBox(
+                height: 20.0,
+              ),
+              Container(height: 270, child: allItmes()),
+              SizedBox(
+                height: 10.0,
+              ),
+              allItmesVerticaly(),
+            ],
+          ),
         ),
       ),
     );
