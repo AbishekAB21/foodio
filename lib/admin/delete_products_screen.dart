@@ -1,150 +1,138 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'package:foodio/admin/provider/product_provider.dart';
 import 'package:foodio/admin/widgets/delete_dialog.dart';
 import 'package:foodio/pages/details.dart';
-import 'package:foodio/services/database.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 import 'package:foodio/widgets/category_selector.dart';
 
-class CurrentMenu extends StatefulWidget {
-  const CurrentMenu({super.key});
+class DeleteProductScreen extends StatefulWidget {
+  const DeleteProductScreen({super.key});
 
   @override
-  State<CurrentMenu> createState() => _CurrentMenuState();
+  State<DeleteProductScreen> createState() => _DeleteProductScreenState();
 }
 
-class _CurrentMenuState extends State<CurrentMenu> {
-  final TextEditingController categoryController = TextEditingController();
-  Stream? fooditemsStream;
-
-  ontheLoad() async {
-    fooditemsStream = await DatabaseMethods().getFoodItem("Pizza");
-    setState(() {});
-  }
-
+class _DeleteProductScreenState extends State<DeleteProductScreen> {
   @override
   void initState() {
-    ontheLoad(); 
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ProductProvider>(context, listen: false).loadFoodItems("Pizza");
+    });
   }
 
-  Widget allItmesVerticaly() {
+  Widget allItemsVertically() {
+    final provider = Provider.of<ProductProvider>(context);
     return StreamBuilder(
-        stream: fooditemsStream, 
-        builder: (context, AsyncSnapshot snapshot) {
-          return snapshot.hasData
-              ? ListView.builder( 
-                  padding: EdgeInsets.zero,
-                  itemCount: snapshot.data.docs.length,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot ds = snapshot.data.docs[index];
-                    return GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailsScreen(
-                              name: ds["Name"],
-                              description: ds["Description"],
-                              image: ds["Image"],
-                              price: ds["Price"],
-                            ),
-                          )),
-                      child: Container(
-                        margin: EdgeInsets.only(right: 20.0, bottom: 20.0),
-                        child: Material(
-                          elevation: 5.0,
-                          borderRadius: BorderRadius.circular(20.0),
-                          child: Container(
-                            padding: EdgeInsets.all(5),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.network(
-                                    ds["Image"],
-                                    height: 120,
-                                    width: 120,
-                                    fit: BoxFit.cover,
+      stream: provider.foodItemsStream,
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: snapshot.data.docs.length,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  DocumentSnapshot ds = snapshot.data.docs[index];
+                  return GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailsScreen(
+                          name: ds["Name"],
+                          description: ds["Description"],
+                          image: ds["Image"],
+                          price: ds["Price"],
+                        ),
+                      ),
+                    ),
+                    child: Container(
+                      margin: EdgeInsets.only(right: 20.0, bottom: 20.0),
+                      child: Material(
+                        elevation: 5.0,
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.network(
+                                  ds["Image"],
+                                  height: 120,
+                                  width: 120,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(width: 20.0),
+                              Column(
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width / 2,
+                                    child: Text(
+                                      ds["Name"],
+                                      style: FontStyles.SemiBoldTextStyle(),
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 20.0,
-                                ),
-                                Column(
-                                  children: [
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2,
-                                        child: Text(
-                                          ds["Name"],
+                                  SizedBox(height: 5.0),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width / 2,
+                                    child: Text(
+                                      ds["Description"],
+                                      style: FontStyles.lightTextStyle(),
+                                    ),
+                                  ),
+                                  SizedBox(height: 5.0),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width / 2,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "\$" + ds["Price"],
                                           style: FontStyles.SemiBoldTextStyle(),
-                                        )),
-                                    SizedBox(
-                                      height: 5.0,
-                                    ),
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2,
-                                        child: Text(
-                                          ds["Description"],
-                                          style: FontStyles.lightTextStyle(),
-                                        )),
-                                    SizedBox(
-                                      height: 5.0,
-                                    ),
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "\$" + ds["Price"],
-                                              style: FontStyles
-                                                  .SemiBoldTextStyle(),
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (context) =>
-                                                          DeleteDialog(
-                                                            documentId: ds.id,
-                                                            onDeleted: () {
-                                                              setState(() {});
-                                                            },
-                                                          ));
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => DeleteDialog(
+                                                documentId: ds.id,
+                                                category: "Pizza", // Correct category
+                                                onDeleted: () {
+                                                  provider.loadFoodItems("Pizza");
                                                 },
-                                                icon: Icon(
-                                                  Icons.delete,
-                                                  color: appcolor
-                                                      .SnackBarErrorColor,
-                                                ))
-                                          ],
-                                        )),
-                                  ],
-                                )
-                              ],
-                            ),
+                                              ),
+                                            );
+                                          },
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: appcolor.SnackBarErrorColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    );
-                  },
-                )
-              : CircularProgressIndicator(
-                  color: appcolor.LoginGradientColor2,
-                );
-        });
+                    ),
+                  );
+                },
+              )
+            : CircularProgressIndicator(
+                color: appcolor.LoginGradientColor2,
+              );
+      },
+    );
   }
 
   @override
@@ -157,26 +145,19 @@ class _CurrentMenuState extends State<CurrentMenu> {
       backgroundColor: appcolor.backgroundColor,
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(top: 50, left: 20), 
+          margin: EdgeInsets.only(top: 50, left: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "The Current Menu",
-                style: FontStyles.headlineTextStyle(), 
+                style: FontStyles.headlineTextStyle(),
               ),
-              SizedBox(
-                height: 30,
-              ),
+              SizedBox(height: 30),
               _buildCategoryButtons(),
-              SizedBox(
-                height: 20.0,
-              ),
-              //Container(height: 270, child: allItmes()),
-              SizedBox(
-                height: 10.0,
-              ),
-              allItmesVerticaly(),
+              SizedBox(height: 20.0),
+              SizedBox(height: 10.0),
+              allItemsVertically(),
             ],
           ),
         ),
@@ -185,30 +166,34 @@ class _CurrentMenuState extends State<CurrentMenu> {
   }
 
   Widget _buildCategoryButtons() {
+    final provider = Provider.of<ProductProvider>(context, listen: false);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         GestureDetector(
-            onTap: () async {
-              fooditemsStream =
-                  await DatabaseMethods().getFoodItem("Ice-cream");
-            },
-            child: CategorySelector(imageUrl: "assets/icecream2.png")),
+          onTap: () async {
+            await provider.loadFoodItems("Ice-cream");
+          },
+          child: CategorySelector(imageUrl: "assets/icecream2.png"),
+        ),
         GestureDetector(
-            onTap: () async {
-              fooditemsStream = await DatabaseMethods().getFoodItem("Pizza");
-            },
-            child: CategorySelector(imageUrl: "assets/pizza2.png")),
+          onTap: () async {
+            await provider.loadFoodItems("Pizza");
+          },
+          child: CategorySelector(imageUrl: "assets/pizza2.png"),
+        ),
         GestureDetector(
-            onTap: () async {
-              fooditemsStream = await DatabaseMethods().getFoodItem("Burger");
-            },
-            child: CategorySelector(imageUrl: "assets/burger2.png")),
+          onTap: () async {
+            await provider.loadFoodItems("Burger");
+          },
+          child: CategorySelector(imageUrl: "assets/burger2.png"),
+        ),
         GestureDetector(
-            onTap: () async {
-              fooditemsStream = await DatabaseMethods().getFoodItem("Salad");
-            },
-            child: CategorySelector(imageUrl: "assets/vegan.png")),
+          onTap: () async {
+            await provider.loadFoodItems("Salad");
+          },
+          child: CategorySelector(imageUrl: "assets/vegan.png"),
+        ),
       ],
     );
   }

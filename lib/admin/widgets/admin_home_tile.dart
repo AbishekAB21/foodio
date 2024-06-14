@@ -26,8 +26,8 @@ class AdminHomeTiles extends StatelessWidget {
                             padding: EdgeInsets.all(6.0),
                             child: Image.asset(
                               imageUrl,
-                              height: 100,
-                              width: 100,
+                              height: 104,
+                              width: 104,
                               fit: BoxFit.cover,
                             ),
                           ),

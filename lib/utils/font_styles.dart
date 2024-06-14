@@ -62,4 +62,11 @@ class FontStyles {
         fontFamily: "Poppins",
         color: Colors.black);
   }
+
+   static TextStyle WarningTextFont() {
+    return TextStyle(
+        fontSize: 12,
+        fontFamily: "Poppins",
+        color: Colors.red);
+  }
 }

@@ -1,9 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:foodio/admin/add_food.dart';
-import 'package:foodio/admin/admin_home.dart';
-import 'package:foodio/functions/authentication.dart';
-import 'package:foodio/pages/login.dart';
+import 'package:foodio/admin/provider/product_provider.dart';
 import 'package:foodio/provider/auth_provider.dart';
 import 'package:foodio/provider/bottom_nav_provider.dart';
 import 'package:foodio/widgets/bottom_nav.dart';
@@ -17,11 +14,12 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => BottomNavBarProvider()),
         ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
+        ChangeNotifierProvider(create: (context) => ProductProvider(),),
       ],
-      child: const MyApp(),
-    ),
+      child: const MyApp(), 
+    ), 
   );
-}
+} 
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -29,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:AdminHomeScreen(),
+      home:BottomNavBar(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -1,13 +1,12 @@
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'package:foodio/admin/provider/product_provider.dart';
 import 'package:foodio/pages/details.dart';
-import 'package:foodio/services/database.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 import 'package:foodio/widgets/category_selector.dart';
-import 'package:image_picker/image_picker.dart';
 
 class EditScreen extends StatefulWidget {
   const EditScreen({super.key});
@@ -17,23 +16,16 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
- 
-  Stream? fooditemsStream;
-  final ImagePicker _picker = ImagePicker();
-  XFile? _imageFile;
-
-  ontheLoad() async {
-    fooditemsStream = await DatabaseMethods().getFoodItem("Pizza");
-    setState(() {});
-  }
-
   @override
   void initState() {
-    ontheLoad();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ProductProvider>(context, listen: false).loadFoodItems("Pizza");
+    });
   }
 
   void _showEditDialog(DocumentSnapshot ds) {
+    final provider = Provider.of<ProductProvider>(context, listen: false);
     TextEditingController categoryController = TextEditingController();
     TextEditingController nameController = TextEditingController(text: ds["Name"]);
     TextEditingController descriptionController = TextEditingController(text: ds["Description"]);
@@ -66,14 +58,11 @@ class _EditScreenState extends State<EditScreen> {
                 SizedBox(height: 10),
                 GestureDetector(
                   onTap: () async {
-                    XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-                    setState(() {
-                      _imageFile = pickedFile;
-                    });
+                    await provider.pickImage();
                   },
-                  child: _imageFile != null
+                  child: provider.imageFile != null
                       ? Image.file(
-                          File(_imageFile!.path),
+                          File(provider.imageFile!.path),
                           height: 100,
                           width: 100,
                         )
@@ -96,22 +85,8 @@ class _EditScreenState extends State<EditScreen> {
             TextButton(
               onPressed: () async {
                 String imageUrl = ds["Image"];
-                if (_imageFile != null) {
-                  // Upload new image and get URL (assuming you have a method to upload image)
-                  imageUrl = await DatabaseMethods().uploadImage(File(_imageFile!.path));
-                }
-                // Update the product details in Firestore
-                await FirebaseFirestore.instance
-                    .collection(categoryController.text)
-                    .doc(ds.id)
-                    .update({
-                  "Name": nameController.text,
-                  "Description": descriptionController.text,
-                  "Price": priceController.text,
-                  "Image": imageUrl,
-                });
+                await provider.updateProduct(ds, categoryController.text, nameController, descriptionController, priceController, imageUrl);
                 Navigator.of(context).pop();
-                setState(() {});
               },
               child: Text('Save'),
             ),
@@ -121,105 +96,106 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
-  Widget allItmesVerticaly() {
+  Widget allItemsVertically() {
+    final provider = Provider.of<ProductProvider>(context);
     return StreamBuilder(
-        stream: fooditemsStream,
-        builder: (context, AsyncSnapshot snapshot) {
-          return snapshot.hasData
-              ? ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: snapshot.data.docs.length,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot ds = snapshot.data.docs[index];
-                    return GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailsScreen(
-                              name: ds["Name"],
-                              description: ds["Description"],
-                              image: ds["Image"],
-                              price: ds["Price"],
-                            ),
-                          )),
-                      child: Container(
-                        margin: EdgeInsets.only(right: 20.0, bottom: 20.0),
-                        child: Material(
-                          elevation: 5.0,
-                          borderRadius: BorderRadius.circular(20.0),
-                          child: Container(
-                            padding: EdgeInsets.all(5),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.network(
-                                    ds["Image"],
-                                    height: 120,
-                                    width: 120,
-                                    fit: BoxFit.cover,
+      stream: provider.foodItemsStream,
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: snapshot.data.docs.length,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  DocumentSnapshot ds = snapshot.data.docs[index];
+                  return GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailsScreen(
+                          name: ds["Name"],
+                          description: ds["Description"],
+                          image: ds["Image"],
+                          price: ds["Price"],
+                        ),
+                      ),
+                    ),
+                    child: Container(
+                      margin: EdgeInsets.only(right: 20.0, bottom: 20.0),
+                      child: Material(
+                        elevation: 5.0,
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.network(
+                                  ds["Image"],
+                                  height: 120,
+                                  width: 120,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(width: 20.0),
+                              Column(
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width / 2,
+                                    child: Text(
+                                      ds["Name"],
+                                      style: FontStyles.SemiBoldTextStyle(),
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 20.0,
-                                ),
-                                Column(
-                                  children: [
-                                    Container(
-                                        width: MediaQuery.of(context).size.width / 2,
-                                        child: Text(
-                                          ds["Name"],
+                                  SizedBox(height: 5.0),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width / 2,
+                                    child: Text(
+                                      ds["Description"],
+                                      style: FontStyles.lightTextStyle(),
+                                    ),
+                                  ),
+                                  SizedBox(height: 5.0),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width / 2,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "\$" + ds["Price"],
                                           style: FontStyles.SemiBoldTextStyle(),
-                                        )),
-                                    SizedBox(
-                                      height: 5.0,
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            _showEditDialog(ds);
+                                          },
+                                          icon: Icon(
+                                            Icons.edit_rounded,
+                                            color: appcolor.WalletScreenColor1,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Container(
-                                        width: MediaQuery.of(context).size.width / 2,
-                                        child: Text(
-                                          ds["Description"],
-                                          style: FontStyles.lightTextStyle(),
-                                        )),
-                                    SizedBox(
-                                      height: 5.0,
-                                    ),
-                                    Container(
-                                        width: MediaQuery.of(context).size.width / 2,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "\$" + ds["Price"],
-                                              style: FontStyles.SemiBoldTextStyle(),
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  _showEditDialog(ds);
-                                                },
-                                                icon: Icon(
-                                                  Icons.edit_rounded,
-                                                  color: appcolor.WalletScreenColor1,
-                                                ))
-                                          ],
-                                        )),
-                                  ],
-                                )
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    );
-                  },
-                )
-              : CircularProgressIndicator(
-                  color: appcolor.LoginGradientColor2,
-                );
-        });
+                    ),
+                  );
+                },
+              )
+            : CircularProgressIndicator(
+                color: appcolor.LoginGradientColor2,
+              );
+      },
+    );
   }
 
   @override
@@ -240,17 +216,11 @@ class _EditScreenState extends State<EditScreen> {
                 "The Current Menu",
                 style: FontStyles.headlineTextStyle(),
               ),
-              SizedBox(
-                height: 30,
-              ),
+              SizedBox(height: 30),
               _buildCategoryButtons(),
-              SizedBox(
-                height: 20.0,
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              allItmesVerticaly(),
+              SizedBox(height: 20.0),
+              SizedBox(height: 10.0),
+              allItemsVertically(),
             ],
           ),
         ),
@@ -259,33 +229,34 @@ class _EditScreenState extends State<EditScreen> {
   }
 
   Widget _buildCategoryButtons() {
+    final provider = Provider.of<ProductProvider>(context, listen: false);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         GestureDetector(
-            onTap: () async {
-              fooditemsStream = await DatabaseMethods().getFoodItem("Ice-cream");
-              setState(() {});
-            },
-            child: CategorySelector(imageUrl: "assets/icecream2.png")),
+          onTap: () async {
+            await provider.loadFoodItems("Ice-cream");
+          },
+          child: CategorySelector(imageUrl: "assets/icecream2.png"),
+        ),
         GestureDetector(
-            onTap: () async {
-              fooditemsStream = await DatabaseMethods().getFoodItem("Pizza");
-              setState(() {});
-            },
-            child: CategorySelector(imageUrl: "assets/pizza2.png")),
+          onTap: () async {
+            await provider.loadFoodItems("Pizza");
+          },
+          child: CategorySelector(imageUrl: "assets/pizza2.png"),
+        ),
         GestureDetector(
-            onTap: () async {
-              fooditemsStream = await DatabaseMethods().getFoodItem("Burger");
-              setState(() {});
-            },
-            child: CategorySelector(imageUrl: "assets/burger2.png")),
+          onTap: () async {
+            await provider.loadFoodItems("Burger");
+          },
+          child: CategorySelector(imageUrl: "assets/burger2.png"),
+        ),
         GestureDetector(
-            onTap: () async {
-              fooditemsStream = await DatabaseMethods().getFoodItem("Salad");
-              setState(() {});
-            },
-            child: CategorySelector(imageUrl: "assets/vegan.png")),
+          onTap: () async {
+            await provider.loadFoodItems("Salad");
+          },
+          child: CategorySelector(imageUrl: "assets/vegan.png"),
+        ),
       ],
     );
   }

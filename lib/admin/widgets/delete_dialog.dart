@@ -1,59 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'package:foodio/admin/provider/product_provider.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 
 class DeleteDialog extends StatefulWidget {
   final String documentId;
+  final String category; // Add category parameter
   final Function onDeleted;
 
-  DeleteDialog({required this.documentId, required this.onDeleted});
+  DeleteDialog({
+    required this.documentId,
+    required this.category, // Add category parameter
+    required this.onDeleted,
+  });
 
   @override
   _DeleteDialogState createState() => _DeleteDialogState();
 }
 
 class _DeleteDialogState extends State<DeleteDialog> {
-  final TextEditingController categoryController = TextEditingController();
-
-  Future<void> _deleteDocument(String documentId, String collectionName) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection(collectionName)
-          .doc(documentId)
-          .delete();
-      print('Document deleted successfully');
-      widget.onDeleted();
-      Navigator.pop(context); // Close the dialog after deletion
-    } catch (e) {
-      print('Error deleting document: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Please enter the category of the item that you selected"),
-      content: TextField(
-        controller: categoryController,
-        style: TextStyle(fontFamily: "Poppins", color: appcolor.secondaryColor),
-        decoration: InputDecoration(
-            hintText: "Category Name", hintStyle: FontStyles.lightTextStyle()),
-      ),
+      backgroundColor: appcolor.backgroundColor,
+      title: Text("Are you sure you want to delete this item?", style: FontStyles.SemiBoldTextStyle(),),
+      content: Text("This action cannot be undone.", style: FontStyles.WarningTextFont(),),
       actions: [
         TextButton(
             onPressed: () {
               Navigator.pop(context); // Close the dialog without doing anything
             },
-            child: Text("Cancel")),
+            child: Text("Cancel", style: FontStyles.SmallTextFont(),)),
         TextButton(
             onPressed: () {
-              String categoryName = categoryController.text.trim();
-              if (categoryName.isNotEmpty) {
-                _deleteDocument(widget.documentId, categoryName);
-              }
+              final provider = Provider.of<ProductProvider>(context, listen: false);
+              provider.deleteProduct(widget.documentId, widget.category).then((_) {
+                widget.onDeleted();
+                Navigator.pop(context); // Close the dialog after deletion
+              }).catchError((e) {
+                print('Error deleting document: $e');
+              });
             },
-            child: Text("Delete"))
+            child: Text("Delete", style: FontStyles.WarningTextFont(),))
       ],
     );
   }

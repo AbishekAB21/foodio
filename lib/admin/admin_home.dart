@@ -40,7 +40,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 },
                 child: AdminHomeTiles(
                   title: "Add Food Item",
-                  imageUrl: "assets/GreekSalad.png",
+                  imageUrl: "assets/chicken.png",
                 )),
             SizedBox(height: 10,),
              GestureDetector(
@@ -48,7 +48,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CurrentMenu(),
+                        builder: (context) => DeleteProductScreen(),
                       ));
                 },
                 child: AdminHomeTiles(
@@ -66,7 +66,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 },
                 child: AdminHomeTiles(
                   title: "Edit Food Item",
-                  imageUrl: "assets/onboardingScreen1.png",
+                  imageUrl: "assets/drippingPizza.png",
                 )),
           ],
         ),
