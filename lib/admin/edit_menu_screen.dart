@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:foodio/admin/widgets/delete_dialog.dart';
 import 'package:foodio/pages/details.dart';
 import 'package:foodio/services/database.dart';
 import 'package:foodio/utils/app_colors.dart';
@@ -14,8 +15,9 @@ class CurrentMenu extends StatefulWidget {
 }
 
 class _CurrentMenuState extends State<CurrentMenu> {
+  final TextEditingController categoryController = TextEditingController();
   Stream? fooditemsStream;
-
+  
   ontheLoad() async {
     fooditemsStream = await DatabaseMethods().getFoodItem("Pizza");
     setState(() {});
@@ -122,7 +124,7 @@ class _CurrentMenuState extends State<CurrentMenu> {
                               description: ds["Description"],
                               image: ds["Image"],
                               price: ds["Price"],
-                            ), 
+                            ),
                           )),
                       child: Container(
                         margin: EdgeInsets.only(right: 20.0, bottom: 20.0),
@@ -175,13 +177,31 @@ class _CurrentMenuState extends State<CurrentMenu> {
                                             MediaQuery.of(context).size.width /
                                                 2,
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               "\$" + ds["Price"],
-                                              style: FontStyles.SemiBoldTextStyle(),
+                                              style: FontStyles
+                                                  .SemiBoldTextStyle(),
                                             ),
-                                            IconButton(onPressed: (){}, icon: Icon(Icons.delete, color: appcolor.SnackBarErrorColor,))
+                                            IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          DeleteDialog(
+                                                            documentId: ds.id,
+                                                            onDeleted: () {
+                                                              setState(() {});
+                                                            },
+                                                          ));
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  color: appcolor
+                                                      .SnackBarErrorColor,
+                                                ))
                                           ],
                                         )),
                                   ],
@@ -213,7 +233,7 @@ class _CurrentMenuState extends State<CurrentMenu> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text( 
+            Text(
               "The Current Menu",
               style: FontStyles.headlineTextStyle(),
             ),

@@ -51,7 +51,20 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       ));
                 },
                 child: AdminHomeTiles(
-                  title: "Edit Current Menu",
+                  title: "Delete Food Item",
+                  imageUrl: "assets/onboardingScreen1.png",
+                )),
+            SizedBox(height: 10,),
+             GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CurrentMenu(),
+                      ));
+                },
+                child: AdminHomeTiles(
+                  title: "Edit Food Item",
                   imageUrl: "assets/onboardingScreen1.png",
                 )),
           ],
