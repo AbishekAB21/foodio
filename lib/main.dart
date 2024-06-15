@@ -1,11 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodio/admin/provider/product_provider.dart';
-import 'package:foodio/functions/authentication.dart';
 import 'package:foodio/pages/splash.dart';
 import 'package:foodio/provider/auth_provider.dart';
 import 'package:foodio/provider/bottom_nav_provider.dart';
-import 'package:foodio/widgets/bottom_nav.dart';
+import 'package:foodio/provider/home_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -17,6 +16,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => BottomNavBarProvider()),
         ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (context) => ProductProvider(),),
+        ChangeNotifierProvider(create: (context) => HomeScreenProvider(),)
       ],
       child: const MyApp(), 
     ), 
