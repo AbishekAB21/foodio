@@ -41,7 +41,7 @@ class BottomNavBar extends StatelessWidget {
                 color: appcolor.primaryColor,
               ),
               Icon(
-                Icons.wallet_rounded,
+                Icons.history_rounded,
                 color: appcolor.primaryColor,
               ),
               Icon(

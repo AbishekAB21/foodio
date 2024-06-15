@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:foodio/services/database.dart';
+import 'package:foodio/services/shared_pref.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
+import 'package:foodio/widgets/reusable_snackbar.dart';
 
 class DetailsScreen extends StatefulWidget {
   String image, name, description, price;
@@ -16,13 +19,29 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  int count = 1, total =0;
+  int count = 1, total = 0;
+  String? id;
+
+   getSharedpref() async {
+    id = await SharedPrefHelper().getUserId();
+    print("User ID fetched: $id");  // Debug print
+    if (id != null) {
+      setState(() {});
+    }
+  }
+
+  ontheLoad() async {
+    await getSharedpref();
+    setState(() {});
+  }
 
   @override
   void initState() {
     total = int.parse(widget.price);
     super.initState();
+    ontheLoad();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +84,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   onTap: () {
                     if (count > 1) {
                       --count;
-                      total = total- int.parse(widget.price);
+                      total = total - int.parse(widget.price);
                     }
                     setState(() {});
                   },
@@ -92,7 +111,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 GestureDetector(
                   onTap: () {
                     ++count;
-                    total = total+ int.parse(widget.price);
+                    total = total + int.parse(widget.price);
                     setState(() {});
                   },
                   child: Container(
@@ -159,27 +178,51 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       )
                     ],
                   ),
-                  Container(
+                  GestureDetector(
+                    onTap: () async {
+                      Map<String, dynamic> FoodToBeAdded = {
+                        "Name": widget.name,
+                        "Quantity": count.toString(), 
+                        "Total": total.toString(),
+                        "Image": widget.image 
+                      };
+
+                       try {
+                        await DatabaseMethods().addFoodToCart(FoodToBeAdded, id!);
+                        ReusableSnackBar().showSnackbar(
+                            context,
+                            "${count} Items have been added to your cart",
+                            appcolor.SnackBarSuccessColor);
+                      } catch (e) {
+                        ReusableSnackBar().showSnackbar(
+                            context,
+                            "Error adding to cart: $e",
+                            appcolor.SnackBarErrorColor);
+                        print("Error adding to cart: $e");  
+                      }
+                    },
                     child: Container(
-                      width: 150,
-                      height: 50,
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: appcolor.secondaryColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text("Add To Cart",
-                              style: FontStyles.WhiteTextStyle()),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Icon(
-                            Icons.shopping_cart,
-                            color: appcolor.primaryColor,
-                          )
-                        ],
+                      child: Container(
+                        width: 150,
+                        height: 50,
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: appcolor.secondaryColor),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text("Add To Cart",
+                                style: FontStyles.WhiteTextStyle()),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(
+                              Icons.shopping_cart,
+                              color: appcolor.primaryColor,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   )

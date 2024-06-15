@@ -131,7 +131,7 @@ class SignUpPage extends StatelessWidget {
                                       passwordController.text,
                                       nameController.text,
                                       context,
-                                    );
+                                    ); 
                                   }
                                 },
                                 child: Material(

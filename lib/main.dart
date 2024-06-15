@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodio/admin/provider/product_provider.dart';
+import 'package:foodio/functions/authentication.dart';
+import 'package:foodio/pages/splash.dart';
 import 'package:foodio/provider/auth_provider.dart';
 import 'package:foodio/provider/bottom_nav_provider.dart';
 import 'package:foodio/widgets/bottom_nav.dart';
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:BottomNavBar(),
+      home:SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

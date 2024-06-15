@@ -23,9 +23,10 @@ class DatabaseMethods {
     try {
       // Generate a unique file name
       String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      
+
       // Reference to the Firebase Storage
-      Reference storageReference = FirebaseStorage.instance.ref().child("foodImages/$fileName");
+      Reference storageReference =
+          FirebaseStorage.instance.ref().child("foodImages/$fileName");
 
       // Upload the file to Firebase Storage
       UploadTask uploadTask = storageReference.putFile(imageFile);
@@ -35,11 +36,19 @@ class DatabaseMethods {
 
       // Get the download URL of the uploaded file
       String downloadUrl = await snapshot.ref.getDownloadURL();
-      
+
       return downloadUrl;
     } catch (e) {
       print(e);
       throw e;
     }
+  }
+
+  Future addFoodToCart(Map<String, dynamic> cartFood, String id) async {
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .doc(id)
+        .collection('Cart')
+        .add(cartFood);
   }
 }

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:foodio/admin/widgets/products_text_fields.dart';
 import 'package:foodio/services/database.dart';
 import 'package:foodio/utils/app_colors.dart';
