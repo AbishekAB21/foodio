@@ -17,58 +17,60 @@ class HomeScreen extends StatelessWidget {
         Provider.of<HomeScreenProvider>(context, listen: false);
     homeScreenProvider.getFoodItems("Pizza");
 
-    return Scaffold(
-      backgroundColor: appcolor.backgroundColor,
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.only(top: 50, left: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Hello User,",
-                    style: FontStyles.boldTextStyle(),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 20),
-                    padding: const EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                        color: appcolor.secondaryColor,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Icon(
-                      Icons.shopping_cart_rounded,
-                      color: appcolor.primaryColor,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: appcolor.backgroundColor,
+        body: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(top: 50, left: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Hello User,",
+                      style: FontStyles.boldTextStyle(),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                "The Delicacies We Offer",
-                style: FontStyles.headlineTextStyle(),
-              ),
-              Text(
-                "Supress your cravings",
-                style: FontStyles.lightTextStyle(),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              _buildCategoryButtons(),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Container(height: 270, child: allItems(context)),
-              const SizedBox(
-                height: 10.0,
-              ),
-              allItemsVertically(context),
-            ],
+                    Container(
+                      margin: const EdgeInsets.only(right: 20),
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                          color: appcolor.secondaryColor,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Icon(
+                        Icons.shopping_cart_rounded,
+                        color: appcolor.primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "The Delicacies We Offer",
+                  style: FontStyles.headlineTextStyle(),
+                ),
+                Text(
+                  "Supress your cravings",
+                  style: FontStyles.lightTextStyle(),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                _buildCategoryButtons(),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Container(height: 270, child: allItems(context)),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                allItemsVertically(context),
+              ],
+            ),
           ),
         ),
       ),
