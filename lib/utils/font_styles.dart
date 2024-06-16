@@ -63,6 +63,13 @@ class FontStyles {
         color: Colors.black);
   }
 
+   static TextStyle MediumTextFont() {
+    return TextStyle(
+        fontSize: 16,
+        fontFamily: "Poppins",
+        color: Colors.black);
+  }
+
    static TextStyle WarningTextFont() {
     return TextStyle(
         fontSize: 12,
