@@ -1,9 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:foodio/pages/history.dart';
 import 'package:foodio/pages/home.dart';
-import 'package:foodio/pages/order.dart';
+import 'package:foodio/pages/Basket.dart';
 import 'package:foodio/pages/profile.dart';
-import 'package:foodio/pages/wallet.dart';
 import 'package:foodio/provider/bottom_nav_provider.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -15,8 +15,8 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final pages = [
       HomeScreen(),
-      Order(),
-      WalletScreen(),
+      BasketScreen(),
+      OrderHistory(),
       ProfileScreen(),
     ];
 

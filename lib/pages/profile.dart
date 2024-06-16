@@ -5,7 +5,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:foodio/admin/widgets/profile_alert_box.dart';
 import 'package:foodio/admin/widgets/profile_screen_tiles.dart';
+import 'package:foodio/pages/history.dart';
 import 'package:foodio/pages/login.dart';
+import 'package:foodio/services/auth.dart';
 import 'package:foodio/services/shared_pref.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
@@ -119,11 +121,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   fit: BoxFit.cover,
                                                 ),
                                         )
-                                      : Image.file(selectedImage!,
-                                      height: 120,
-                                      width: 120,
-                                      fit: BoxFit.cover,
-                                      ),
+                                      : Image.file(
+                                          selectedImage!,
+                                          height: 120,
+                                          width: 120,
+                                          fit: BoxFit.cover,
+                                        ),
                                 ),
                               ),
                             ),
@@ -159,10 +162,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(
                         height: 10.0,
                       ),
-                      ProfileScreenTile(
-                          imageUrl: "assets/history.png",
-                          title: "Orders",
-                          content: "User's order history"),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OrderHistory(),
+                              ));
+                        },
+                        child: ProfileScreenTile(
+                            imageUrl: "assets/history.png",
+                            title: "Orders",
+                            content: "User's order history"),
+                      ),
                       SizedBox(
                         height: 10.0,
                       ),
@@ -200,15 +212,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           showDialog(
                             context: context,
                             builder: (context) => ProfileAlertBox(
-                                content:
-                                    "Are you sure you want to delete your account ?",
-                                actionButtonText: "Delete"),
+                              content:
+                                  "Are you sure you want to delete your account ?",
+                              actionButtonText: "Delete",
+                              onpressed: () {
+                                AuthMethods().deleteAccount();
+                              },
+                            ),
                           );
                         },
                         child: ProfileScreenTile(
-                            imageUrl: "assets/delete.png",
-                            title: "Delete",
-                            content: "Deletes your account"),
+                          imageUrl: "assets/delete.png",
+                          title: "Delete",
+                          content: "Deletes your account",
+                        ),
                       ),
                       SizedBox(
                         height: 10.0,

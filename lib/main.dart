@@ -5,6 +5,7 @@ import 'package:foodio/pages/splash.dart';
 import 'package:foodio/provider/auth_provider.dart';
 import 'package:foodio/provider/bottom_nav_provider.dart';
 import 'package:foodio/provider/home_screen_provider.dart';
+import 'package:foodio/widgets/bottom_nav.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:SplashScreen(),
+      home:BottomNavBar(),
       debugShowCheckedModeBanner: false,
     );
   }
