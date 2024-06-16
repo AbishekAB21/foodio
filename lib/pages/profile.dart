@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:foodio/admin/widgets/profile_alert_box.dart';
 import 'package:foodio/admin/widgets/profile_screen_tiles.dart';
 import 'package:foodio/pages/login.dart';
@@ -22,6 +23,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     name = await SharedPrefHelper().getUserName();
     email = await SharedPrefHelper().getUserEmail();
     setState(() {});
+  }
+
+  onTheLoad() async {
+    await getSharedPref();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    onTheLoad();
+    super.initState();
   }
 
   @override
@@ -128,10 +140,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(
               height: 10.0,
             ),
-            ProfileScreenTile(
-                imageUrl: "assets/delete.png",
-                title: "Delete",
-                content: "Deletes your account"),
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => ProfileAlertBox(
+                      content: "Are you sure you want to delete your account ?",
+                      actionButtonText: "Delete"),
+                );
+              },
+              child: ProfileScreenTile(
+                  imageUrl: "assets/delete.png",
+                  title: "Delete",
+                  content: "Deletes your account"),
+            ),
             SizedBox(
               height: 10.0,
             ),
