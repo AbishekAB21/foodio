@@ -51,4 +51,12 @@ class DatabaseMethods {
         .collection('Cart')
         .add(cartFood);
   }
+
+  Future<Stream<QuerySnapshot>> getFoodCartItems(String id) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(id)
+        .collection("Cart")
+        .snapshots();
+  }
 }
