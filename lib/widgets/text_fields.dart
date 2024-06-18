@@ -23,6 +23,7 @@ class LoginTextFields extends StatelessWidget {
       style: TextStyle(
           color: (TextColor == null) ? Colors.black : TextColor,
           fontFamily: "Poppins"),
+      cursorColor:  (TextColor == null) ? Colors.black : TextColor,
       controller: controller,
       obscureText: isNotVisible,
       decoration: InputDecoration(

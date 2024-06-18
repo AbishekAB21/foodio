@@ -6,12 +6,10 @@ class OrderHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Order History", style: FontStyles.SemiBoldTextStyle(),),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Order History", style: FontStyles.SemiBoldTextStyle(),),
       ),
     );
   }
