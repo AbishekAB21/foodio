@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:foodio/admin/provider/product_provider.dart';
 import 'package:foodio/pages/splash.dart';
 import 'package:foodio/provider/auth_provider.dart';
+import 'package:foodio/provider/basket_provider.dart';
 import 'package:foodio/provider/bottom_nav_provider.dart';
 import 'package:foodio/provider/home_screen_provider.dart';
+import 'package:foodio/provider/profile_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -16,7 +18,9 @@ void main() async {
         ChangeNotifierProvider(create: (context) => BottomNavBarProvider()),
         ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (context) => ProductProvider(),),
-        ChangeNotifierProvider(create: (context) => HomeScreenProvider(),)
+        ChangeNotifierProvider(create: (context) => HomeScreenProvider(),),
+        ChangeNotifierProvider(create: (context) => ProfileProvider(),),
+        ChangeNotifierProvider(create: (context) => BasketProvider(),),
       ],
       child: const MyApp(), 
     ), 

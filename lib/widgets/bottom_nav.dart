@@ -2,7 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:foodio/pages/history.dart';
 import 'package:foodio/pages/home.dart';
-import 'package:foodio/pages/Basket.dart';
+import 'package:foodio/pages/basket.dart';
 import 'package:foodio/pages/profile.dart';
 import 'package:foodio/provider/bottom_nav_provider.dart';
 import 'package:foodio/utils/app_colors.dart';
