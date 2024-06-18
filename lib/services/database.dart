@@ -52,11 +52,27 @@ class DatabaseMethods {
         .add(cartFood);
   }
 
+  Future addFoodToFavourites(Map<String, dynamic> favouriteFood, String id) async {
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .doc(id)
+        .collection('Favorites')
+        .add(favouriteFood);
+  }
+
   Future<Stream<QuerySnapshot>> getFoodCartItems(String id) async {
     return await FirebaseFirestore.instance
         .collection("users")
         .doc(id)
         .collection("Cart")
+        .snapshots();
+  }
+
+    Future<Stream<QuerySnapshot>> getFavorites(String id) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(id)
+        .collection("Favorites")
         .snapshots();
   }
 }

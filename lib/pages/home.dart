@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:foodio/pages/favorites.dart';
 import 'package:foodio/provider/home_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:foodio/pages/details.dart';
@@ -20,7 +22,7 @@ class HomeScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: appcolor.primaryColor,
-        body: SingleChildScrollView( 
+        body: SingleChildScrollView(
           child: Container(
             margin: const EdgeInsets.only(top: 50, left: 20),
             child: Column(
@@ -33,16 +35,24 @@ class HomeScreen extends StatelessWidget {
                       "Hello User,",
                       style: FontStyles.boldTextStyle(),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                          color: appcolor.secondaryColor,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Icon(
-                        Icons.shopping_cart_rounded,
-                        color: appcolor.primaryColor,
-                      ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FavoritesScreen(),
+                            ));
+                      },
+                      child: Container(
+                          margin: const EdgeInsets.only(right: 20),
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Image.asset(
+                            "assets/wishlist.png",
+                            height: 30,
+                            width: 30,
+                          )),
                     ),
                   ],
                 ),
