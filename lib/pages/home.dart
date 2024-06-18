@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: appcolor.primaryColor,
         body: SingleChildScrollView(
           child: Container(
-            margin: const EdgeInsets.only(top: 50, left: 20),
+            margin: const EdgeInsets.only(top: 10, left: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -178,12 +178,12 @@ class HomeScreen extends StatelessWidget {
                             const SizedBox(
                               height: 4.8,
                             ),
-                            Text(
-                              ds["Description"],
-                              style: FontStyles.lightTextStyle(),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                            // Text(
+                            //   ds["Description"],
+                            //   style: FontStyles.lightTextStyle(),
+                            //   maxLines: 1,
+                            //   overflow: TextOverflow.ellipsis,
+                            // ),
                             const SizedBox(
                               height: 4.8,
                             ),
