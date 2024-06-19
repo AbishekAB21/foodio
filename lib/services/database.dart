@@ -60,6 +60,14 @@ class DatabaseMethods {
         .add(favouriteFood);
   }
 
+  Future addAddress(Map<String, dynamic> address, String id) async {
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .doc(id)
+        .collection('Address')
+        .add(address);
+  }
+
   Future<Stream<QuerySnapshot>> getFoodCartItems(String id) async {
     return await FirebaseFirestore.instance
         .collection("users")
@@ -73,6 +81,14 @@ class DatabaseMethods {
         .collection("users")
         .doc(id)
         .collection("Favorites")
+        .snapshots();
+  }
+
+    Future<Stream<QuerySnapshot>> getAddresses(String id) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(id)
+        .collection("Address")
         .snapshots();
   }
 }

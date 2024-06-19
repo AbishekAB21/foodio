@@ -57,7 +57,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10)),
                           child: Row(
-                            //crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(60),
@@ -71,34 +70,33 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                               SizedBox(
                                 width: 20.0,
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    ds["Name"],
-                                    style: FontStyles.SemiBoldTextStyle(),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "\$" + ds["Total"],
-                                        style: FontStyles.SemiBoldTextStyle(),
-                                      ),
-                                      SizedBox(
-                                        width: 150,
-                                      ),
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: Image.asset(
-                                            "assets/delete.png",
-                                            height: 20,
-                                            width: 20,
-                                          ))
-                                    ],
-                                  ),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      ds["Name"],
+                                      style: FontStyles.SemiBoldTextStyle(),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "\$" + ds["Total"],
+                                          style: FontStyles.SemiBoldTextStyle(),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: Image.asset(
+                                              "assets/delete.png",
+                                              height: 20,
+                                              width: 20,
+                                            ))
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               )
                             ],
                           ),
@@ -123,11 +121,12 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           style: FontStyles.SemiBoldTextStyle(),
         ),
       ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Container(
-            height: MediaQuery.of(context).size.height / 2,
-            child: favoriteItems()),
+      body: Column(
+        children: [
+          Expanded(
+            child: favoriteItems(),
+          ),
+        ],
       ),
     );
   }
