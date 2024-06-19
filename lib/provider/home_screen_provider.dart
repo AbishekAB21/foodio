@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foodio/services/database.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreenProvider extends ChangeNotifier {
   Stream? _foodItemsStream;
