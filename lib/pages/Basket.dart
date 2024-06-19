@@ -42,7 +42,7 @@ class _BasketScreenState extends State<BasketScreen> {
                     height: 20.0,
                   ),
                   Container(
-                   height: MediaQuery.of(context).size.height/2,
+                    height: MediaQuery.of(context).size.height / 2,
                     child: Expanded(
                       child: StreamBuilder(
                         stream: provider.foodCartStream,
@@ -68,7 +68,6 @@ class _BasketScreenState extends State<BasketScreen> {
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: Row(
-                                        //crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             height: 118,
@@ -78,7 +77,8 @@ class _BasketScreenState extends State<BasketScreen> {
                                                 borderRadius:
                                                     BorderRadius.circular(10)),
                                             child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
                                               children: [
                                                 IconButton(
                                                     onPressed: () {
@@ -86,8 +86,8 @@ class _BasketScreenState extends State<BasketScreen> {
                                                     },
                                                     icon: Icon(
                                                       Icons.add_rounded,
-                                                      color:
-                                                          appcolor.secondaryColor,
+                                                      color: appcolor
+                                                          .secondaryColor,
                                                     )),
                                                 Text(ds["Quantity"]),
                                                 IconButton(
@@ -124,7 +124,8 @@ class _BasketScreenState extends State<BasketScreen> {
                                               children: [
                                                 Text(
                                                   ds["Name"],
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: FontStyles
                                                       .SemiBoldTextStyle(),
                                                 ),
