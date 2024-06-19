@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:foodio/pages/favorites.dart';
 import 'package:foodio/provider/home_screen_provider.dart';
 import 'package:provider/provider.dart';
