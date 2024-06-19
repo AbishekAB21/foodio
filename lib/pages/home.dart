@@ -70,6 +70,35 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 25, left: 15),
+                  child: Material(
+                    elevation: 5,
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      margin: EdgeInsets.only(right: 25, left: 15),
+                      padding: EdgeInsets.only(bottom: 5,),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: appcolor.primaryColor,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            prefixIcon: Icon(
+                              Icons.search_rounded,
+                              size: 30,
+                              color: appcolor.InterfaceIconColor,
+                            ),
+                            hintText: 'Search "French Fries" ', 
+                            hintStyle: FontStyles.lightTextStyle()),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
                 _buildCategoryButtons(),
                 const SizedBox(
                   height: 20.0,

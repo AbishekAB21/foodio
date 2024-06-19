@@ -18,6 +18,7 @@ abstract class AppColor{
   final Color borderColor1;
   final Color WalletScreenColor1;
   final Color DropdownColor1;
+  final Color InterfaceIconColor;
 
   AppColor({
     required this.primaryColor,
@@ -33,6 +34,7 @@ abstract class AppColor{
     required this.borderColor1,
     required this.WalletScreenColor1,
     required this.DropdownColor1,
+    required this.InterfaceIconColor,
     });
 }
 
@@ -52,5 +54,6 @@ class AppDefaultColor extends AppColor{
     borderColor1: Colors.grey,
     WalletScreenColor1: Color(0xFF008080),
     DropdownColor1: Color(0xFFececf8),
+    InterfaceIconColor: const Color.fromARGB(255, 240, 93, 83)
   );
 }
