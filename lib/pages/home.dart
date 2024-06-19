@@ -1,19 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:foodio/pages/favorites.dart';
-import 'package:foodio/provider/home_screen_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:foodio/pages/details.dart';
+import 'package:foodio/provider/home_screen_provider.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 import 'package:foodio/widgets/category_selector.dart';
+import 'package:foodio/pages/details.dart';
+import 'package:foodio/pages/favorites.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // Trigger initial data load
     final homeScreenProvider =
         Provider.of<HomeScreenProvider>(context, listen: false);
     homeScreenProvider.getFoodItems("Pizza");
@@ -37,75 +38,75 @@ class HomeScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FavoritesScreen(),
-                            ));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FavoritesScreen(),
+                          ),
+                        );
                       },
                       child: Container(
-                          margin: const EdgeInsets.only(right: 20),
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Image.asset(
-                            "assets/wishlist.png",
-                            height: 30,
-                            width: 30,
-                          )),
+                        margin: const EdgeInsets.only(right: 20),
+                        padding: const EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Image.asset(
+                          "assets/wishlist.png",
+                          height: 30,
+                          width: 30,
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Text(
                   "The Delicacies We Offer",
                   style: FontStyles.headlineTextStyle(),
                 ),
                 Text(
-                  "Supress your cravings",
+                  "Suppress your cravings",
                   style: FontStyles.lightTextStyle(),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
                 Padding(
                   padding: const EdgeInsets.only(right: 25, left: 15),
                   child: Material(
                     elevation: 5,
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
-                      margin: EdgeInsets.only(right: 25, left: 15),
-                      padding: EdgeInsets.only(bottom: 5,),
+                      padding: const EdgeInsets.only(left: 15, right: 25, bottom: 5),
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           color: appcolor.primaryColor,
                           borderRadius: BorderRadius.circular(10)),
                       child: TextField(
+                        controller: _searchController,
                         decoration: InputDecoration(
-                            border: InputBorder.none,
-                            prefixIcon: Icon(
-                              Icons.search_rounded,
-                              size: 30,
-                              color: appcolor.InterfaceIconColor,
-                            ),
-                            hintText: 'Search "French Fries" ', 
-                            hintStyle: FontStyles.lightTextStyle()),
+                          border: InputBorder.none,
+                          prefixIcon: Icon(
+                            Icons.search_rounded,
+                            size: 30,
+                            color: appcolor.InterfaceIconColor,
+                          ),
+                          hintText: 'Search "French Fries"',
+                          hintStyle: FontStyles.lightTextStyle(),
+                        ),
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            homeScreenProvider.searchFoodItems(value);
+                          } else {
+                            homeScreenProvider.getFoodItems(homeScreenProvider.currentCategory); // Use the current category
+                          }
+                        },
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
                 _buildCategoryButtons(),
-                const SizedBox(
-                  height: 20.0,
-                ),
+                const SizedBox(height: 20.0),
                 Container(height: 270, child: allItems(context)),
-                const SizedBox(
-                  height: 10.0,
-                ),
+                const SizedBox(height: 10.0),
                 allItemsVertically(context),
               ],
             ),
@@ -203,18 +204,14 @@ class HomeScreen extends StatelessWidget {
                               ds["Name"],
                               style: FontStyles.SemiBoldTextStyle(),
                             ),
-                            const SizedBox(
-                              height: 4.8,
-                            ),
+                            const SizedBox(height: 4.8),
                             // Text(
                             //   ds["Description"],
                             //   style: FontStyles.lightTextStyle(),
                             //   maxLines: 1,
                             //   overflow: TextOverflow.ellipsis,
                             // ),
-                            const SizedBox(
-                              height: 4.8,
-                            ),
+                            const SizedBox(height: 4.8),
                             Text(
                               "\$" + ds["Price"],
                               style: FontStyles.SemiBoldTextStyle(),
@@ -290,9 +287,7 @@ class HomeScreen extends StatelessWidget {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            const SizedBox(
-                              width: 20.0,
-                            ),
+                            const SizedBox(width: 20.0),
                             Column(
                               children: [
                                 Container(
@@ -302,9 +297,7 @@ class HomeScreen extends StatelessWidget {
                                     style: FontStyles.SemiBoldTextStyle(),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 5.0,
-                                ),
+                                const SizedBox(height: 5.0),
                                 Container(
                                   width: MediaQuery.of(context).size.width / 2,
                                   child: Text(
@@ -312,9 +305,7 @@ class HomeScreen extends StatelessWidget {
                                     style: FontStyles.lightTextStyle(),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 5.0,
-                                ),
+                                const SizedBox(height: 5.0),
                                 Container(
                                   width: MediaQuery.of(context).size.width / 2,
                                   child: Text(

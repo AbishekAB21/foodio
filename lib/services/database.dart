@@ -91,4 +91,12 @@ class DatabaseMethods {
         .collection("Address")
         .snapshots();
   }
+
+   Future<Stream<QuerySnapshot>> searchFoodItem(String category, String query) async {
+    return FirebaseFirestore.instance
+        .collection(category) // use category as the collection name
+        .where('Name', isGreaterThanOrEqualTo: query)
+        .where('Name', isLessThanOrEqualTo: query + '\uf8ff')
+        .snapshots();
+  }
 }
