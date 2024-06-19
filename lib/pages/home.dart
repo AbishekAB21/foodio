@@ -88,7 +88,7 @@ class HomeScreen extends StatelessWidget {
                             size: 30,
                             color: appcolor.InterfaceIconColor,
                           ),
-                          hintText: 'Search "French Fries"',
+                          hintText: 'Search "Zinger Burger"',
                           hintStyle: FontStyles.lightTextStyle(),
                         ),
                         onChanged: (value) {
