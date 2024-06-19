@@ -1,11 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:foodio/functions/build_horizontal.dart';
+import 'package:foodio/functions/build_vertical.dart';
 import 'package:foodio/provider/home_screen_provider.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
+import 'package:foodio/widgets/search_box.dart';
+import 'package:provider/provider.dart';
 import 'package:foodio/widgets/category_selector.dart';
-import 'package:foodio/pages/details.dart';
 import 'package:foodio/pages/favorites.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -48,7 +49,8 @@ class HomeScreen extends StatelessWidget {
                         margin: const EdgeInsets.only(right: 20),
                         padding: const EdgeInsets.all(3),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5)),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                         child: Image.asset(
                           "assets/wishlist.png",
                           height: 30,
@@ -68,46 +70,23 @@ class HomeScreen extends StatelessWidget {
                   style: FontStyles.lightTextStyle(),
                 ),
                 const SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.only(right: 25, left: 15),
-                  child: Material(
-                    elevation: 5,
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 15, right: 25, bottom: 5),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: appcolor.primaryColor,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextField(
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          prefixIcon: Icon(
-                            Icons.search_rounded,
-                            size: 30,
-                            color: appcolor.InterfaceIconColor,
-                          ),
-                          hintText: 'Search "Zinger Burger"',
-                          hintStyle: FontStyles.lightTextStyle(),
-                        ),
-                        onChanged: (value) {
-                          if (value.isNotEmpty) {
-                            homeScreenProvider.searchFoodItems(value);
-                          } else {
-                            homeScreenProvider.getFoodItems(homeScreenProvider.currentCategory); // Use the current category
-                          }
-                        },
-                      ),
-                    ),
-                  ),
+                SearchBox(
+                  searchController: _searchController,
+                  onSearchChanged: (value) {
+                    if (value.isNotEmpty) {
+                      homeScreenProvider.searchFoodItems(value);
+                    } else {
+                      homeScreenProvider.getFoodItems(homeScreenProvider
+                          .currentCategory); // Use the current category
+                    }
+                  },
                 ),
                 const SizedBox(height: 30),
                 _buildCategoryButtons(),
                 const SizedBox(height: 20.0),
-                Container(height: 270, child: allItems(context)),
+                Container(height: 270, child: HorizontalItemList()),
                 const SizedBox(height: 10.0),
-                allItemsVertically(context),
+                VerticalItemList(),
               ],
             ),
           ),
@@ -139,191 +118,6 @@ class HomeScreen extends StatelessWidget {
               child: CategorySelector(imageUrl: "assets/vegan.png"),
             ),
           ],
-        );
-      },
-    );
-  }
-
-  Widget allItems(BuildContext context) {
-    return Consumer<HomeScreenProvider>(
-      builder: (context, provider, child) {
-        if (provider.foodItemsStream == null) {
-          return CircularProgressIndicator(
-            color: appcolor.LoginGradientColor2,
-          );
-        }
-
-        return StreamBuilder(
-          stream: provider.foodItemsStream,
-          builder: (context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              return CircularProgressIndicator(
-                color: appcolor.LoginGradientColor2,
-              );
-            }
-
-            return ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: snapshot.data.docs.length,
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                DocumentSnapshot ds = snapshot.data.docs[index];
-                return GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailsScreen(
-                        name: ds["Name"],
-                        description: ds["Description"],
-                        image: ds["Image"],
-                        price: ds["Price"],
-                      ),
-                    ),
-                  ),
-                  child: Container(
-                    margin: const EdgeInsets.all(5),
-                    child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        padding: const EdgeInsets.all(14),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                ds["Image"],
-                                height: 150,
-                                width: 150,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Text(
-                              ds["Name"],
-                              style: FontStyles.SemiBoldTextStyle(),
-                            ),
-                            const SizedBox(height: 4.8),
-                            // Text(
-                            //   ds["Description"],
-                            //   style: FontStyles.lightTextStyle(),
-                            //   maxLines: 1,
-                            //   overflow: TextOverflow.ellipsis,
-                            // ),
-                            const SizedBox(height: 4.8),
-                            Text(
-                              "\$" + ds["Price"],
-                              style: FontStyles.SemiBoldTextStyle(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Widget allItemsVertically(BuildContext context) {
-    return Consumer<HomeScreenProvider>(
-      builder: (context, provider, child) {
-        if (provider.foodItemsStream == null) {
-          return CircularProgressIndicator(
-            color: appcolor.LoginGradientColor2,
-          );
-        }
-
-        return StreamBuilder(
-          stream: provider.foodItemsStream,
-          builder: (context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              return CircularProgressIndicator(
-                color: appcolor.LoginGradientColor2,
-              );
-            }
-
-            return ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: snapshot.data.docs.length,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                DocumentSnapshot ds = snapshot.data.docs[index];
-                return GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailsScreen(
-                        name: ds["Name"],
-                        description: ds["Description"],
-                        image: ds["Image"],
-                        price: ds["Price"],
-                      ),
-                    ),
-                  ),
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 20.0, bottom: 20.0),
-                    child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                ds["Image"],
-                                height: 120,
-                                width: 120,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const SizedBox(width: 20.0),
-                            Column(
-                              children: [
-                                Container(
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  child: Text(
-                                    ds["Name"],
-                                    style: FontStyles.SemiBoldTextStyle(),
-                                  ),
-                                ),
-                                const SizedBox(height: 5.0),
-                                Container(
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  child: Text(
-                                    ds["Description"],
-                                    style: FontStyles.lightTextStyle(),
-                                  ),
-                                ),
-                                const SizedBox(height: 5.0),
-                                Container(
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  child: Text(
-                                    "\$" + ds["Price"],
-                                    style: FontStyles.SemiBoldTextStyle(),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
-          },
         );
       },
     );
