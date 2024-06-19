@@ -67,14 +67,18 @@ class _AddressScreenState extends State<AddressScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     ds["Name"],
                                     style: FontStyles.headlineTextStyle(),
                                   ),
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        await DatabaseMethods()
+                                            .deleteAddress(id!, ds.id);
+                                      },
                                       icon: Image.asset(
                                         "assets/delete.png",
                                         height: 20,

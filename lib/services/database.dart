@@ -52,7 +52,8 @@ class DatabaseMethods {
         .add(cartFood);
   }
 
-  Future addFoodToFavourites(Map<String, dynamic> favouriteFood, String id) async {
+  Future addFoodToFavourites(
+      Map<String, dynamic> favouriteFood, String id) async {
     return await FirebaseFirestore.instance
         .collection('users')
         .doc(id)
@@ -76,7 +77,7 @@ class DatabaseMethods {
         .snapshots();
   }
 
-    Future<Stream<QuerySnapshot>> getFavorites(String id) async {
+  Future<Stream<QuerySnapshot>> getFavorites(String id) async {
     return await FirebaseFirestore.instance
         .collection("users")
         .doc(id)
@@ -84,7 +85,7 @@ class DatabaseMethods {
         .snapshots();
   }
 
-    Future<Stream<QuerySnapshot>> getAddresses(String id) async {
+  Future<Stream<QuerySnapshot>> getAddresses(String id) async {
     return await FirebaseFirestore.instance
         .collection("users")
         .doc(id)
@@ -92,11 +93,21 @@ class DatabaseMethods {
         .snapshots();
   }
 
-   Future<Stream<QuerySnapshot>> searchFoodItem(String category, String query) async {
+  Future<Stream<QuerySnapshot>> searchFoodItem(
+      String category, String query) async {
     return FirebaseFirestore.instance
         .collection(category) // use category as the collection name
         .where('Name', isGreaterThanOrEqualTo: query)
         .where('Name', isLessThanOrEqualTo: query + '\uf8ff')
         .snapshots();
+  }
+
+  Future<void> deleteAddress(String userId, String addressId) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId)
+        .collection("Address")
+        .doc(addressId)
+        .delete();
   }
 }
