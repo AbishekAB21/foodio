@@ -5,14 +5,9 @@ import 'package:foodio/utils/font_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class BasketScreen extends StatefulWidget {
+class BasketScreen extends StatelessWidget {
   const BasketScreen({super.key});
 
-  @override
-  State<BasketScreen> createState() => _BasketScreenState();
-}
-
-class _BasketScreenState extends State<BasketScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<BasketProvider>(
@@ -43,130 +38,171 @@ class _BasketScreenState extends State<BasketScreen> {
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height / 2,
-                    child: Expanded(
-                      child: StreamBuilder(
-                        stream: provider.foodCartStream,
-                        builder: (context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData) {
-                            provider.calculateGrandTotal(snapshot.data.docs);
-                            return ListView.builder(
-                              padding: EdgeInsets.zero,
-                              itemCount: snapshot.data.docs.length,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              itemBuilder: (context, index) {
-                                DocumentSnapshot ds = snapshot.data.docs[index];
-                                return Container(
-                                  margin: EdgeInsets.only(
-                                      left: 20.0, right: 20.0, bottom: 10.0),
-                                  child: Material(
-                                    elevation: 5.0,
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 118,
-                                            width: 40,
-                                            decoration: BoxDecoration(
-                                                border: Border.all(),
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                IconButton(
-                                                    onPressed: () {
-                                                      // Increase Quantity
-                                                    },
-                                                    icon: Icon(
-                                                      Icons.add_rounded,
+                    child: StreamBuilder(
+                      stream: provider.foodCartStream,
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          provider.calculateGrandTotal(snapshot.data.docs);
+                          return ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: snapshot.data.docs.length,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              DocumentSnapshot ds = snapshot.data.docs[index];
+                              return Container(
+                                margin: EdgeInsets.only(
+                                    left: 20.0, right: 20.0, bottom: 10.0),
+                                child: Material(
+                                  elevation: 5.0,
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 118,
+                                          width: 40,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.add_rounded,
+                                                    color:
+                                                        appcolor.secondaryColor,
+                                                  )),
+                                              Text(ds["Quantity"]),
+                                              IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                      Icons.remove_rounded,
                                                       color: appcolor
-                                                          .secondaryColor,
-                                                    )),
-                                                Text(ds["Quantity"]),
-                                                IconButton(
-                                                    onPressed: () {
-                                                      // Decrease Quantity
-                                                    },
-                                                    icon: Icon(
-                                                        Icons.remove_rounded,
-                                                        color: appcolor
-                                                            .secondaryColor)),
-                                              ],
-                                            ),
+                                                          .secondaryColor)),
+                                            ],
                                           ),
-                                          SizedBox(
-                                            width: 20.0,
+                                        ),
+                                        SizedBox(
+                                          width: 20.0,
+                                        ),
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(60),
+                                          child: Image.network(
+                                            ds["Image"],
+                                            height: 90,
+                                            width: 90,
+                                            fit: BoxFit.cover,
                                           ),
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(60),
-                                            child: Image.network(
-                                              ds["Image"],
-                                              height: 90,
-                                              width: 90,
-                                              fit: BoxFit.cover,
-                                            ),
+                                        ),
+                                        SizedBox(
+                                          width: 20.0,
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                ds["Name"],
+                                                overflow: TextOverflow.ellipsis,
+                                                style: FontStyles
+                                                    .SemiBoldTextStyle(),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "\$" + ds["Total"],
+                                                    style: FontStyles
+                                                        .SemiBoldTextStyle(),
+                                                  ),
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AlertDialog(
+                                                              content: Text(
+                                                                  "Are you sure you want to delete this item ?"),
+                                                              title: Text(
+                                                                  "Deleting Cart Item"),
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10)),
+                                                              backgroundColor:
+                                                                  appcolor
+                                                                      .primaryColor,
+                                                              actions: [
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: Text(
+                                                                      "Cancel",
+                                                                      style: FontStyles
+                                                                          .SmallTextFont(),
+                                                                    )),
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      provider.deleteCartItem(
+                                                                          ds.id,
+                                                                          context,
+                                                                          ds["Name"]);
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: Text(
+                                                                      "Delete",
+                                                                      style: FontStyles
+                                                                          .SmallTextFont(),
+                                                                    ))
+                                                              ],
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      icon: Image.asset(
+                                                        "assets/delete.png",
+                                                        height: 20,
+                                                        width: 20,
+                                                      ))
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                          SizedBox(
-                                            width: 20.0,
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  ds["Name"],
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: FontStyles
-                                                      .SemiBoldTextStyle(),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      "\$" + ds["Total"],
-                                                      style: FontStyles
-                                                          .SemiBoldTextStyle(),
-                                                    ),
-                                                    IconButton(
-                                                        onPressed: () {},
-                                                        icon: Image.asset(
-                                                          "assets/delete.png",
-                                                          height: 20,
-                                                          width: 20,
-                                                        ))
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                );
-                              },
-                            );
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: appcolor.LoginGradientColor2,
-                              ),
-                            );
-                          }
-                        },
-                      ),
+                                ),
+                              );
+                            },
+                          );
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: appcolor.LoginGradientColor2,
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ),
                   Spacer(),

@@ -16,8 +16,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeScreenProvider =
-        Provider.of<HomeScreenProvider>(context, listen: false);
+    // Initiating the food items fetch on initial build
+    final homeScreenProvider = Provider.of<HomeScreenProvider>(context, listen: false);
     homeScreenProvider.getFoodItems("Pizza");
 
     return SafeArea(
@@ -32,9 +32,13 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Hello User,",
-                      style: FontStyles.boldTextStyle(),
+                    Consumer<HomeScreenProvider>(
+                      builder: (context, provider, child) {
+                        return Text(
+                          provider.name == null ? "Hello User!" : "Hello ${provider.name} !",
+                          style: FontStyles.boldTextStyle(),
+                        );
+                      },
                     ),
                     GestureDetector(
                       onTap: () {
@@ -76,8 +80,7 @@ class HomeScreen extends StatelessWidget {
                     if (value.isNotEmpty) {
                       homeScreenProvider.searchFoodItems(value);
                     } else {
-                      homeScreenProvider.getFoodItems(homeScreenProvider
-                          .currentCategory); // Use the current category
+                      homeScreenProvider.getFoodItems(homeScreenProvider.currentCategory);
                     }
                   },
                 ),

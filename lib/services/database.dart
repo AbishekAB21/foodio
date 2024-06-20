@@ -110,4 +110,22 @@ class DatabaseMethods {
         .doc(addressId)
         .delete();
   }
+
+  Future<void> deleteCartItems(String userId, String cartItemId) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId)
+        .collection("Cart")
+        .doc(cartItemId)
+        .delete();
+  }
+
+  Future<void> deleteFavoriteItems(String userId, String favoriteItemId) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId)
+        .collection("Favorites")
+        .doc(favoriteItemId)
+        .delete();
+  }
 }
