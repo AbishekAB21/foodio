@@ -15,6 +15,7 @@ class ProfileAlertBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       backgroundColor: appcolor.primaryColor,
       content: Text(
         content,
