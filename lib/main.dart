@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodio/admin/provider/product_provider.dart';
 import 'package:foodio/pages/splash.dart';
+import 'package:foodio/provider/address_provider.dart';
 import 'package:foodio/provider/auth_provider.dart';
 import 'package:foodio/provider/basket_provider.dart';
 import 'package:foodio/provider/bottom_nav_provider.dart';
@@ -23,6 +24,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ProfileProvider(),),
         ChangeNotifierProvider(create: (context) => BasketProvider(),),
         ChangeNotifierProvider(create: (context) => FavoritesProvider(),),
+        ChangeNotifierProvider(create: (context) => AddressProvider(),)
       ],
       child: const MyApp(), 
     ), 

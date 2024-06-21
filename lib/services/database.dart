@@ -128,4 +128,43 @@ class DatabaseMethods {
         .doc(favoriteItemId)
         .delete();
   }
+
+// Default Address function 
+  Future<void> setDefaultAddress(String userId, String addressId) async {
+    // Get all addresses
+    QuerySnapshot addressesSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('Address')
+        .get();
+        
+    Map<String, dynamic>? defaultAddressData;
+
+    /* 
+    if document id is same as the address Id then change the value of
+    the isdefault field from false to ture so that the color of the container 
+    can be changed and the data from that container will be passsed as a map
+    to defaultAddressData.
+    */
+    for (var doc in addressesSnapshot.docs) {
+      if (doc.id == addressId) {
+        await doc.reference.update({'isDefault': true});
+        defaultAddressData = doc.data() as Map<String, dynamic>;
+        defaultAddressData['addressId'] = addressId; // add the document ID to the data
+      } else {
+        await doc.reference.update({'isDefault': false});
+      }
+    }
+
+    // Update the defaultaddress collection
+    // Used set instead of add thus replacing the existing data
+    if (defaultAddressData != null) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('defaultaddress')
+          .doc('default')
+          .set(defaultAddressData);
+    }
+  }
 }
