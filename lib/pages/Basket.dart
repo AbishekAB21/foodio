@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodio/pages/checkout.dart';
 import 'package:foodio/provider/basket_provider.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
@@ -226,20 +227,29 @@ class BasketScreen extends StatelessWidget {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Container(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                          color: appcolor.secondaryColor,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Center(
-                          child: Text(
-                        "Checkout",
-                        style: FontStyles.WhiteTextStyle2(),
-                      )),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CheckOutScreen(),
+                          ));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Container(
+                        height: 60,
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.only(bottom: 10),
+                        decoration: BoxDecoration(
+                            color: appcolor.secondaryColor,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Center(
+                            child: Text(
+                          "Checkout",
+                          style: FontStyles.WhiteTextStyle2(),
+                        )),
+                      ),
                     ),
                   ),
                 ],
