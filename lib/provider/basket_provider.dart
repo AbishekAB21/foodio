@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:foodio/services/database.dart';
 import 'package:foodio/services/shared_pref.dart';
 import 'package:foodio/utils/app_colors.dart';
@@ -8,8 +9,8 @@ import 'package:foodio/widgets/reusable_snackbar.dart';
 
 class BasketProvider with ChangeNotifier {
   String? id;
-  int grandtotal = 0;
-  Stream? foodCartStream;
+  double grandtotal = 0.0;
+  Stream<QuerySnapshot>? foodCartStream;
 
   BasketProvider() {
     ontheLoad();
@@ -34,10 +35,22 @@ class BasketProvider with ChangeNotifier {
   }
 
   void calculateGrandTotal(List<DocumentSnapshot> docs) {
-    grandtotal = 0; // Reset the grand total
+    grandtotal = 0.0; // Reset the grand total
     for (var doc in docs) {
-      grandtotal += int.parse(doc["Total"]);
+      grandtotal += double.parse(doc["Total"]);
     }
+    notifyListeners();
+  }
+
+   Future<void> updateQuantity(String cartItemId, int newQuantity, double pricePerItem) async {
+    if (newQuantity < 1) return;
+
+    double newTotal = newQuantity * pricePerItem;
+
+    await DatabaseMethods().updateCartItem(id!, cartItemId, {
+      "Quantity": newQuantity.toString(),
+      "Total": newTotal.toStringAsFixed(2) // Ensure the total is stored as a string
+    });
     notifyListeners();
   }
 

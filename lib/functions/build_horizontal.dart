@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class HorizontalItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final homeScreenProvider = Provider.of<HomeScreenProvider>(context, listen: false);
 
     return Consumer<HomeScreenProvider>(

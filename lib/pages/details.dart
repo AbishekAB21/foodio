@@ -5,6 +5,7 @@ import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 import 'package:foodio/widgets/reusable_snackbar.dart';
 
+// ignore: must_be_immutable
 class DetailsScreen extends StatefulWidget {
   String image, name, description, price;
   DetailsScreen(

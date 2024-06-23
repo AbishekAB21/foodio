@@ -51,6 +51,9 @@ class BasketScreen extends StatelessWidget {
                             scrollDirection: Axis.vertical,
                             itemBuilder: (context, index) {
                               DocumentSnapshot ds = snapshot.data.docs[index];
+                              int quantity = int.parse(ds["Quantity"]);
+                              double pricePerItem = double.parse(ds["Total"]) / quantity;
+
                               return Container(
                                 margin: EdgeInsets.only(
                                     left: 20.0, right: 20.0, bottom: 10.0),
@@ -76,15 +79,27 @@ class BasketScreen extends StatelessWidget {
                                                 MainAxisAlignment.spaceAround,
                                             children: [
                                               IconButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    provider.updateQuantity(
+                                                      ds.id,
+                                                      quantity + 1,
+                                                      pricePerItem,
+                                                    );
+                                                  },
                                                   icon: Icon(
                                                     Icons.add_rounded,
                                                     color:
                                                         appcolor.secondaryColor,
                                                   )),
-                                              Text(ds["Quantity"]),
+                                              Text(quantity.toString()),
                                               IconButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    provider.updateQuantity(
+                                                      ds.id,
+                                                      quantity - 1,
+                                                      pricePerItem,
+                                                    );
+                                                  },
                                                   icon: Icon(
                                                       Icons.remove_rounded,
                                                       color: appcolor
@@ -125,7 +140,8 @@ class BasketScreen extends StatelessWidget {
                                                         .spaceBetween,
                                                 children: [
                                                   Text(
-                                                    "\$" + ds["Total"],
+                                                    "\$" +
+                                                        ds["Total"].toString(),
                                                     style: FontStyles
                                                         .SemiBoldTextStyle(),
                                                   ),

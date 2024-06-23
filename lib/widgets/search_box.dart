@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:foodio/widgets/price_filter.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 

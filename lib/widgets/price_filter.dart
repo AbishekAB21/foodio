@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 
+// ignore: must_be_immutable
 class PriceFilter extends StatelessWidget {
   String priceFilterAmount;
    PriceFilter({super.key, required this.priceFilterAmount});

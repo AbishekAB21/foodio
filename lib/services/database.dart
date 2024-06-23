@@ -129,6 +129,15 @@ class DatabaseMethods {
         .delete();
   }
 
+   Future updateCartItem(String userId, String cartItemId, Map<String, dynamic> cartInfoMap) async {
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('Cart')
+        .doc(cartItemId)
+        .update(cartInfoMap);
+  }
+
 // Default Address function 
   Future<void> setDefaultAddress(String userId, String addressId) async {
     // Get all addresses
