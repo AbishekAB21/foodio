@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:foodio/admin/admin_details.dart';
 import 'package:provider/provider.dart';
 import 'package:foodio/admin/provider/product_provider.dart';
 import 'package:foodio/admin/widgets/delete_dialog.dart';
-import 'package:foodio/pages/details.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 import 'package:foodio/widgets/category_selector.dart';
@@ -42,7 +42,7 @@ class _DeleteProductScreenState extends State<DeleteProductScreen> {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DetailsScreen(
+                        builder: (context) => AdminDetailsScreen(
                           name: ds["Name"],
                           description: ds["Description"],
                           image: ds["Image"],
