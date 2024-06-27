@@ -82,7 +82,7 @@ class BasketScreen extends StatelessWidget {
                                                   onPressed: () {
                                                     provider.updateQuantity(
                                                       ds.id,
-                                                      quantity + 1,
+                                                      quantity + 1, 
                                                       pricePerItem,
                                                     );
                                                   },

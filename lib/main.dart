@@ -6,6 +6,7 @@ import 'package:foodio/provider/address_provider.dart';
 import 'package:foodio/provider/auth_provider.dart';
 import 'package:foodio/provider/basket_provider.dart';
 import 'package:foodio/provider/bottom_nav_provider.dart';
+import 'package:foodio/provider/checkout_provider.dart';
 import 'package:foodio/provider/favorites_provider.dart';
 import 'package:foodio/provider/home_screen_provider.dart';
 import 'package:foodio/provider/profile_provider.dart';
@@ -24,7 +25,8 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ProfileProvider(),),
         ChangeNotifierProvider(create: (context) => BasketProvider(),),
         ChangeNotifierProvider(create: (context) => FavoritesProvider(),),
-        ChangeNotifierProvider(create: (context) => AddressProvider(),)
+        ChangeNotifierProvider(create: (context) => AddressProvider(),),
+        ChangeNotifierProvider(create: (context) => CheckoutProvider(),)
       ],
       child: const MyApp(), 
     ), 

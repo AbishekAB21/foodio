@@ -176,4 +176,13 @@ class DatabaseMethods {
           .set(defaultAddressData);
     }
   }
+
+  Future<DocumentSnapshot> getDefaultAddress(String userId) async {
+  return await FirebaseFirestore.instance
+      .collection('users')
+      .doc(userId)
+      .collection('defaultaddress')
+      .doc('default')
+      .get();
+}
 }
