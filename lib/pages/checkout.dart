@@ -56,7 +56,7 @@ class CheckOutScreen extends StatelessWidget {
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               DocumentSnapshot ds = snapshot.data.docs[index];
-                              return CheckoutItemsBuilder(ds: ds); // Use ProductItem widget
+                              return CheckoutItemsBuilder(ds: ds);
                             },
                           );
                         }
@@ -121,7 +121,27 @@ class CheckOutScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Add your checkout process here
+                      // Integrate Payment Gateway
+
+                      /* 
+                      The amount displayed as the grandtotal should be passed into the payment 
+                      gateway.
+                      */
+
+                      /* After the payment is complete, sent details of the order 
+                     like the name quantity and price, a hardcodded order status "Ordered"
+                     also pass the current date and store it as a string. 
+
+                     all this should be stored in a new collection under "users" collection
+                     called "Orders"
+
+                     also to another collection outside "users" collection called "All orders",
+                     that has all the same data as the "orders" but additionally it should also
+                     have the user's name and city as a string. This can be fetched from the 
+                     DefaultaddressStream in the checkout provider
+
+                     "All orders" can be accessed by the Admin and "Orders by the user"
+                     */
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
