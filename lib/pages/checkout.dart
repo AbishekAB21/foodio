@@ -121,7 +121,7 @@ class CheckOutScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Integrate Payment Gateway
+                      // Integrate Payment Gateway using razorpay
 
                       /* 
                       The amount displayed as the grandtotal should be passed into the payment 
