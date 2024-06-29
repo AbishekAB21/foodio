@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:foodio/pages/order_placed.dart';
 import 'package:foodio/services/database.dart';
 import 'package:foodio/services/shared_pref.dart';
 import 'package:foodio/utils/app_colors.dart';
@@ -132,8 +133,11 @@ class CheckoutProvider with ChangeNotifier {
       }
 
       // Show success message
-      ReusableSnackBar().showSnackbar(
-          context, "Order placed successfully", appcolor.SnackBarSuccessColor);
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OrderPlacedScreen(),
+          ));
     } catch (e) {
       // Show error message
       ReusableSnackBar().showSnackbar(
