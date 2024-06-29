@@ -134,7 +134,7 @@ class CheckOutScreen extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            "Proceed to Payment",
+                            "Pay and Place Order",
                             style: FontStyles.WhiteTextStyle2(),
                           ),
                         ),

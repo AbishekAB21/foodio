@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:foodio/pages/home.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
+import 'package:foodio/widgets/bottom_nav.dart';
 import 'package:lottie/lottie.dart';
 
 class OrderPlacedScreen extends StatefulWidget {
@@ -45,7 +45,7 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) => BottomNavBar(),
         ));
   }
 }
