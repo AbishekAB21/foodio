@@ -3,6 +3,7 @@ import 'package:foodio/model/content_model.dart';
 import 'package:foodio/pages/sign_up.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
+import 'package:lottie/lottie.dart';
 
 class OnboardScreen extends StatefulWidget {
   const OnboardScreen({super.key});
@@ -39,14 +40,16 @@ class _OnboardScreenState extends State<OnboardScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset(
+                        Lottie.asset(
                           contents[i].image,
                           height: 450,
                           width: MediaQuery.of(context).size.width,
                           fit: BoxFit.fill,
+                          repeat: true,
+                          reverse: false
                         ),
                         SizedBox(
-                          height: 40.0,
+                          height: 20.0,
                         ),
                         Text(
                           contents[i].title,

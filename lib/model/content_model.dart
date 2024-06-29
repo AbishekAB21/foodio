@@ -9,16 +9,16 @@ class OnboardingContent {
 
 List<OnboardingContent> contents = [
   OnboardingContent(
-      image: "assets/onboardingScreen1.png",
+      image: "animations/food.json",
       title: "International Goodness",
       description:
           "Treat yourself to great delicacies from around the world!"),
   OnboardingContent(
-      image: "assets/onboardimgScreen2.png",
+      image: "animations/payment.json",
       title: "Seamless Payment",
       description: "Pay easily using our various payment methods!"),
   OnboardingContent(
-      image: "assets/onboardingScreen3.png",
+      image: "animations/Fast-Delivery.json",
       title: "Lightning Quick Deliveries",
       description:
           "Your favorite meals delivered fast and fresh to your doorstep!")
