@@ -132,14 +132,14 @@ class CheckoutProvider with ChangeNotifier {
         await doc.reference.delete();
       }
 
-      // Show success message
+      
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => OrderPlacedScreen(),
           ));
     } catch (e) {
-      // Show error message
+     
       ReusableSnackBar().showSnackbar(
           context, "Error placing order: $e", appcolor.SnackBarErrorColor);
     }
