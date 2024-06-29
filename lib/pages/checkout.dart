@@ -30,8 +30,7 @@ class CheckOutScreen extends StatelessWidget {
                     child: StreamBuilder(
                       stream: provider.foodCartStream,
                       builder: (context, AsyncSnapshot snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return Center(
                             child: CircularProgressIndicator(
                               color: appcolor.LoginGradientColor2,
@@ -41,8 +40,7 @@ class CheckOutScreen extends StatelessWidget {
                           return Center(
                             child: Text('Error: ${snapshot.error}'),
                           );
-                        } else if (!snapshot.hasData ||
-                            snapshot.data.docs.isEmpty) {
+                        } else if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
                           return Center(
                             child: Text('No items in the cart'),
                           );
@@ -120,28 +118,9 @@ class CheckOutScreen extends StatelessWidget {
                     height: 20.0,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      // Integrate Payment Gateway using razorpay
-
-                      /* 
-                      The amount displayed as the grandtotal should be passed into the payment 
-                      gateway.
-                      */
-
-                      /* After the payment is complete, sent details of the order 
-                     like the name quantity and price, a hardcodded order status "Ordered"
-                     also pass the current date and store it as a string. 
-
-                     all this should be stored in a new collection under "users" collection
-                     called "Orders"
-
-                     also to another collection outside "users" collection called "All orders",
-                     that has all the same data as the "orders" but additionally it should also
-                     have the user's name and city as a string. This can be fetched from the 
-                     DefaultaddressStream in the checkout provider
-
-                     "All orders" can be accessed by the Admin and "Orders by the user"
-                     */
+                    onTap: () async {
+                      // Proceed to payment (without integrating Razorpay)
+                      await provider.placeOrder(context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),

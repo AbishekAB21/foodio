@@ -37,25 +37,30 @@ class CheckoutProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateQuantity(String cartItemId, int newQuantity, double pricePerItem) async {
+  Future<void> updateQuantity(
+      String cartItemId, int newQuantity, double pricePerItem) async {
     if (newQuantity < 1) return;
 
     double newTotal = newQuantity * pricePerItem;
 
     await DatabaseMethods().updateCartItem(id!, cartItemId, {
       "Quantity": newQuantity.toString(),
-      "Total": newTotal.toStringAsFixed(2) // Ensure the total is stored as a string
+      "Total":
+          newTotal.toStringAsFixed(2) // Ensure the total is stored as a string
     });
     notifyListeners();
   }
 
-  Future<void> deleteCartItem(String itemId, BuildContext context, String itemName) async {
+  Future<void> deleteCartItem(
+      String itemId, BuildContext context, String itemName) async {
     try {
       await DatabaseMethods().deleteCartItems(id!, itemId);
       notifyListeners();
-      ReusableSnackBar().showSnackbar(context, "Deleted $itemName from the cart", appcolor.LoginGradientColor2);
+      ReusableSnackBar().showSnackbar(context,
+          "Deleted $itemName from the cart", appcolor.LoginGradientColor2);
     } catch (e) {
-      ReusableSnackBar().showSnackbar(context, "Error deleting item: $e", appcolor.SnackBarErrorColor);
+      ReusableSnackBar().showSnackbar(
+          context, "Error deleting item: $e", appcolor.SnackBarErrorColor);
     }
   }
 
@@ -76,6 +81,63 @@ class CheckoutProvider with ChangeNotifier {
       // After updating, fetch the updated default address
       await _initialize();
       notifyListeners();
+    }
+  }
+
+  Future<void> placeOrder(BuildContext context) async {
+    try {
+      if (id == null || defaultAddress == null) return;
+
+      // Fetch cart items
+      QuerySnapshot cartSnapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(id)
+          .collection("Cart")
+          .get();
+
+      List<Map<String, dynamic>> cartItems = cartSnapshot.docs.map((doc) {
+        return doc.data() as Map<String, dynamic>;
+      }).toList();
+
+      // Create order data
+      Map<String, dynamic> orderData = {
+        "items": cartItems,
+        "total": grandTotal,
+        "status": "Ordered",
+        "orderDate": DateTime.now(),
+        "deliveryAddress": defaultAddress
+      };
+
+      // Save order data to user's orders collection
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(id)
+          .collection("Orders")
+          .add(orderData);
+
+      // Save order data to admin's all orders collection
+      Map<String, dynamic> adminOrderData = {
+        ...orderData,
+        "userName": defaultAddress!["Name"],
+        "userCity": defaultAddress!["City"],
+      };
+
+      await FirebaseFirestore.instance
+          .collection("AllOrders")
+          .add(adminOrderData);
+
+      // Clear cart
+      for (var doc in cartSnapshot.docs) {
+        await doc.reference.delete();
+      }
+
+      // Show success message
+      ReusableSnackBar().showSnackbar(
+          context, "Order placed successfully", appcolor.SnackBarSuccessColor);
+    } catch (e) {
+      // Show error message
+      ReusableSnackBar().showSnackbar(
+          context, "Error placing order: $e", appcolor.SnackBarErrorColor);
     }
   }
 }
