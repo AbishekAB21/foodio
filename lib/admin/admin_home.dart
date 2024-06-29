@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodio/admin/add_food.dart';
+import 'package:foodio/admin/admin_all_orders.dart';
+import 'package:foodio/admin/admin_finances.dart';
 import 'package:foodio/admin/delete_products_screen.dart';
 import 'package:foodio/admin/edit_products_screen.dart';
 import 'package:foodio/admin/widgets/admin_home_tile.dart';
@@ -29,7 +31,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             SizedBox(
               height: 50.0,
             ),
-          // Add Food 
+            // Add Food
             GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -42,8 +44,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   title: "Add Food Item",
                   imageUrl: "assets/chicken.png",
                 )),
-            SizedBox(height: 10,),
-             GestureDetector(
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
                 onTap: () {
                   Navigator.push(
                       context,
@@ -55,8 +59,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   title: "Delete Food Item",
                   imageUrl: "assets/onboardingScreen1.png",
                 )),
-            SizedBox(height: 10,),
-             GestureDetector(
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
                 onTap: () {
                   Navigator.push(
                       context,
@@ -67,6 +73,36 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 child: AdminHomeTiles(
                   title: "Edit Food Item",
                   imageUrl: "assets/drippingPizza.png",
+                )),
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Allorders(),
+                      ));
+                },
+                child: AdminHomeTiles(
+                  title: "All Orders",
+                  imageUrl: "assets/checklist.png",
+                )),
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FinancesScreen(),
+                      ));
+                },
+                child: AdminHomeTiles(
+                  title: "Finances",
+                  imageUrl: "assets/financial-profit.png",
                 )),
           ],
         ),
