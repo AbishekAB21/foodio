@@ -49,7 +49,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                           reverse: false
                         ),
                         SizedBox(
-                          height: 20.0,
+                          height: 5.0,
                         ),
                         Text(
                           contents[i].title,
