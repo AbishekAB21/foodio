@@ -49,6 +49,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               SizedBox(
                 height: 10,
               ),
+
+              // Delete Food
               GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -64,6 +66,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               SizedBox(
                 height: 10,
               ),
+
+              // Edit Food
               GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -79,6 +83,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               SizedBox(
                 height: 10,
               ),
+
+              // All Orders
               GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -94,6 +100,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               SizedBox(
                 height: 10,
               ),
+
+              // Finances
               GestureDetector(
                   onTap: () {
                     Navigator.push(
