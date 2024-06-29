@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodio/admin/provider/product_provider.dart';
-import 'package:foodio/pages/order_placed.dart';
 import 'package:foodio/pages/splash.dart';
 import 'package:foodio/provider/address_provider.dart';
 import 'package:foodio/provider/auth_provider.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 
+// ignore: must_be_immutable
 class SortButton extends StatelessWidget {
   String title;
    SortButton({super.key, required this.title});
