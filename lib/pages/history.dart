@@ -24,10 +24,6 @@ class OrderHistory extends StatelessWidget {
         body: Consumer<OrderHistoryProvider>(
           builder: (context, orderHistoryProvider, child) {
             if (orderHistoryProvider.orders.isEmpty) {
-              // return Center(
-              //     child: CircularProgressIndicator(
-              //   color: appcolor.InterfaceIconColor,
-              // ));
               return Center(
                 child: Lottie.asset("animations/Loading.json",
                     height: 100, width: 100),
