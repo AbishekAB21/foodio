@@ -20,6 +20,7 @@ abstract class AppColor{
   final Color DropdownColor1;
   final Color InterfaceIconColor;
   final Color financeColor;
+  final Color WariningColor;
 
   AppColor({
     required this.primaryColor,
@@ -36,7 +37,8 @@ abstract class AppColor{
     required this.WalletScreenColor1,
     required this.DropdownColor1,
     required this.InterfaceIconColor,
-    required this.financeColor
+    required this.financeColor,
+    required this.WariningColor
     });
 }
 
@@ -57,6 +59,7 @@ class AppDefaultColor extends AppColor{
     WalletScreenColor1: Color(0xFF008080),
     DropdownColor1: Color(0xFFececf8),
     InterfaceIconColor: const Color.fromARGB(255, 240, 93, 83),
-    financeColor: Colors.blueAccent.shade400
+    financeColor: Colors.blueAccent.shade400,
+    WariningColor: Color.fromARGB(246, 235, 153, 12)
   );
 }

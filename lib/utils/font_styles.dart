@@ -61,6 +61,13 @@ class FontStyles {
         color: Colors.white);
   }
 
+  static TextStyle ReallySmallTextFontWhite() {
+    return TextStyle(
+        fontSize: 10,
+        fontFamily: "Poppins",
+        color: Colors.white);
+  }
+
   static TextStyle SmallTextFont() {
     return TextStyle(
         fontSize: 12,
