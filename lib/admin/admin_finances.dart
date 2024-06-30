@@ -101,7 +101,7 @@ class _FinancesScreenState extends State<FinancesScreen> {
                   width: 10,
                 ),
                 GestureDetector(
-                  onTap: () => onSortButtonPressed("All Time"),
+                  onTap: () => onSortButtonPressed("This Month"),
                   child: SortButton(
                     title: "This Month",
                   ),
@@ -110,7 +110,7 @@ class _FinancesScreenState extends State<FinancesScreen> {
                   width: 10,
                 ),
                 GestureDetector(
-                  onTap: () => onSortButtonPressed("All Time"),
+                  onTap: () => onSortButtonPressed("This Year"),
                   child: SortButton(
                     title: "This Year",
                   ),
@@ -119,7 +119,7 @@ class _FinancesScreenState extends State<FinancesScreen> {
                   width: 10,
                 ),
                 GestureDetector(
-                  onTap: () => onSortButtonPressed("All Time"),
+                  onTap: () => onSortButtonPressed("Today"),
                   child: SortButton(
                     title: "Today",
                   ),
