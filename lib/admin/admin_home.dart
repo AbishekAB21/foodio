@@ -90,7 +90,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Allorders(),
+                          builder: (context) => AllOrders(),
                         ));
                   },
                   child: AdminHomeTiles(

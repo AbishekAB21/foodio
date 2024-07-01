@@ -172,7 +172,7 @@ class _FinancesScreenState extends State<FinancesScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Allorders(),
+                              builder: (context) => AllOrders(),
                             ));
                       },
                       child: Text("click here",
