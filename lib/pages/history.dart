@@ -69,16 +69,16 @@ class OrderHistory extends StatelessWidget {
                               "Total: \$${order['total']}",
                               style: FontStyles.MediumTextFontWithColor(),
                             ),
-                            Container(
-                              padding: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  color: appcolor.WariningColor,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Text(
-                                "Ordered",
-                                style: FontStyles.ReallySmallTextFontWhite(),
-                              ),
-                            )
+                            // Container(
+                            //   padding: EdgeInsets.all(5),
+                            //   decoration: BoxDecoration(
+                            //       color: appcolor.WariningColor,
+                            //       borderRadius: BorderRadius.circular(5)),
+                            //   child: Text(
+                            //     "Ordered",
+                            //     style: FontStyles.ReallySmallTextFontWhite(),
+                            //   ),
+                            // )
                           ],
                         ),
                       ],
