@@ -3,6 +3,7 @@ import 'package:foodio/pages/checkout.dart';
 import 'package:foodio/provider/basket_provider.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -43,23 +44,29 @@ class BasketScreen extends StatelessWidget {
                       builder: (context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                         return Center(
-                            child: CircularProgressIndicator(
-                              color: appcolor.InterfaceIconColor,
+                          return Center(
+                            child: Lottie.asset(
+                              "animations/Loading.json",
+                              height: 400,
+                              width: 400,
+                              repeat: true,
                             ),
                           );
                         }
                         if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
                           return Center(
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                SizedBox(
+                                  height: 50,
+                                ),
                                 Image.asset("assets/empty.png",
                                     height: 300, width: 400),
-                                SizedBox(height: 40),
+                                SizedBox(height: 30),
                                 Text(
                                   "Your Basket's empty :(",
-                                  style: FontStyles.headlineTextStyle(),
+                                  style: FontStyles.lightTextStyle(),
                                 ),
                               ],
                             ),

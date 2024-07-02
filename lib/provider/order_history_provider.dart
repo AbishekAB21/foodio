@@ -49,6 +49,14 @@ class OrderHistoryProvider with ChangeNotifier {
   void applyFilter(String filter) {
     currentFilter = filter;
     DateTime now = DateTime.now();
+
+    /* 
+    The Object "filteredorders" will store the orders according to
+    the filters.
+
+    The where function is used to filter out the orders based on
+    the sort buttons
+    */
     filteredOrders = orders.where((order) {
       DateTime orderDate = (order['orderDate'] as Timestamp).toDate();
       if (filter == "Today") {
