@@ -9,7 +9,7 @@ class AllOrdersProvider with ChangeNotifier {
   AllOrdersProvider() {
     fetchOrders();
   }
-  
+   
 
   Future<void> fetchOrders() async {
     try {
