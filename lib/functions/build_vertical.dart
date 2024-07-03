@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodio/provider/home_screen_provider.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:foodio/pages/details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,14 +11,18 @@ class VerticalItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
-    final homeScreenProvider = Provider.of<HomeScreenProvider>(context, listen: false);
+    final homeScreenProvider =
+        Provider.of<HomeScreenProvider>(context, listen: false);
 
     return Consumer<HomeScreenProvider>(
       builder: (context, provider, child) {
         if (provider.foodItemsStream == null) {
           return Center(
-            child: CircularProgressIndicator(
-              color: appcolor.LoginGradientColor2,
+            child: Lottie.asset(
+              "animations/Loading.json",
+              height: 400,
+              width: 400,
+              repeat: true,
             ),
           );
         }
@@ -26,8 +31,13 @@ class VerticalItemList extends StatelessWidget {
           stream: provider.foodItemsStream,
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
-              return CircularProgressIndicator(
-                color: appcolor.LoginGradientColor2,
+              return Center(
+                child: Lottie.asset(
+                  "animations/Loading.json",
+                  height: 400,
+                  width: 400,
+                  repeat: true,
+                ),
               );
             }
 

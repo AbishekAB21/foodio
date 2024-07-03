@@ -130,11 +130,11 @@ class OrderHistory extends StatelessWidget {
                                     ),
                                     Material(
                                       elevation: 2,
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(7),
                                       child: Container(
                                         padding: EdgeInsets.all(10),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(7),
                                           color: statusColor,
                                         ),
                                         child: Text(
