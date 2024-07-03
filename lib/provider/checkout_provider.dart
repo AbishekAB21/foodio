@@ -86,7 +86,7 @@ class CheckoutProvider with ChangeNotifier {
     }
   }
 
-  Future<void> placeOrder(BuildContext context) async {
+ Future<void> placeOrder(BuildContext context) async {
   try {
     if (id == null || defaultAddress == null) return;
 
@@ -107,6 +107,7 @@ class CheckoutProvider with ChangeNotifier {
     // Create order data
     Map<String, dynamic> orderData = {
       "orderId": orderId,
+      "userId": id,
       "items": cartItems,
       "total": grandTotal,
       "status": "Ordered",
@@ -114,25 +115,11 @@ class CheckoutProvider with ChangeNotifier {
       "deliveryAddress": defaultAddress
     };
 
-    // Save order data to user's orders collection
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(id)
-        .collection("Orders")
-        .doc(orderId) // Use orderId as the document ID
-        .set(orderData);
-
     // Save order data to admin's all orders collection
-    Map<String, dynamic> adminOrderData = {
-      ...orderData,
-      "userName": defaultAddress!["Name"],
-      "userCity": defaultAddress!["City"],
-    };
-
     await FirebaseFirestore.instance
         .collection("AllOrders")
         .doc(orderId) // Use orderId as the document ID
-        .set(adminOrderData);
+        .set(orderData);
 
     // Clear cart
     for (var doc in cartSnapshot.docs) {
@@ -140,14 +127,16 @@ class CheckoutProvider with ChangeNotifier {
     }
 
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => OrderPlacedScreen(),
-        ));
+      context,
+      MaterialPageRoute(
+        builder: (context) => OrderPlacedScreen(),
+      ),
+    );
   } catch (e) {
     ReusableSnackBar().showSnackbar(
         context, "Error placing order: $e", appcolor.SnackBarErrorColor);
   }
 }
+
 
 }

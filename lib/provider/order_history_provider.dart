@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:foodio/services/shared_pref.dart';
 
 class OrderHistoryProvider with ChangeNotifier {
@@ -29,9 +29,8 @@ class OrderHistoryProvider with ChangeNotifier {
 
     try {
       QuerySnapshot orderSnapshot = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(id)
-          .collection("Orders")
+          .collection("AllOrders")
+          .where("userId", isEqualTo: id)
           .get();
 
       orders = orderSnapshot.docs.map((doc) {
@@ -50,24 +49,16 @@ class OrderHistoryProvider with ChangeNotifier {
     currentFilter = filter;
     DateTime now = DateTime.now();
 
-    /* 
-    The Object "filteredorders" will store the orders according to
-    the filters.
-
-    The where function is used to filter out the orders based on
-    the sort buttons
-    */
     filteredOrders = orders.where((order) {
       DateTime orderDate = (order['orderDate'] as Timestamp).toDate();
       if (filter == "Today") {
-        return orderDate.year == now.year && // current year
-            orderDate.month == now.month && // current month
-            orderDate.day == now.day; // current day
+        return orderDate.year == now.year &&
+            orderDate.month == now.month &&
+            orderDate.day == now.day;
       } else if (filter == "This Month") {
-        return orderDate.year == now.year && // current year
-            orderDate.month == now.month; // current month
+        return orderDate.year == now.year && orderDate.month == now.month;
       } else if (filter == "This Year") {
-        return orderDate.year == now.year; // current year
+        return orderDate.year == now.year;
       } else {
         return true; // All Time
       }
@@ -78,8 +69,4 @@ class OrderHistoryProvider with ChangeNotifier {
         (a, b) => b['orderDate'].toDate().compareTo(a['orderDate'].toDate()));
     notifyListeners();
   }
-
-  // void sortOrders(String filter) {
-  //   applyFilter(filter);
-  // }
 }

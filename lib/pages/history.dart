@@ -8,11 +8,9 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-// ignore: must_be_immutable
 class OrderHistory extends StatelessWidget {
   OrderHistory({super.key});
 
-  String ordersts = "Ordered";
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -42,54 +40,66 @@ class OrderHistory extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       GestureDetector(
-                          onTap: () {
-                            orderHistoryProvider.applyFilter("All Time");
-                          },
-                          child: SortButton(title: "All Time")),
-                      SizedBox(
-                        height: 10,
+                        onTap: () {
+                          orderHistoryProvider.applyFilter("All Time");
+                        },
+                        child: SortButton(title: "All Time"),
                       ),
+                      SizedBox(height: 10),
                       GestureDetector(
-                          onTap: () {
-                            orderHistoryProvider.applyFilter("This Year");
-                          },
-                          child: SortButton(title: "This Year")),
-                      SizedBox(
-                        height: 10,
+                        onTap: () {
+                          orderHistoryProvider.applyFilter("This Year");
+                        },
+                        child: SortButton(title: "This Year"),
                       ),
+                      SizedBox(height: 10),
                       GestureDetector(
-                          onTap: () {
-                            orderHistoryProvider.applyFilter("This Month");
-                          },
-                          child: SortButton(title: "This Month")),
-                      SizedBox(
-                        height: 10,
+                        onTap: () {
+                          orderHistoryProvider.applyFilter("This Month");
+                        },
+                        child: SortButton(title: "This Month"),
                       ),
+                      SizedBox(height: 10),
                       GestureDetector(
-                          onTap: () {
-                            orderHistoryProvider.applyFilter("Today");
-                          },
-                          child: SortButton(title: "Today")),
-                      SizedBox(
-                        height: 10,
+                        onTap: () {
+                          orderHistoryProvider.applyFilter("Today");
+                        },
+                        child: SortButton(title: "Today"),
                       ),
+                      SizedBox(height: 10),
                     ],
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: 20),
                   Expanded(
                     child: ListView.builder(
                       itemCount: orderHistoryProvider.filteredOrders.length,
                       itemBuilder: (context, index) {
                         var order = orderHistoryProvider.filteredOrders[index];
                         var items = order['items'] as List<dynamic>;
+                        String ordersts = order['status']; // Assuming 'status' field exists in your order document
+
+                        Color statusColor;
+                        switch (ordersts) {
+                          case "Ordered":
+                            statusColor = Colors.yellow.shade700;
+                            break;
+                          case "Delivered":
+                            statusColor = appcolor.SnackBarSuccessColor;
+                            break;
+                          case "Canceled":
+                            statusColor = appcolor.SnackBarErrorColor;
+                            break;
+                          default:
+                            statusColor = appcolor.secondaryColor;
+                            break;
+                        }
 
                         return Card(
                           elevation: 2,
                           color: appcolor.primaryColor,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                           margin: EdgeInsets.all(10),
                           child: Padding(
                             padding: EdgeInsets.all(10),
@@ -98,8 +108,7 @@ class OrderHistory extends StatelessWidget {
                               children: [
                                 ...items.map((item) {
                                   return Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
+                                    padding: const EdgeInsets.symmetric(vertical: 5),
                                     child: Text(
                                       "${item['Quantity']} x ${item['Name']}",
                                       style: FontStyles.SemiBoldTextStyle(),
@@ -113,13 +122,11 @@ class OrderHistory extends StatelessWidget {
                                 ),
                                 SizedBox(height: 10),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       "Total: \$${order['total']}",
-                                      style:
-                                          FontStyles.MediumTextFontWithColor(),
+                                      style: FontStyles.MediumTextFontWithColor(),
                                     ),
                                     Material(
                                       elevation: 2,
@@ -127,25 +134,15 @@ class OrderHistory extends StatelessWidget {
                                       child: Container(
                                         padding: EdgeInsets.all(10),
                                         decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: ordersts == "Ordered"
-                                                ? Colors.yellow.shade700
-                                                : ordersts == "Delivered"
-                                                    ? appcolor
-                                                        .SnackBarSuccessColor
-                                                    : ordersts == "Canceled"
-                                                        ? appcolor
-                                                            .SnackBarErrorColor
-                                                        : appcolor
-                                                            .secondaryColor),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: statusColor,
+                                        ),
                                         child: Text(
                                           ordersts,
-                                          style: FontStyles
-                                              .ReallySmallTextFontWhite(),
+                                          style: FontStyles.ReallySmallTextFontWhite(),
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ],

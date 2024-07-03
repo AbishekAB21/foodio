@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AllOrdersProvider with ChangeNotifier {
   List<Map<String, dynamic>> orders = [];
@@ -9,14 +9,16 @@ class AllOrdersProvider with ChangeNotifier {
   AllOrdersProvider() {
     fetchOrders();
   }
-   
 
   Future<void> fetchOrders() async {
     try {
       QuerySnapshot snapshot =
           await FirebaseFirestore.instance.collection("AllOrders").get();
       orders = snapshot.docs
-          .map((doc) => doc.data() as Map<String, dynamic>)
+          .map((doc) => {
+                ...doc.data() as Map<String, dynamic>,
+                'orderId': doc.id, // Include the orderId
+              })
           .toList();
       applyFilter(currentFilter); // Apply the initial filter
       notifyListeners();
@@ -43,11 +45,9 @@ class AllOrdersProvider with ChangeNotifier {
       }
     }).toList();
     notifyListeners();
-
-    
   }
 
-   Future<void> updateOrderStatus(String orderId, String userId, String newStatus) async {
+  Future<void> updateOrderStatus(String orderId, String newStatus) async {
     try {
       // Update the status in the AllOrders collection
       await FirebaseFirestore.instance
@@ -55,16 +55,17 @@ class AllOrdersProvider with ChangeNotifier {
           .doc(orderId)
           .update({"status": newStatus});
 
-      // Update the status in the user's Orders collection
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(userId)
-          .collection("Orders")
-          .doc(orderId)
-          .update({"status": newStatus});
+      // Update the local state
+      orders = orders.map((order) {
+        if (order['orderId'] == orderId) {
+          return {...order, 'status': newStatus};
+        }
+        return order;
+      }).toList();
 
-      // Fetch the updated orders
-      await fetchOrders();
+      applyFilter(currentFilter); // Reapply the current filter to update filteredOrders
+
+      notifyListeners();
     } catch (e) {
       print("Error updating order status: $e");
     }

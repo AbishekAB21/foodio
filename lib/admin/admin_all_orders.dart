@@ -25,7 +25,7 @@ class AllOrders extends StatelessWidget {
         ),
         body: Consumer<AllOrdersProvider>(
           builder: (context, allOrdersProvider, child) {
-            if (allOrdersProvider.orders.isEmpty) {
+            if (allOrdersProvider.filteredOrders.isEmpty) {
               return Center(
                 child: Lottie.asset("animations/Loading.json",
                     height: 100, width: 100),
@@ -40,70 +40,50 @@ class AllOrders extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          allOrdersProvider.applyFilter(
-                            "All Time",
-                          );
-
+                          allOrdersProvider.applyFilter("All Time");
                           ReusableSnackBar().showSnackbar(context,
                               "Sorted by All Time", appcolor.secondaryColor);
                         },
-                        child: SortButton(
-                          title: "All Time",
-                        ),
+                        child: SortButton(title: "All Time"),
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
+                      SizedBox(width: 10),
                       GestureDetector(
                         onTap: () {
                           allOrdersProvider.applyFilter("This Year");
-
                           ReusableSnackBar().showSnackbar(context,
                               "Sorted by This Year", appcolor.secondaryColor);
                         },
-                        child: SortButton(
-                          title: "This Year",
-                        ),
+                        child: SortButton(title: "This Year"),
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
+                      SizedBox(width: 10),
                       GestureDetector(
                         onTap: () {
                           allOrdersProvider.applyFilter("This Month");
-
                           ReusableSnackBar().showSnackbar(context,
                               "Sorted by This Month", appcolor.secondaryColor);
                         },
-                        child: SortButton(
-                          title: "This Month",
-                        ),
+                        child: SortButton(title: "This Month"),
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
+                      SizedBox(width: 10),
                       GestureDetector(
                         onTap: () {
                           allOrdersProvider.applyFilter("Today");
-
                           ReusableSnackBar().showSnackbar(context,
                               "Sorted by Today", appcolor.secondaryColor);
                         },
-                        child: SortButton(
-                          title: "Today",
-                        ),
+                        child: SortButton(title: "Today"),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: 20),
                   Expanded(
                     child: ListView.builder(
                       itemCount: allOrdersProvider.filteredOrders.length,
                       itemBuilder: (context, index) {
                         var order = allOrdersProvider.filteredOrders[index];
                         var items = order['items'] as List<dynamic>;
+                        var orderId = order['orderId'];
+                        var currentStatus = order['status'];
 
                         return Card(
                           elevation: 2,
@@ -145,6 +125,23 @@ class AllOrders extends StatelessWidget {
                                       "Total: \$${order['total']}",
                                       style:
                                           FontStyles.MediumTextFontWithColor(),
+                                    ),
+                                    DropdownButton<String>(
+                                      value: currentStatus,
+                                      items: ["Ordered", "Delivered", "Canceled"]
+                                          .map((status) {
+                                        return DropdownMenuItem<String>(
+                                          value: status,
+                                          child: Text(status),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newStatus) {
+                                        if (newStatus != null) {
+                                          allOrdersProvider
+                                              .updateOrderStatus(
+                                                  orderId, newStatus);
+                                        }
+                                      },
                                     ),
                                   ],
                                 ),
