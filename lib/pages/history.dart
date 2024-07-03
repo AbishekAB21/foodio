@@ -8,9 +8,11 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
+// ignore: must_be_immutable
 class OrderHistory extends StatelessWidget {
-  const OrderHistory({super.key});
+  OrderHistory({super.key});
 
+  String ordersts = "Ordered";
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -42,28 +44,32 @@ class OrderHistory extends StatelessWidget {
                       GestureDetector(
                           onTap: () {
                             orderHistoryProvider.applyFilter("All Time");
-                          }, child: SortButton(title: "All Time")),
+                          },
+                          child: SortButton(title: "All Time")),
                       SizedBox(
                         height: 10,
                       ),
                       GestureDetector(
                           onTap: () {
                             orderHistoryProvider.applyFilter("This Year");
-                          }, child: SortButton(title: "This Year")),
+                          },
+                          child: SortButton(title: "This Year")),
                       SizedBox(
                         height: 10,
                       ),
                       GestureDetector(
                           onTap: () {
                             orderHistoryProvider.applyFilter("This Month");
-                          }, child: SortButton(title: "This Month")),
+                          },
+                          child: SortButton(title: "This Month")),
                       SizedBox(
                         height: 10,
                       ),
                       GestureDetector(
                           onTap: () {
                             orderHistoryProvider.applyFilter("Today");
-                          }, child: SortButton(title: "Today")),
+                          },
+                          child: SortButton(title: "Today")),
                       SizedBox(
                         height: 10,
                       ),
@@ -115,6 +121,31 @@ class OrderHistory extends StatelessWidget {
                                       style:
                                           FontStyles.MediumTextFontWithColor(),
                                     ),
+                                    Material(
+                                      elevation: 2,
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: ordersts == "Ordered"
+                                                ? Colors.yellow.shade700
+                                                : ordersts == "Delivered"
+                                                    ? appcolor
+                                                        .SnackBarSuccessColor
+                                                    : ordersts == "Canceled"
+                                                        ? appcolor
+                                                            .SnackBarErrorColor
+                                                        : appcolor
+                                                            .secondaryColor),
+                                        child: Text(
+                                          ordersts,
+                                          style: FontStyles
+                                              .ReallySmallTextFontWhite(),
+                                        ),
+                                      ),
+                                    )
                                   ],
                                 ),
                               ],

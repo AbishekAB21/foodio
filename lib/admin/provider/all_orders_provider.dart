@@ -46,4 +46,27 @@ class AllOrdersProvider with ChangeNotifier {
 
     
   }
+
+   Future<void> updateOrderStatus(String orderId, String userId, String newStatus) async {
+    try {
+      // Update the status in the AllOrders collection
+      await FirebaseFirestore.instance
+          .collection("AllOrders")
+          .doc(orderId)
+          .update({"status": newStatus});
+
+      // Update the status in the user's Orders collection
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userId)
+          .collection("Orders")
+          .doc(orderId)
+          .update({"status": newStatus});
+
+      // Fetch the updated orders
+      await fetchOrders();
+    } catch (e) {
+      print("Error updating order status: $e");
+    }
+  }
 }
