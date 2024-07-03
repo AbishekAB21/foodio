@@ -5,6 +5,7 @@ import 'package:foodio/services/database.dart';
 import 'package:foodio/services/shared_pref.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/widgets/reusable_snackbar.dart';
+import 'package:random_string/random_string.dart';
 
 class CheckoutProvider with ChangeNotifier {
   String? id;
@@ -86,62 +87,67 @@ class CheckoutProvider with ChangeNotifier {
   }
 
   Future<void> placeOrder(BuildContext context) async {
-    try {
-      if (id == null || defaultAddress == null) return;
+  try {
+    if (id == null || defaultAddress == null) return;
 
-      // Fetch cart items
-      QuerySnapshot cartSnapshot = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(id)
-          .collection("Cart")
-          .get();
+    // Generate a unique order ID
+    String orderId = randomAlphaNumeric(10);
 
-      List<Map<String, dynamic>> cartItems = cartSnapshot.docs.map((doc) {
-        return doc.data() as Map<String, dynamic>;
-      }).toList();
+    // Fetch cart items
+    QuerySnapshot cartSnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(id)
+        .collection("Cart")
+        .get();
 
-      // Create order data
-      Map<String, dynamic> orderData = {
-        "items": cartItems,
-        "total": grandTotal,
-        "status": "Ordered",
-        "orderDate": DateTime.now(),
-        "deliveryAddress": defaultAddress
-      };
+    List<Map<String, dynamic>> cartItems = cartSnapshot.docs.map((doc) {
+      return doc.data() as Map<String, dynamic>;
+    }).toList();
 
-      // Save order data to user's orders collection
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(id)
-          .collection("Orders")
-          .add(orderData);
+    // Create order data
+    Map<String, dynamic> orderData = {
+      "orderId": orderId,
+      "items": cartItems,
+      "total": grandTotal,
+      "status": "Ordered",
+      "orderDate": DateTime.now(),
+      "deliveryAddress": defaultAddress
+    };
 
-      // Save order data to admin's all orders collection
-      Map<String, dynamic> adminOrderData = {
-        ...orderData,
-        "userName": defaultAddress!["Name"],
-        "userCity": defaultAddress!["City"],
-      };
+    // Save order data to user's orders collection
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(id)
+        .collection("Orders")
+        .doc(orderId) // Use orderId as the document ID
+        .set(orderData);
 
-      await FirebaseFirestore.instance
-          .collection("AllOrders")
-          .add(adminOrderData);
+    // Save order data to admin's all orders collection
+    Map<String, dynamic> adminOrderData = {
+      ...orderData,
+      "userName": defaultAddress!["Name"],
+      "userCity": defaultAddress!["City"],
+    };
 
-      // Clear cart
-      for (var doc in cartSnapshot.docs) {
-        await doc.reference.delete();
-      }
+    await FirebaseFirestore.instance
+        .collection("AllOrders")
+        .doc(orderId) // Use orderId as the document ID
+        .set(adminOrderData);
 
-      
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OrderPlacedScreen(),
-          ));
-    } catch (e) {
-     
-      ReusableSnackBar().showSnackbar(
-          context, "Error placing order: $e", appcolor.SnackBarErrorColor);
+    // Clear cart
+    for (var doc in cartSnapshot.docs) {
+      await doc.reference.delete();
     }
+
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OrderPlacedScreen(),
+        ));
+  } catch (e) {
+    ReusableSnackBar().showSnackbar(
+        context, "Error placing order: $e", appcolor.SnackBarErrorColor);
   }
+}
+
 }
