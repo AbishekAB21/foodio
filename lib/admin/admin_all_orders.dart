@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodio/admin/admin_order_details.dart';
 import 'package:foodio/admin/provider/all_orders_provider.dart';
 import 'package:foodio/admin/widgets/finance_sort_buttons.dart';
 import 'package:foodio/utils/app_colors.dart';
@@ -82,70 +83,85 @@ class AllOrders extends StatelessWidget {
                       itemBuilder: (context, index) {
                         var order = allOrdersProvider.filteredOrders[index];
                         var items = order['items'] as List<dynamic>;
+                        var address = order['deliveryAddress'] as Map<String, dynamic>?; // Update to access as Map
                         var orderId = order['orderId'];
                         var currentStatus = order['status'];
+                        var userName = address?['Name']; // Update to access Name
+                        var userCity = address?['City']; // Update to access City
 
-                        return Card(
-                          elevation: 2,
-                          color: appcolor.primaryColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          margin: EdgeInsets.all(10),
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ...items.map((item) {
-                                  return Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: Text(
-                                      "${item['Quantity']} x ${item['Name']}",
-                                      style: FontStyles.SemiBoldTextStyle(),
-                                    ),
-                                  );
-                                }).toList(),
-                                SizedBox(height: 10),
-                                Text(
-                                  "Ordered on: ${DateFormat('yyyy-MM-dd').format(order['orderDate'].toDate())}",
-                                  style: FontStyles.SmallTextFont(),
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  "Ordered By: ${order["userName"]}, ${order["userCity"]}",
-                                  style: FontStyles.SmallTextFont(),
-                                ),
-                                SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Total: \$${order['total']}",
-                                      style:
-                                          FontStyles.MediumTextFontWithColor(),
-                                    ),
-                                    DropdownButton<String>(
-                                      value: currentStatus,
-                                      items: ["Ordered", "Delivered", "Canceled"]
-                                          .map((status) {
-                                        return DropdownMenuItem<String>(
-                                          value: status,
-                                          child: Text(status),
-                                        );
-                                      }).toList(),
-                                      onChanged: (newStatus) {
-                                        if (newStatus != null) {
-                                          allOrdersProvider
-                                              .updateOrderStatus(
-                                                  orderId, newStatus);
-                                        }
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ],
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AdminOrderDetailScreen(
+                                      orderDetails: order),
+                                ));
+                          },
+                          child: Card(
+                            elevation: 2,
+                            color: appcolor.primaryColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            margin: EdgeInsets.all(10),
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ...items.map((item) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: Text(
+                                        "${item['Quantity']} x ${item['Name']}",
+                                        style: FontStyles.SemiBoldTextStyle(),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    "Ordered on: ${DateFormat('yyyy-MM-dd').format(order['orderDate'].toDate())}",
+                                    style: FontStyles.SmallTextFont(),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    "Ordered By: $userName, $userCity", // Update this line
+                                    style: FontStyles.SmallTextFont(),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Total: \$${order['total']}",
+                                        style: FontStyles
+                                            .MediumTextFontWithColor(),
+                                      ),
+                                      DropdownButton<String>(
+                                        value: currentStatus,
+                                        items: [
+                                          "Ordered",
+                                          "Delivered",
+                                          "Canceled"
+                                        ].map((status) {
+                                          return DropdownMenuItem<String>(
+                                            value: status,
+                                            child: Text(status),
+                                          );
+                                        }).toList(),
+                                        onChanged: (newStatus) {
+                                          if (newStatus != null) {
+                                            allOrdersProvider.updateOrderStatus(
+                                                orderId, newStatus);
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );

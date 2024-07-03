@@ -97,6 +97,12 @@ class FontStyles {
         color: const Color.fromARGB(255, 240, 69, 69));
   }
 
+ static TextStyle LargeTextFontWithColor() {
+    return TextStyle(
+        fontSize: 18,
+        fontFamily: "Poppins",
+        color: const Color.fromARGB(255, 240, 69, 69));
+  }
    static TextStyle WarningTextFont() {
     return TextStyle(
         fontSize: 12,
