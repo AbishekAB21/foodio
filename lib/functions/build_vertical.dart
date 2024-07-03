@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foodio/provider/home_screen_provider.dart';
-import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
