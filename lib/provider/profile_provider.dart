@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
 import 'package:foodio/services/shared_pref.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileProvider with ChangeNotifier {
   String? profile, name, email;
@@ -47,5 +48,13 @@ class ProfileProvider with ChangeNotifier {
 
   onTheLoad() async {
     await getSharedPref();
+  }
+
+  Future<void> launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

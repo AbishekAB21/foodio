@@ -196,10 +196,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      ProfileScreenTile(
-                        imageUrl: "assets/terms-and-conditions.png",
-                        title: "Terms and Conditions",
-                        content: "App policy and details",
+                      GestureDetector(
+                        onTap: () {
+                          provider.launchURL(
+                              'https://github.com/AbishekAB21/Foodio-Terms-and-Conditions-Privacy-Policy.git');
+                        },
+                        child: ProfileScreenTile(
+                          imageUrl: "assets/terms-and-conditions.png",
+                          title: "Terms and Conditions",
+                          content: "Foodio terms and conditions",
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      GestureDetector(
+                        onTap: () {
+                          provider.launchURL(
+                              'https://github.com/AbishekAB21/Foodio-Terms-and-Conditions-Privacy-Policy.git');
+                        },
+                        child: ProfileScreenTile(
+                          imageUrl: "assets/terms-and-conditions.png",
+                          title: "Privacy Policy",
+                          content: "Privacy policy and details",
+                        ),
                       ),
                       SizedBox(height: 30),
                       Container(
