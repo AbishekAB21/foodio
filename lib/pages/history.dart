@@ -83,7 +83,7 @@ class OrderHistory extends StatelessWidget {
                         Color statusColor;
                         switch (ordersts) {
                           case "Ordered":
-                            statusColor = Colors.yellow.shade700;
+                            statusColor = appcolor.StatusColor1;
                             break;
                           case "Delivered":
                             statusColor = appcolor.SnackBarSuccessColor;
