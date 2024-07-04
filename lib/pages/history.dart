@@ -78,7 +78,7 @@ class OrderHistory extends StatelessWidget {
                         var order = orderHistoryProvider.filteredOrders[index];
                         var items = order['items'] as List<dynamic>;
                         
-                        String ordersts = order['status']; // Assuming 'status' field exists in your order document
+                        String ordersts = order['status'];
 
                         Color statusColor;
                         switch (ordersts) {
