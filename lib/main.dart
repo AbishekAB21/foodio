@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:foodio/admin/provider/finance_provider.dart';
 import 'package:foodio/admin/provider/product_provider.dart';
 import 'package:foodio/pages/splash.dart';
 import 'package:foodio/provider/address_provider.dart';
@@ -26,7 +27,8 @@ void main() async {
         ChangeNotifierProvider(create: (context) => BasketProvider(),),
         ChangeNotifierProvider(create: (context) => FavoritesProvider(),),
         ChangeNotifierProvider(create: (context) => AddressProvider(),),
-        ChangeNotifierProvider(create: (context) => CheckoutProvider(),)
+        ChangeNotifierProvider(create: (context) => CheckoutProvider(),),
+        ChangeNotifierProvider(create: (context) => FinancesProvider(),)
       ],
       child: const MyApp(), 
     ), 

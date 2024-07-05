@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodio/admin/admin_login.dart';
 import 'package:foodio/pages/forgot_password.dart';
 import 'package:foodio/provider/auth_provider.dart';
 import 'package:provider/provider.dart';
@@ -184,29 +185,29 @@ class LoginScreen extends StatelessWidget {
                               SizedBox(
                                 height: 20,
                               ),
-                              // GestureDetector(
-                              //   onTap: () {
-                              //     Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //           builder: (context) =>
-                              //               AdminLoginScreen(),
-                              //         ));
-                              //   },
-                              //   child: Material(
-                              //       child: Container(
-                              //     height: 40,
-                              //     width: 100,
-                              //     decoration: BoxDecoration(
-                              //         color: appcolor.secondaryColor,
-                              //         borderRadius: BorderRadius.circular(10)),
-                              //     child: Center(
-                              //         child: Text(
-                              //       "Admin",
-                              //       style: FontStyles.WhiteTextStyle(),
-                              //     )),
-                              //   )),
-                              // )
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AdminLoginScreen(),
+                                      ));
+                                },
+                                child: Material(
+                                    child: Container(
+                                  height: 40,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                      color: appcolor.secondaryColor,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                      child: Text(
+                                    "Admin",
+                                    style: FontStyles.WhiteTextStyle(),
+                                  )),
+                                )),
+                              )
                             ],
                           ),
                         ),
