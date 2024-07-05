@@ -10,7 +10,8 @@ class HorizontalItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
-    final homeScreenProvider = Provider.of<HomeScreenProvider>(context, listen: false);
+    final homeScreenProvider =
+        Provider.of<HomeScreenProvider>(context, listen: false);
 
     return Consumer<HomeScreenProvider>(
       builder: (context, provider, child) {
@@ -58,9 +59,11 @@ class HorizontalItemList extends StatelessWidget {
                       elevation: 5.0,
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
-                        padding: const EdgeInsets.all(14),
+                        width: 200,
+                        padding: const EdgeInsets.all(12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(20),
@@ -74,6 +77,7 @@ class HorizontalItemList extends StatelessWidget {
                             Text(
                               ds["Name"],
                               style: FontStyles.SemiBoldTextStyle(),
+                              overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 4.8),
                             Text(
