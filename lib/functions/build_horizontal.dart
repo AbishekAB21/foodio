@@ -15,8 +15,10 @@ class HorizontalItemList extends StatelessWidget {
     return Consumer<HomeScreenProvider>(
       builder: (context, provider, child) {
         if (provider.foodItemsStream == null) {
-          return CircularProgressIndicator(
-            color: appcolor.LoginGradientColor2,
+          return Center(
+            child: CircularProgressIndicator(
+              color: appcolor.LoginGradientColor2,
+            ),
           );
         }
 
@@ -24,8 +26,10 @@ class HorizontalItemList extends StatelessWidget {
           stream: provider.foodItemsStream,
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
-              return CircularProgressIndicator(
-                color: appcolor.LoginGradientColor2,
+              return Center(
+                child: CircularProgressIndicator(
+                  color: appcolor.LoginGradientColor2,
+                ),
               );
             }
 
