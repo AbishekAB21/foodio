@@ -60,6 +60,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               onPressed: () async {
                 Map<String, dynamic> addToFavorites = {
                   "Name": widget.name,
+                  "Description" : widget.description,
                   "Quantity": count.toString(),
                   "Total": total.toString(),
                   "Image": widget.image
