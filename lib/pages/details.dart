@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:foodio/services/database.dart';
 import 'package:foodio/services/shared_pref.dart';
 import 'package:foodio/utils/app_colors.dart';
@@ -60,7 +61,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               onPressed: () async {
                 Map<String, dynamic> addToFavorites = {
                   "Name": widget.name,
-                  "Description" : widget.description,
+                  "Description": widget.description,
                   "Quantity": count.toString(),
                   "Total": total.toString(),
                   "Image": widget.image
@@ -106,9 +107,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
             ),
             Row(
               children: [
-                Text(
-                  widget.name,
-                  style: FontStyles.SemiBoldTextStyle(),
+                Expanded(
+                  child: Text(widget.name,
+                      style: FontStyles.SemiBoldTextStyle(),
+                      overflow: TextOverflow.clip),
                 ),
                 Spacer(),
                 GestureDetector(

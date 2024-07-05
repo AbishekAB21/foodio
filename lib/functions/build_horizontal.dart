@@ -39,6 +39,7 @@ class HorizontalItemList extends StatelessWidget {
               itemCount: snapshot.data.docs.length,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
+              physics: BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 DocumentSnapshot ds = snapshot.data.docs[index];
                 return GestureDetector(
