@@ -87,9 +87,34 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 30),
                 _buildCategoryButtons(),
                 const SizedBox(height: 20.0),
-                Container(height: 270, child: HorizontalItemList()),
-                const SizedBox(height: 10.0),
-                VerticalItemList(),
+                Consumer<HomeScreenProvider>(
+                  builder: (context, provider, child) {
+                    if (provider.noSearchResults) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 50,),
+                            Image.asset("assets/confused.png", height: 200, width: 200,),
+                            SizedBox(height: 10,),
+                            Text(
+                              "No results found :(",
+                              style: FontStyles.lightTextStyle(),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          Container(height: 270, child: HorizontalItemList()),
+                          const SizedBox(height: 10.0),
+                          VerticalItemList(),
+                        ],
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           ),
