@@ -74,6 +74,7 @@ class FavoritesScreen extends StatelessWidget {
           itemCount: snapshot.data.docs.length,
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
+          physics: BouncingScrollPhysics(),
           itemBuilder: (context, index) {
             DocumentSnapshot ds = snapshot.data.docs[index];
             return GestureDetector(

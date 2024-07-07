@@ -24,6 +24,7 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: appcolor.primaryColor,
         body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Container(
             margin: const EdgeInsets.only(top: 10, left: 20),
             child: Column(

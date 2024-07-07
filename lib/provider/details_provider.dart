@@ -52,15 +52,14 @@ class DetailsProvider extends ChangeNotifier {
     try {
       await DatabaseMethods().addFoodToFavourites(addToFavorites, id!);
       filled = true;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("$count Item has been added to favorites"),
-        backgroundColor: Colors.green,
-      ));
+       ReusableSnackBar().showSnackbar(
+          context,
+          "${count} Items have been added to favourites",
+          appcolor.SnackBarSuccessColor);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Error adding item to favorites: $e"),
-        backgroundColor: Colors.red,
-      ));
+      ReusableSnackBar().showSnackbar(
+          context, "Error adding to cart: $e", appcolor.SnackBarErrorColor);
+      print("Error adding to favourites: $e");
       print("Error adding item to favorites: $e");
     }
     notifyListeners();
