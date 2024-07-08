@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodio/admin/provider/finance_provider.dart';
 import 'package:foodio/admin/provider/product_provider.dart';
+import 'package:foodio/controllers/network_controller.dart';
 import 'package:foodio/pages/splash.dart';
 import 'package:foodio/provider/address_provider.dart';
 import 'package:foodio/provider/auth_provider.dart';
@@ -11,6 +12,7 @@ import 'package:foodio/provider/checkout_provider.dart';
 import 'package:foodio/provider/favorites_provider.dart';
 import 'package:foodio/provider/home_screen_provider.dart';
 import 'package:foodio/provider/profile_provider.dart';
+import 'package:get/instance_manager.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(NetworkController(), permanent: true);
     return MaterialApp(
       home:SplashScreen(),
       debugShowCheckedModeBanner: false,
