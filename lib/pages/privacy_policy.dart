@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
 
 class PrivacyPolicy extends StatelessWidget {
@@ -14,6 +15,7 @@ class PrivacyPolicy extends StatelessWidget {
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
+        forceMaterialTransparency: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -260,6 +262,261 @@ class PrivacyPolicy extends StatelessWidget {
               SizedBox(
                 height: 2,
               ),
+              Row(
+                children: [
+                  Text(
+                    "○",
+                    style: FontStyles.MediumTextFont(),
+                  ),
+                  Text(
+                    " when they believe in good faith that disclosure is ",
+                    style: FontStyles.SmallTextFontLight(),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 14,
+                  ),
+                  Text(
+                    " necessary to protect their rights, protect your safety ",
+                    style: FontStyles.SmallTextFontLight(),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 14,
+                  ),
+                  Text(
+                    " or the safety of others investigate fraud, or respond ",
+                    style: FontStyles.SmallTextFontLight(),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 14,
+                  ),
+                  Text(
+                    " to a government request;",
+                    style: FontStyles.SmallTextFontLight(),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    "○",
+                    style: FontStyles.MediumTextFont(),
+                  ),
+                  Text(
+                    " with their trusted services providers who work on their ",
+                    style: FontStyles.SmallTextFontLight(),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 14,
+                  ),
+                  Text(
+                    " behalf, do not have an independent use of the",
+                    style: FontStyles.SmallTextFontLight(),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 14,
+                  ),
+                  Text(
+                    " information we disclose to them, and have agreed to ",
+                    style: FontStyles.SmallTextFontLight(),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 14,
+                  ),
+                  Text(
+                    " adhere to the rules set forth in this privacy statement.",
+                    style: FontStyles.SmallTextFontLight(),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Opt-Out Rights",
+                    style: FontStyles.SomethingInBetween(),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "You can stop all collection of information by the Application easily by uninstalling it. You may use the standard uninstall processes as may be available as part of your mobile device or via the mobile application marketplace or network.",
+                style: FontStyles.SmallTextFontLight(),
+                textAlign: TextAlign.justify,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Data Retention Policy",
+                    style: FontStyles.SomethingInBetween(),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "The Service Provider will retain User Provided data for as long as you use the Application and for a reasonable time thereafter. If you'd like them to delete User Provided Data that you have provided via the Application, please contact them at abiabi1822@gmail.com and they will respond in a reasonable time.",
+                style: FontStyles.SmallTextFontLight(),
+                textAlign: TextAlign.justify,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Children",
+                    style: FontStyles.SomethingInBetween(),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "The Service Provider does not use the Application to knowingly solicit data from or market to children under the age of 13.",
+                style: FontStyles.SmallTextFontLight(),
+                textAlign: TextAlign.justify,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "The Application does not address anyone under the age of 13. The Service Provider does not knowingly collect personally identifiable information from children under 13 years of age. In the case the Service Provider discover that a child under 13 has provided personal information, the Service Provider will immediately delete this from their servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact the Service Provider (abiabi1822@gmail.com) so that they will be able to take the necessary actions.",
+                style: FontStyles.SmallTextFontLight(),
+                textAlign: TextAlign.justify,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Security",
+                    style: FontStyles.SomethingInBetween(),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "The Service Provider is concerned about safeguarding the confidentiality of your information. The Service Provider provides physical, electronic, and procedural safeguards to protect information the Service Provider processes and maintains.",
+                style: FontStyles.SmallTextFontLight(),
+                textAlign: TextAlign.justify,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Changes",
+                    style: FontStyles.SomethingInBetween(),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "This Privacy Policy may be updated from time to time for any reason. The Service Provider will notify you of any changes to the Privacy Policy by updating this page with the new Privacy Policy. You are advised to consult this Privacy Policy regularly for any changes, as continued use is deemed approval of all changes.",
+                style: FontStyles.SmallTextFontLight(),
+                textAlign: TextAlign.justify,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Your Consent",
+                    style: FontStyles.SomethingInBetween(),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "By using the Application, you are consenting to the processing of your information as set forth in this Privacy Policy now and as amended by us.",
+                style: FontStyles.SmallTextFontLight(),
+                textAlign: TextAlign.justify,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Contact Us",
+                    style: FontStyles.SomethingInBetween(),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "If you have any questions regarding privacy while using the Application, or have questions about the practices, please contact the Service Provider via email at abiabi1822@gmail.com.",
+                style: FontStyles.SmallTextFontLight(),
+                textAlign: TextAlign.justify,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Material(
+                  elevation: 2,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: appcolor.InterfaceIconColor,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Center(
+                      child: Text(
+                        "Accept Privacy Policy",
+                        style: FontStyles.WhiteTextStyle(),
+                      ),
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),

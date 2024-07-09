@@ -13,6 +13,7 @@ class TermsAndConditions extends StatelessWidget {
       backgroundColor: appcolor.primaryColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        forceMaterialTransparency: true,
         title: Text(
           "Terms and Conditions",
           style: FontStyles.boldTextStyle(),

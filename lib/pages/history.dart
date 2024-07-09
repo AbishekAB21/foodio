@@ -21,6 +21,7 @@ class OrderHistory extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
+          forceMaterialTransparency: true,
           title: Text(
             "Order History",
             style: FontStyles.SemiBoldTextStyle(),
@@ -59,7 +60,8 @@ class OrderHistory extends StatelessWidget {
               }
 
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Column(
                   children: [
                     Row(
@@ -100,7 +102,8 @@ class OrderHistory extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: orderHistoryProvider.filteredOrders.length,
                         itemBuilder: (context, index) {
-                          var order = orderHistoryProvider.filteredOrders[index];
+                          var order =
+                              orderHistoryProvider.filteredOrders[index];
                           var items = order['items'] as List<dynamic>;
 
                           String ordersts = order['status'];
@@ -170,7 +173,8 @@ class OrderHistory extends StatelessWidget {
                                         ),
                                         Material(
                                           elevation: 2,
-                                          borderRadius: BorderRadius.circular(7),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
                                           child: Container(
                                             padding: EdgeInsets.all(10),
                                             decoration: BoxDecoration(

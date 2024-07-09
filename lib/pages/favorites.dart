@@ -204,6 +204,7 @@ class FavoritesScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
+          forceMaterialTransparency: true,
           title: Text(
             "Your favourites",
             style: FontStyles.SemiBoldTextStyle(),
