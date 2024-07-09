@@ -75,11 +75,25 @@ class FontStyles {
         color: Colors.black);
   }
 
+  static TextStyle SmallTextFontLight() {
+    return TextStyle(
+        fontSize: 12,
+        fontFamily: "Poppins",
+        color: Colors.black54);
+  }
+
    static TextStyle SmallTextFontWithColor() {
     return TextStyle(
         fontSize: 12,
         fontFamily: "Poppins",
         color: const Color.fromARGB(255, 240, 69, 69));
+  }
+
+  static TextStyle SomethingInBetween() {
+    return TextStyle(
+        fontSize: 14,
+        fontFamily: "Poppins",
+        color: Colors.black);
   }
 
 

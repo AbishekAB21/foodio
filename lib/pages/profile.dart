@@ -6,6 +6,8 @@ import 'package:foodio/controllers/network_controller.dart';
 import 'package:foodio/pages/address.dart';
 import 'package:foodio/pages/history.dart';
 import 'package:foodio/pages/login.dart';
+import 'package:foodio/pages/privacy_policy.dart';
+import 'package:foodio/pages/terms_and_conditions.dart';
 import 'package:foodio/provider/profile_provider.dart';
 import 'package:foodio/services/auth.dart';
 import 'package:foodio/utils/app_colors.dart';
@@ -225,8 +227,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SizedBox(height: 10.0),
                         GestureDetector(
                           onTap: () {
-                            provider.launchURL(
-                                'https://github.com/AbishekAB21/Foodio-Terms-and-Conditions-Privacy-Policy.git');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TermsAndConditions(),
+                                ));
                           },
                           child: ProfileScreenTile(
                             imageUrl: "assets/terms-and-conditions.png",
@@ -237,8 +242,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SizedBox(height: 10.0),
                         GestureDetector(
                           onTap: () {
-                            provider.launchURL(
-                                'https://github.com/AbishekAB21/Foodio-Terms-and-Conditions-Privacy-Policy.git');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PrivacyPolicy(),
+                                ));
                           },
                           child: ProfileScreenTile(
                             imageUrl: "assets/terms-and-conditions.png",
