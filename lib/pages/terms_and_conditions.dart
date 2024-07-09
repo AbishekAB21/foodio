@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
+import 'package:foodio/widgets/reusable_snackbar.dart';
 
 class TermsAndConditions extends StatelessWidget {
   const TermsAndConditions({super.key});
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +190,11 @@ class TermsAndConditions extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                 Navigator.pop(context);
+                  Navigator.pop(context);
+                  ReusableSnackBar().showSnackbar(
+                      context,
+                      "Accepted Terms and Conditions",
+                      appcolor.SnackBarSuccessColor);
                 },
                 child: Material(
                   elevation: 2,

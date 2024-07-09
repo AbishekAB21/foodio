@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
+import 'package:foodio/widgets/reusable_snackbar.dart';
 
 class PrivacyPolicy extends StatelessWidget {
   const PrivacyPolicy({super.key});
@@ -499,6 +500,10 @@ class PrivacyPolicy extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
+                  ReusableSnackBar().showSnackbar(
+                      context,
+                      "Accepted Privacy Policy",
+                      appcolor.SnackBarSuccessColor);
                 },
                 child: Material(
                   elevation: 2,
