@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '497803329641',
     projectId: 'foodio-23fa4',
     storageBucket: 'foodio-23fa4.appspot.com',
-    iosBundleId: 'com.example.foodio',
+    iosBundleId: 'com.abishekab.foodio',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '497803329641',
     projectId: 'foodio-23fa4',
     storageBucket: 'foodio-23fa4.appspot.com',
-    iosBundleId: 'com.example.foodio',
+    iosBundleId: 'com.abishekab.foodio',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.foodio</string>
+	<string>com.abishekab.foodio</string>
 	<key>PROJECT_ID</key>
 	<string>foodio-23fa4</string>
 	<key>STORAGE_BUCKET</key>
