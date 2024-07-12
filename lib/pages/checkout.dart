@@ -111,9 +111,23 @@ class CheckOutScreen extends StatelessWidget {
                       ),
                     ),
                   if (provider.defaultAddress == null)
-                    CircularProgressIndicator(
-                      color: appcolor.InterfaceIconColor,
-                    ),
+                    // CircularProgressIndicator(
+                    //   color: appcolor.InterfaceIconColor,
+                    // ),
+                    GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AddressScreen(),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  "Add Delivery Address",
+                                  style: FontStyles.SmallTextFontWithColor(),
+                                ),
+                              ),
                   SizedBox(
                     height: 20.0,
                   ),

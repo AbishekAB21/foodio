@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodio/pages/address.dart';
 import 'package:foodio/provider/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:foodio/utils/app_colors.dart';
@@ -7,8 +8,8 @@ import 'package:foodio/widgets/text_fields.dart';
 import 'package:foodio/pages/login.dart';
 
 class SignUpPage extends StatelessWidget {
-  SignUpPage({super.key});
-  
+  SignUpPage({Key? key});
+
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -131,7 +132,33 @@ class SignUpPage extends StatelessWidget {
                                       passwordController.text,
                                       nameController.text,
                                       context,
-                                    ); 
+                                    );
+
+                                    // Show alert dialog after successful sign-up
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: appcolor.primaryColor,
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                          title: Text("Make sure to add an address", style: FontStyles.SemiBoldTextStyle(),),
+                                          content: Text("You've successfully signed up! Add your address now.", style: FontStyles.MediumTextFont(),),
+                                          actions: [
+                                            TextButton(
+                                              child: Text("Add Address", style: FontStyles.MediumTextFontWithColor(),),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => AddressScreen(), // Replace with your address screen
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   }
                                 },
                                 child: Material(

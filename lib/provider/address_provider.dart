@@ -25,7 +25,14 @@ class AddressProvider with ChangeNotifier {
   Future<void> addAddress(Map<String, dynamic> addressMap) async {
     if (id != null) {
       try {
-        await DatabaseMethods().addAddress(addressMap, id!);
+        // Add the address to Firestore
+        String addressId = await DatabaseMethods().addAddress(addressMap, id!);
+        
+        // Set the new address as default if no default address is set yet
+        if (defaultAddressId == null) {
+          await setDefaultAddress(addressId);
+        }
+        
         clearControllers();
         notifyListeners();
       } catch (e) {

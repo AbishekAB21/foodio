@@ -61,12 +61,14 @@ class DatabaseMethods {
         .add(favouriteFood);
   }
 
-  Future addAddress(Map<String, dynamic> address, String id) async {
-    return await FirebaseFirestore.instance
+   Future<String> addAddress(Map<String, dynamic> address, String id) async {
+    // Add the address to Firestore and return the document ID
+    DocumentReference ref = await FirebaseFirestore.instance
         .collection('users')
         .doc(id)
         .collection('Address')
         .add(address);
+    return ref.id;
   }
 
   Future<Stream<QuerySnapshot>> getFoodCartItems(String id) async {
