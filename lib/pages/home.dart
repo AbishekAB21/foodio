@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodio/controllers/network_controller.dart';
 import 'package:foodio/functions/build_horizontal.dart';
 import 'package:foodio/functions/build_vertical.dart';
+import 'package:foodio/pages/Basket.dart';
 import 'package:foodio/provider/home_screen_provider.dart';
 import 'package:foodio/utils/app_colors.dart';
 import 'package:foodio/utils/font_styles.dart';
@@ -10,7 +11,6 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:foodio/widgets/category_selector.dart';
-import 'package:foodio/pages/favorites.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -73,23 +73,21 @@ class HomeScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const FavoritesScreen(),
+                                    builder: (context) => const BasketScreen(),
                                   ),
                                 );
                               },
                               child: Container(
-                                margin: const EdgeInsets.only(right: 20),
-                                padding: const EdgeInsets.all(3),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Image.asset(
-                                  "assets/wishlist.png",
-                                  height: 30,
-                                  width: 30,
-                                ),
-                              ),
+                                  margin: const EdgeInsets.only(right: 20),
+                                  padding: const EdgeInsets.all(3),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Icon(
+                                    Icons.shopping_cart_rounded,
+                                    color: appcolor.InterfaceIconColor,
+                                    size: 30,
+                                  )),
                             ),
                           ],
                         ),
