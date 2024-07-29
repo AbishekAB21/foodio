@@ -9,6 +9,9 @@ class HomeScreenProvider extends ChangeNotifier {
   bool _noSearchResults = false;
   bool get noSearchResults => _noSearchResults;
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   String _currentCategory = "Pizza"; // Default category
   String get currentCategory => _currentCategory;
   String? name;
@@ -18,13 +21,16 @@ class HomeScreenProvider extends ChangeNotifier {
   }
 
   Future<void> getFoodItems(String category) async {
+    _isLoading = true;
     _currentCategory = category;
     _foodItemsStream = await DatabaseMethods().getFoodItem(category);
     _noSearchResults = false; // Reset the no results flag
+    _isLoading = false;
     notifyListeners();
   }
 
   Future<void> searchFoodItems(String query) async {
+    _isLoading = true;
     _foodItemsStream = await DatabaseMethods().searchFoodItem(_currentCategory, query);
     _foodItemsStream!.listen((snapshot) {
       if (snapshot.docs.isEmpty) {
@@ -32,6 +38,7 @@ class HomeScreenProvider extends ChangeNotifier {
       } else {
         _noSearchResults = false;
       }
+      _isLoading = false;
       notifyListeners();
     });
   }

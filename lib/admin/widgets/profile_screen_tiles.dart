@@ -46,8 +46,9 @@ class ProfileScreenTile extends StatelessWidget {
                   Text(
                     content,
                     style: FontStyles.MediumTextFont(),
+                    overflow: TextOverflow.ellipsis, // The Fix 
                   )
-                ],
+                ], 
               )
             ],
           ),

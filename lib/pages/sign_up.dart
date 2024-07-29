@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:foodio/pages/address.dart';
+import 'package:foodio/pages/terms_and_conditions.dart';
 import 'package:foodio/provider/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:foodio/utils/app_colors.dart';
@@ -7,13 +9,19 @@ import 'package:foodio/utils/font_styles.dart';
 import 'package:foodio/widgets/text_fields.dart';
 import 'package:foodio/pages/login.dart';
 
-class SignUpPage extends StatelessWidget {
-  SignUpPage({Key? key});
+class SignUpPage extends StatefulWidget {
+  SignUpPage({Key? key}) : super(key: key);
 
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool acceptTerms = false;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +80,7 @@ class SignUpPage extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.only(left: 20.0, right: 20.0),
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height / 1.9,
+                        height: 530,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: appcolor.primaryColor,
@@ -123,63 +131,128 @@ class SignUpPage extends StatelessWidget {
                                 },
                               ),
                               SizedBox(height: 20),
-                              SizedBox(height: 40),
-                              GestureDetector(
-                                onTap: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    await authProvider.signUp(
-                                      emailController.text,
-                                      passwordController.text,
-                                      nameController.text,
-                                      context,
-                                    );
-
-                                    // Show alert dialog after successful sign-up
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          backgroundColor: appcolor.primaryColor,
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                          title: Text("Make sure to add an address", style: FontStyles.SemiBoldTextStyle(),),
-                                          content: Text("You've successfully signed up! Add your address now.", style: FontStyles.MediumTextFont(),),
-                                          actions: [
-                                            TextButton(
-                                              child: Text("Add Address", style: FontStyles.MediumTextFontWithColor(),),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => AddressScreen(), // Replace with your address screen
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  }
-                                },
-                                child: Material(
-                                  elevation: 0.5,
-                                  child: Container(
-                                    width: 150,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: appcolor.LoginGradientColor2,
-                                      borderRadius: BorderRadius.circular(10),
+                              CheckboxListTile(
+                                title: Row(
+                                  children: [
+                                    Text(
+                                      "I accept ",
+                                      style: FontStyles.SmallTextFont(),
                                     ),
-                                    child: Center(
+                                    GestureDetector(
+                                      onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                TermsAndConditions(),
+                                          )),
                                       child: Text(
-                                        "Sign Up",
-                                        style: FontStyles.WhiteTextStyle(),
+                                        "terms and conditions",
+                                        style:
+                                            FontStyles.SmallTextFontWithColor(),
                                       ),
-                                    ),
-                                  ),
+                                    )
+                                  ],
                                 ),
+                                value: acceptTerms,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    acceptTerms = newValue!;
+                                  });
+                                },
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
                               ),
                               SizedBox(height: 20),
+                              Visibility(
+                                visible: acceptTerms,
+                                child: Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () async {
+                                        if (_formKey.currentState!.validate() &&
+                                            acceptTerms) {
+                                          await authProvider.signUp(
+                                            emailController.text,
+                                            passwordController.text,
+                                            nameController.text,
+                                            context,
+                                          );
+
+                                          // Show alert dialog after successful sign-up
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                backgroundColor:
+                                                    appcolor.primaryColor,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                title: Text(
+                                                  "Make sure to add an address",
+                                                  style: FontStyles
+                                                      .SemiBoldTextStyle(),
+                                                ),
+                                                content: Text(
+                                                  "You've successfully signed up! Add your address now.",
+                                                  style: FontStyles
+                                                      .MediumTextFont(),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    child: Text(
+                                                      "Add Address",
+                                                      style: FontStyles
+                                                          .MediumTextFontWithColor(),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AddressScreen(), // Replace with your address screen
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        } else if (!acceptTerms) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                                content: Text(
+                                                    "Please accept terms and conditions")),
+                                          );
+                                        }
+                                      },
+                                      child: Material(
+                                        elevation: 0.5,
+                                        child: Container(
+                                          width: 150,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: appcolor.LoginGradientColor2,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "Sign Up",
+                                              style:
+                                                  FontStyles.WhiteTextStyle(),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                  ],
+                                ),
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

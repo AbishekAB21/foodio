@@ -11,6 +11,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:foodio/widgets/category_selector.dart';
+import 'package:foodio/widgets/shimmer_widget.dart'; 
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -34,7 +35,6 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Icon(Icons.signal_wifi_off, size: 100, color: Colors.red),
                       Image.asset(
                         "assets/No-Internet.jpeg",
                         height: 300,
@@ -139,10 +139,22 @@ class HomeScreen extends StatelessWidget {
                             } else {
                               return Column(
                                 children: [
-                                  Container(
-                                      height: 270, child: HorizontalItemList()),
+                                  provider.isLoading
+                                      ? ShimmerWidget.rectangular(
+                                          width: double.infinity,
+                                          height: 270,
+                                        )
+                                      : Container(
+                                          height: 270,
+                                          child: HorizontalItemList(),
+                                        ),
                                   const SizedBox(height: 10.0),
-                                  VerticalItemList(),
+                                  provider.isLoading
+                                      ? ShimmerWidget.rectangular(
+                                          width: double.infinity,
+                                          height: 300,
+                                        )
+                                      : VerticalItemList(),
                                 ],
                               );
                             }
@@ -165,19 +177,39 @@ class HomeScreen extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () => provider.getFoodItems("Ice-cream"),
-              child: CategorySelector(imageUrl: "assets/icecream2.png"),
+              child: provider.isLoading
+                  ? ShimmerWidget.rectangular(
+                      width: 60,
+                      height: 60,
+                    )
+                  : CategorySelector(imageUrl: "assets/icecream2.png"),
             ),
             GestureDetector(
               onTap: () => provider.getFoodItems("Pizza"),
-              child: CategorySelector(imageUrl: "assets/pizza2.png"),
+              child: provider.isLoading
+                  ? ShimmerWidget.rectangular(
+                      width: 60,
+                      height: 60,
+                    )
+                  : CategorySelector(imageUrl: "assets/pizza2.png"),
             ),
             GestureDetector(
               onTap: () => provider.getFoodItems("Burger"),
-              child: CategorySelector(imageUrl: "assets/burger2.png"),
+              child: provider.isLoading
+                  ? ShimmerWidget.rectangular(
+                      width: 60,
+                      height: 60,
+                    )
+                  : CategorySelector(imageUrl: "assets/burger2.png"),
             ),
             GestureDetector(
               onTap: () => provider.getFoodItems("Salad"),
-              child: CategorySelector(imageUrl: "assets/vegan.png"),
+              child: provider.isLoading
+                  ? ShimmerWidget.rectangular(
+                      width: 60,
+                      height: 60,
+                    )
+                  : CategorySelector(imageUrl: "assets/vegan.png"),
             ),
           ],
         );
