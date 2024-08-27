@@ -31,6 +31,7 @@ class HomeScreenProvider extends ChangeNotifier {
 
   Future<void> searchFoodItems(String query) async {
     _isLoading = true;
+    _noSearchResults = false; // Reset the no results flag before new search
     _foodItemsStream = await DatabaseMethods().searchFoodItem(_currentCategory, query);
     _foodItemsStream!.listen((snapshot) {
       if (snapshot.docs.isEmpty) {

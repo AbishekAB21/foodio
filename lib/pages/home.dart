@@ -11,7 +11,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:foodio/widgets/category_selector.dart';
-import 'package:foodio/widgets/shimmer_widget.dart'; 
+import 'package:foodio/widgets/shimmer_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -35,10 +35,10 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        "assets/No-Internet.jpeg",
-                        height: 300,
-                        width: 300,
+                      Icon(
+                        Icons.signal_wifi_connected_no_internet_4_rounded,
+                        size: 100,
+                        color: appcolor.SnackBarErrorColor,
                       ),
                       SizedBox(height: 10),
                       Text(
