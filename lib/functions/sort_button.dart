@@ -18,12 +18,12 @@ class SortingButton extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(10), 
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5), // Same border radius
-            color: appcolor.backgroundColor, // Same background color
+            borderRadius: BorderRadius.circular(5),
+            color: appcolor.backgroundColor,
           ),
           child: Text(
             title,
-            style: FontStyles.SmallTextFont(), // Use the same font style
+            style: FontStyles.SmallTextFont(), 
           ),
         ),
       ),
