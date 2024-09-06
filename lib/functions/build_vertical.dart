@@ -91,6 +91,7 @@ class VerticalItemList extends StatelessWidget {
                                   child: Text(
                                     ds["Description"],
                                     style: FontStyles.lightTextStyle(),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 const SizedBox(height: 5.0),
