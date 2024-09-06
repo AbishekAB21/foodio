@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodio/admin/widgets/profile_alert_box.dart';
 import 'package:foodio/admin/widgets/profile_screen_tiles.dart';
+import 'package:foodio/components/no_internet.dart';
 import 'package:foodio/controllers/network_controller.dart';
 import 'package:foodio/pages/address.dart';
 import 'package:foodio/pages/history.dart';
@@ -32,21 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         return Obx(() {
           if (networkController.connectionStatus.value == "Offline") {
             return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/No-Internet.jpeg",
-                    height: 300,
-                    width: 300,
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Check your Internet Connection.",
-                    style: FontStyles.lightTextStyle(),
-                  ),
-                ],
-              ),
+              child: NoInternet(),
             );
           }
 

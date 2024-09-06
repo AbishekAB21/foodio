@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodio/admin/widgets/finance_sort_buttons.dart';
+import 'package:foodio/components/no_internet.dart';
 import 'package:foodio/controllers/network_controller.dart';
 import 'package:foodio/pages/order_details.dart';
 import 'package:get/get.dart';
@@ -34,21 +35,7 @@ class OrderHistory extends StatelessWidget {
             return Obx(() {
               if (networkController.connectionStatus.value == "Offline") {
                 return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/No-Internet.jpeg",
-                        height: 300,
-                        width: 300,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        "Check your Internet Connection.",
-                        style: FontStyles.lightTextStyle(),
-                      ),
-                    ],
-                  ),
+                  child: NoInternet()
                 );
               }
 
