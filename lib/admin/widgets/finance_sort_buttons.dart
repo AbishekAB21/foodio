@@ -5,21 +5,23 @@ import 'package:foodio/utils/font_styles.dart';
 // ignore: must_be_immutable
 class SortButton extends StatelessWidget {
   String title;
-   SortButton({super.key, required this.title});
+  SortButton({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Material(
-                  elevation: 2,
-                   borderRadius: BorderRadius.circular(5),
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: appcolor.backgroundColor
-                    ),
-                    child: Text(title, style: FontStyles.SmallTextFont(),),
-                  ),
-                );
+      elevation: 2,
+      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: appcolor.backgroundColor),
+        child: Text(
+          title,
+          style: FontStyles.SmallTextFont(),
+        ),
+      ),
+    );
   }
 }
